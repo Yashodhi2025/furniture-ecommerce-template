@@ -5,6 +5,7 @@ import { SiteDataProvider, ThemeStyles } from "@/lib/siteDataContext";
 import SiteChrome from "@/components/SiteChrome";
 import './globals.css';
 import '../fonts/deneb-fonts.css';
+import './lumi.css';
 
 export async function generateMetadata(): Promise<Metadata> {
   const sd = siteData as any;
@@ -44,7 +45,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        <ThemeStyles theme={initialTheme} enableDualMode />
+        <ThemeStyles theme={initialTheme} />
       </head>
       <body suppressHydrationWarning>
         <SiteDataProvider initialSiteData={siteData}>

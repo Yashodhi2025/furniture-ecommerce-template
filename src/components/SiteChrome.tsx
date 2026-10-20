@@ -1,28 +1,33 @@
 'use client';
 
-import type { ReactNode } from 'react';
+import { useState, type ReactNode } from 'react';
 import { usePathname } from 'next/navigation';
 import { useSiteData } from '@/lib/siteDataContext';
-import { Navbar, Footer, AnnouncementBar, FloatingContactWidget, getThemeCssProperties } from '@deneb-ui/ui';
-import { ThemeToggle } from './ThemeToggle';
+import { Navbar, Footer, EditableDialog, getThemeCssProperties } from '@deneb-ui/ui';
 
 export default function SiteChrome({ children }: { children: ReactNode }) {
   const siteData = useSiteData();
   const pathname = usePathname();
+  const [cartPreviewOpen, setCartPreviewOpen] = useState(false);
+  const home = siteData.content?.home as Record<string, string> | undefined;
+  const navigation = [
+    {id:'home',label:'Home',route:'/'},
+    {id:'services',label:'Shop',route:'/#shop'},
+    {id:'about_us',label:'About',route:'/about_us/'},
+    {id:'contact',label:'Contact',route:'/contact/'},
+  ];
   const themeStyle = getThemeCssProperties(
     siteData?.template?.structure?.theme as any,
   );
 
   return (
-    <div className="site-shell" style={themeStyle}>
-      <AnnouncementBar />
-      <Navbar activeRoute={pathname} />
+    <div className="site-shell lumi-site" style={themeStyle}>
+      <Navbar activeRoute={pathname} defaultLinks={navigation} showSearch={false} showCart cartCount={0} onCartClick={() => setCartPreviewOpen(true)} />
       <main>{children}</main>
-      <Footer />
-      <FloatingContactWidget />
-      <div className="fixed bottom-6 left-6 z-40">
-        <ThemeToggle showLabel className="shadow-lg backdrop-blur-md" />
-      </div>
+      <Footer defaultLinks={navigation} showNewsletter={false} />
+      <EditableDialog open={cartPreviewOpen} onClose={() => setCartPreviewOpen(false)} title={home?.cartTitle ?? 'Your collection'} titleFieldPath="home.cartTitle" description={home?.cartDescription ?? 'Shopping features are coming in a later phase.'} descriptionFieldPath="home.cartDescription">
+        <button className="lumi-button" type="button" onClick={() => setCartPreviewOpen(false)}>{home?.cartCloseLabel ?? 'Continue exploring'}</button>
+      </EditableDialog>
     </div>
   );
 }

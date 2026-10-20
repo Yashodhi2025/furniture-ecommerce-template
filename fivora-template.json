@@ -10,7 +10,17 @@
       "services[*].id",
       "products[*].currency",
       "about.collageImages[*].id",
-      "contact.whatsapp"
+      "contact.whatsapp",
+      "home.categories[*].id",
+      "home.heroImageAlt",
+      "home.storyImageAlt",
+      "home.newsletterPreviewMessage",
+      "home.cartTitle",
+      "home.cartDescription",
+      "home.cartCloseLabel",
+      "services[*].showPrice",
+      "products[*].details",
+      "products[*].originalPrice"
     ]
   },
   "siteDataFile": "src/data/site-data.json",
@@ -122,100 +132,238 @@
           {
             "key": "heroEyebrow",
             "type": "text",
-            "label": "Hero eyebrow"
+            "label": "heroEyebrow"
           },
           {
             "key": "heroTitle",
             "type": "text",
-            "label": "Hero title",
-            "required": true
+            "label": "heroTitle"
           },
           {
             "key": "heroSummary",
             "type": "textarea",
-            "label": "Hero summary"
+            "label": "heroSummary"
           },
           {
             "key": "bannerImageUrl",
             "type": "image",
-            "label": "Hero image",
-            "recommendedWidth": 1600,
-            "recommendedHeight": 900
+            "label": "bannerImageUrl"
+          },
+          {
+            "key": "heroImageAlt",
+            "type": "text",
+            "label": "heroImageAlt"
           },
           {
             "key": "primaryCtaLabel",
             "type": "text",
-            "label": "Contact button"
+            "label": "primaryCtaLabel"
+          },
+          {
+            "key": "primaryCtaUrl",
+            "type": "text",
+            "label": "primaryCtaUrl"
           },
           {
             "key": "secondaryCtaLabel",
             "type": "text",
-            "label": "About button"
+            "label": "secondaryCtaLabel"
           },
           {
-            "key": "introTitle",
+            "key": "secondaryCtaUrl",
             "type": "text",
-            "label": "Introduction title"
+            "label": "secondaryCtaUrl"
           },
           {
-            "key": "introBody",
+            "key": "heroCaption",
+            "type": "text",
+            "label": "heroCaption"
+          },
+          {
+            "key": "heroCaptionDetail",
+            "type": "text",
+            "label": "heroCaptionDetail"
+          },
+          {
+            "key": "categoriesEyebrow",
+            "type": "text",
+            "label": "categoriesEyebrow"
+          },
+          {
+            "key": "categoriesTitle",
+            "type": "text",
+            "label": "categoriesTitle"
+          },
+          {
+            "key": "categoriesSummary",
             "type": "textarea",
-            "label": "Introduction body"
+            "label": "categoriesSummary"
           },
           {
-            "key": "featuresHeading",
+            "key": "productsEyebrow",
             "type": "text",
-            "label": "Features heading"
-          },
-          {
-            "key": "features",
-            "type": "list",
-            "label": "Features",
-            "minItems": 0,
-            "maxItems": 8,
-            "fields": [
-              {
-                "key": "title",
-                "type": "text",
-                "label": "Title",
-                "required": true
-              },
-              {
-                "key": "body",
-                "type": "textarea",
-                "label": "Description"
-              }
-            ]
-          },
-          {
-            "key": "demoPreOrderCta",
-            "type": "list",
-            "label": "Demo Pre Order Cta",
-            "itemLabel": "Demo Pre Order Cta",
-            "minItems": 0,
-            "maxItems": 12,
-            "fields": [
-              {
-                "key": "buttonLabel",
-                "type": "text",
-                "label": "Button Label"
-              },
-              {
-                "key": "buttonUrl",
-                "type": "url",
-                "label": "Button Url"
-              }
-            ]
+            "label": "productsEyebrow"
           },
           {
             "key": "productsHeading",
             "type": "text",
-            "label": "Featured Products Heading"
+            "label": "productsHeading"
           },
           {
             "key": "productsSummary",
             "type": "textarea",
-            "label": "Featured Products Summary"
+            "label": "productsSummary"
+          },
+          {
+            "key": "storyEyebrow",
+            "type": "text",
+            "label": "storyEyebrow"
+          },
+          {
+            "key": "introTitle",
+            "type": "text",
+            "label": "introTitle"
+          },
+          {
+            "key": "introBody",
+            "type": "textarea",
+            "label": "introBody"
+          },
+          {
+            "key": "storyImage",
+            "type": "image",
+            "label": "storyImage"
+          },
+          {
+            "key": "storyImageAlt",
+            "type": "text",
+            "label": "storyImageAlt"
+          },
+          {
+            "key": "storyCtaLabel",
+            "type": "text",
+            "label": "storyCtaLabel"
+          },
+          {
+            "key": "storyCtaUrl",
+            "type": "text",
+            "label": "storyCtaUrl"
+          },
+          {
+            "key": "featuresHeading",
+            "type": "text",
+            "label": "featuresHeading"
+          },
+          {
+            "key": "newsletterEyebrow",
+            "type": "text",
+            "label": "newsletterEyebrow"
+          },
+          {
+            "key": "newsletterTitle",
+            "type": "text",
+            "label": "newsletterTitle"
+          },
+          {
+            "key": "newsletterDescription",
+            "type": "textarea",
+            "label": "newsletterDescription"
+          },
+          {
+            "key": "newsletterLabel",
+            "type": "text",
+            "label": "newsletterLabel"
+          },
+          {
+            "key": "newsletterPlaceholder",
+            "type": "text",
+            "label": "newsletterPlaceholder"
+          },
+          {
+            "key": "newsletterButton",
+            "type": "text",
+            "label": "newsletterButton"
+          },
+          {
+            "key": "newsletterNote",
+            "type": "text",
+            "label": "newsletterNote"
+          },
+          {
+            "key": "newsletterPreviewMessage",
+            "type": "text",
+            "label": "newsletterPreviewMessage"
+          },
+          {
+            "key": "cartTitle",
+            "type": "text",
+            "label": "cartTitle"
+          },
+          {
+            "key": "cartDescription",
+            "type": "textarea",
+            "label": "cartDescription"
+          },
+          {
+            "key": "cartCloseLabel",
+            "type": "text",
+            "label": "cartCloseLabel"
+          },
+          {
+            "key": "categories",
+            "type": "list",
+            "label": "Shop by category",
+            "minItems": 0,
+            "fields": [
+              {
+                "key": "id",
+                "type": "text",
+                "label": "id"
+              },
+              {
+                "key": "title",
+                "type": "text",
+                "label": "title"
+              },
+              {
+                "key": "description",
+                "type": "text",
+                "label": "description"
+              },
+              {
+                "key": "imageUrl",
+                "type": "image",
+                "label": "imageUrl"
+              },
+              {
+                "key": "linkLabel",
+                "type": "text",
+                "label": "linkLabel"
+              },
+              {
+                "key": "linkUrl",
+                "type": "text",
+                "label": "linkUrl"
+              }
+            ]
+          },
+          {
+            "key": "features",
+            "type": "list",
+            "label": "Why LUMI",
+            "minItems": 0,
+            "fields": [
+              {
+                "key": "title",
+                "type": "text",
+                "label": "title"
+              },
+              {
+                "key": "body",
+                "type": "textarea",
+                "label": "body"
+              }
+            ]
           }
         ]
       },
@@ -272,6 +420,11 @@
             "minItems": 0,
             "maxItems": 12,
             "fields": [
+              {
+                "key": "id",
+                "type": "text",
+                "label": "Image ID"
+              },
               {
                 "key": "image",
                 "type": "image",
@@ -484,29 +637,29 @@
             "label": "Badge"
           },
           {
-            "key": "showPrice",
-            "type": "boolean",
-            "label": "Show Price on Storefront"
-          },
-          {
-            "key": "isPriceRange",
-            "type": "boolean",
-            "label": "Enable Price Range"
-          },
-          {
-            "key": "minPrice",
-            "type": "number",
-            "label": "Minimum Price"
-          },
-          {
-            "key": "maxPrice",
-            "type": "number",
-            "label": "Maximum Price"
-          },
-          {
-            "key": "priceRange",
+            "key": "ctaLabel",
             "type": "text",
-            "label": "Price Range Display"
+            "label": "ctaLabel"
+          },
+          {
+            "key": "ctaUrl",
+            "type": "text",
+            "label": "ctaUrl"
+          },
+          {
+            "key": "isAvailable",
+            "type": "boolean",
+            "label": "isAvailable"
+          },
+          {
+            "key": "details",
+            "type": "textarea",
+            "label": "details"
+          },
+          {
+            "key": "originalPrice",
+            "type": "number",
+            "label": "originalPrice"
           }
         ]
       }
@@ -528,14 +681,14 @@
     ],
     "defaults": {
       "colors": {
-        "primary": "#2563eb",
-        "secondary": "#0f172a",
-        "accent": "#14b8a6",
-        "background": "#ffffff",
-        "text": "#0f172a"
+        "primary": "#5b493c",
+        "secondary": "#eee7dd",
+        "accent": "#a57450",
+        "background": "#fbf9f5",
+        "text": "#30271f"
       },
       "typography": {
-        "headingFont": "Inter",
+        "headingFont": "Georgia",
         "bodyFont": "Inter",
         "baseSize": "16px"
       },

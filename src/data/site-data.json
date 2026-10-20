@@ -1,17 +1,17 @@
 {
   "project": {
-    "id": "deneb-portfolio-showcase",
-    "slug": "deneb-portfolio-showcase",
-    "title": "DENEB UI — Showcase & Portfolio",
-    "status": "APPROVED"
+    "id": null,
+    "slug": null,
+    "title": "LUMI LIVING",
+    "status": "DRAFT"
   },
   "merchant": {
-    "businessName": "DENEB UI Showcase",
-    "description": "The visual-first React framework for high-converting storefronts and modern digital portfolios. Powered by DENEB-UI in collaboration with FIVORA."
+    "businessName": "LUMI LIVING",
+    "description": "Considered furniture for the way you live."
   },
   "template": {
-    "id": "deneb-portfolio-template",
-    "name": "DENEB UI Portfolio Showcase",
+    "id": "lumi-living-furniture",
+    "name": "LUMI LIVING — Furniture",
     "engine": "NEXT_STATIC_EXPORT",
     "structure": {
       "pages": [
@@ -21,28 +21,44 @@
         "contact"
       ],
       "theme": {
-        "primaryColor": "#2563eb",
-        "secondaryColor": "#1e293b",
-        "accentColor": "#3b82f6",
-        "backgroundColor": "#ffffff",
-        "textColor": "#0f172a",
-        "headingFont": "Inter",
+        "primaryColor": "#5b493c",
+        "secondaryColor": "#eee7dd",
+        "accentColor": "#a57450",
+        "backgroundColor": "#fbf9f5",
+        "cardBackgroundColor": "#f2ede5",
+        "textColor": "#30271f",
+        "borderColor": "#ded7cd",
+        "headingFont": "Georgia",
         "bodyFont": "Inter",
         "baseSize": "16px",
-        "heroMinHeight": "72vh",
+        "heroMinHeight": "80vh",
         "sectionPadding": "5rem",
-        "borderRadius": "12px",
-        "dark": {
-          "backgroundColor": "#090d16",
-          "cardBackgroundColor": "#131b2e",
-          "textColor": "#f8fafc",
-          "borderColor": "rgba(255, 255, 255, 0.12)",
-          "primaryColor": "#00adb5",
-          "secondaryColor": "#1e293b",
-          "accentColor": "#38bdf8"
-        },
-        "cardBackgroundColor": "#ffffff",
-        "borderColor": "#e2e8f0"
+        "borderRadius": "4px",
+        "designCustomizationVersion": 1,
+        "elementStyles": {
+          "common.headerCtaLabel": {},
+          "home.heroTitle": {}
+        }
+      }
+    },
+    "theme": {
+      "primaryColor": "#5b493c",
+      "secondaryColor": "#eee7dd",
+      "accentColor": "#a57450",
+      "backgroundColor": "#fbf9f5",
+      "cardBackgroundColor": "#f2ede5",
+      "textColor": "#30271f",
+      "borderColor": "#ded7cd",
+      "headingFont": "Georgia",
+      "bodyFont": "Inter",
+      "baseSize": "16px",
+      "heroMinHeight": "80vh",
+      "sectionPadding": "5rem",
+      "borderRadius": "4px",
+      "designCustomizationVersion": 1,
+      "elementStyles": {
+        "common.headerCtaLabel": {},
+        "home.heroTitle": {}
       }
     }
   },
@@ -57,132 +73,170 @@
   },
   "content": {
     "common": {
-      "websiteTitle": "DENEB UI — Showcase & Portfolio",
-      "shortDescription": "The visual-first React framework for modern storefronts and digital portfolios. Powered by DENEB-UI in collaboration with FIVORA.",
-      "logoUrl": "/fivora-logo.png",
-      "headerCtaLabel": "Contact Us",
+      "websiteTitle": "LUMI LIVING",
+      "shortDescription": "Considered furniture. Beautiful everyday living.",
+      "logoUrl": "/lumi-mark.svg",
+      "headerCtaLabel": "Let?s talk",
       "navLabels": {
         "home": "Home",
+        "services": "Shop",
         "about_us": "About",
-        "services": "Services",
         "contact": "Contact"
       },
-      "footerHeading": "Build something extraordinary with DENEB-UI & FIVORA.",
-      "copyright": "DENEB-UI. All rights reserved. Collaborate with FIVORA.",
+      "footerHeading": "Make yourself at home.",
+      "copyright": "© 2026 LUMI LIVING. All rights reserved.",
       "socialMedia": {
-        "twitter": "https://twitter.com/denebui",
-        "github": "https://github.com/deneb-ui",
-        "linkedin": "https://linkedin.com",
-        "instagram": "https://instagram.com"
+        "twitter": "",
+        "github": "",
+        "linkedin": "",
+        "instagram": ""
       }
     },
     "home": {
-      "heroEyebrow": "⚡ DENEB UI FRAMEWORK",
-      "heroTitle": "The Visual-First React Framework for High-Converting Experiences",
-      "heroSummary": "Design, build, and ship web storefronts and portfolios with 100% atomic editable components, auto-balancing layouts, and instant dual-mode aesthetics. Built in collaboration with FIVORA Cloud.",
-      "bannerImageUrl": "/fivora-icon.svg",
-      "primaryCtaLabel": "Explore Showcase",
-      "secondaryCtaLabel": "About DENEB-UI",
-      "introTitle": "Engineered for visual perfection and effortless editing",
-      "introBody": "Every editable value comes directly from structured site data with auto-balancing layouts, responsive typography, and strict contract validation out of the box.",
-      "featuresHeading": "Why build with the DENEB-UI Authoring Kit?",
+      "heroEyebrow": "THE ART OF EVERYDAY LIVING",
+      "heroTitle": "A little warmth.A lot of home.",
+      "heroSummary": "Thoughtfully chosen furniture, natural textures, and timeless silhouettes. Find the pieces that make your space feel like you.",
+      "bannerImageUrl": "/images/living-room.jpg",
+      "heroImageAlt": "A warm, sunlit living room with neutral seating and natural wood furniture",
+      "primaryCtaLabel": "Shop the collection",
+      "primaryCtaUrl": "/#shop",
+      "secondaryCtaLabel": "Our story",
+      "secondaryCtaUrl": "/#our-story",
+      "heroCaption": "THE CONSIDERED HOME",
+      "heroCaptionDetail": "Soft tones. Natural textures. Room to breathe.",
+      "categoriesEyebrow": "FIND YOUR EVERYDAY FAVOURITES",
+      "categoriesTitle": "A place for every piece.",
+      "categoriesSummary": "From slow mornings to evenings together. Explore furniture for every corner of home.",
+      "categories": [
+        {
+          "id": "sofas",
+          "title": "Sofas",
+          "description": "Space to settle in",
+          "imageUrl": "/images/sofa.jpg",
+          "linkLabel": "Explore sofas",
+          "linkUrl": "/#shop"
+        },
+        {
+          "id": "chairs",
+          "title": "Chairs",
+          "description": "Your favourite seat",
+          "imageUrl": "/images/chair.jpg",
+          "linkLabel": "Explore chairs",
+          "linkUrl": "/#shop"
+        },
+        {
+          "id": "tables",
+          "title": "Tables",
+          "description": "Gather around",
+          "imageUrl": "/images/table.jpg",
+          "linkLabel": "Explore tables",
+          "linkUrl": "/#shop"
+        },
+        {
+          "id": "beds",
+          "title": "Beds",
+          "description": "Rest, beautifully",
+          "imageUrl": "/images/bed.jpg",
+          "linkLabel": "Explore beds",
+          "linkUrl": "/#shop"
+        },
+        {
+          "id": "storage",
+          "title": "Storage",
+          "description": "Everything in its place",
+          "imageUrl": "/images/storage.jpg",
+          "linkLabel": "Explore storage",
+          "linkUrl": "/#shop"
+        }
+      ],
+      "productsEyebrow": "THE LUMI EDIT",
+      "productsHeading": "Good design. Great company.",
+      "productsSummary": "A few of our favourite pieces, ready to bring a little more warmth to your everyday.",
+      "storyEyebrow": "LESS, BUT MORE MEANINGFUL",
+      "introTitle": "Made for living.\nChosen with care.",
+      "introBody": "We believe a home comes together slowly. In the chair you always return to. The table that brings everyone closer. The small details that feel just right. LUMI LIVING is a collection of considered pieces for those everyday moments.",
+      "storyImage": "/images/story.jpg",
+      "storyImageAlt": "Natural materials and thoughtful furniture details in a quiet interior",
+      "storyCtaLabel": "Get to know LUMI",
+      "storyCtaUrl": "/about_us/",
+      "featuresHeading": "Thoughtful by nature.",
       "features": [
         {
-          "title": "100% Atomic DENEB Components",
-          "body": "Pre-built, accessible, high-converting components with responsive design token integration and zero runtime overhead."
+          "title": "Timeless silhouettes",
+          "body": "Quiet shapes that feel at home beyond a single season."
         },
         {
-          "title": "Strict Visual Editing",
-          "body": "Direct bidirectional field bindings enable instant visual customization in the Lab and on the FIVORA platform without breaking styles."
+          "title": "Natural inspiration",
+          "body": "Warm tones and tactile finishes, inspired by the world outside."
         },
         {
-          "title": "Instant Dual-Mode Aesthetics",
-          "body": "Seamless light and dark mode out-of-the-box with intelligent token contrast calculations for typography and surfaces."
-        },
-        {
-          "title": "FIVORA Cloud Collaboration",
-          "body": "Built-in integration for collaborative editing, marketplace publishing, and automated zero-dependency clean packaging."
+          "title": "Everyday comfort",
+          "body": "A collection centred on the moments that make a house a home."
         }
       ],
-      "demoPreOrderCta": [
-        {
-          "buttonLabel": "Book a Consultation",
-          "buttonUrl": "https://wa.me/94771234567"
-        }
-      ],
-      "productsHeading": "Featured Portfolio & Templates",
-      "productsSummary": "Explore high-converting storefronts, portals, and templates engineered with DENEB-UI and verified for production."
+      "newsletterEyebrow": "A NOTE FROM LUMI",
+      "newsletterTitle": "A little inspiration,\nnow and then.",
+      "newsletterDescription": "New collections, considered spaces, and ideas for a home that feels like you.",
+      "newsletterLabel": "Email address",
+      "newsletterPlaceholder": "Your email address",
+      "newsletterButton": "Join the list",
+      "newsletterNote": "A thoughtfully curated inbox. No noise.",
+      "newsletterPreviewMessage": "Thank you for your interest. Newsletter sign-up is coming soon; your email has not been sent or saved.",
+      "cartTitle": "Your space, your collection",
+      "cartDescription": "Shopping bag, checkout and payments are coming in a later phase. For now, explore the collection and discover your favourite pieces.",
+      "cartCloseLabel": "Continue exploring"
     },
     "about": {
-      "heading": "Empowering Developers to Build Visually Editable Web Experiences",
-      "body": "DENEB UI was created by Chamika Gayashan & Induranga Kawishwara to bridge the gap between developer-grade React code and effortless visual editing. In collaboration with the FIVORA platform, we empower creators to ship ultra-fast static web applications while giving non-technical teams an intuitive live visual editor.",
-      "imageUrl": "/placeholder.svg",
-      "collageHeading": "The DENEB-UI Journey",
-      "collageDescription": "A visual tour of our architecture, design system engineering, and cloud deployment pipeline.",
-      "historyHeading": "Our Engineering Philosophy",
-      "history": "We believe modern web developers shouldn't have to choose between code elegance and visual customization. DENEB-UI provides atomic, contract-bound components that compile to lean Next.js static exports, backed by FIVORA Cloud for instant real-time publishing.",
+      "heading": "A considered approach to home.",
+      "body": "We believe a home comes together slowly. In the chair you always return to. The table that brings everyone closer. The small details that feel just right. LUMI LIVING is a collection of considered pieces for those everyday moments.",
+      "imageUrl": "/images/story.jpg",
+      "collageHeading": "The feeling of home",
+      "collageDescription": "A palette of warm neutrals, inviting shapes, and natural inspiration.",
+      "historyHeading": "Our perspective",
+      "history": "LUMI LIVING is a furniture template built around thoughtful spaces and everyday comfort.",
       "collageImages": [
         {
-          "id": "design-system",
-          "image": "/placeholder.svg",
-          "caption": "Atomic Design System"
+          "id": "living",
+          "image": "/images/living-room.jpg",
+          "caption": "Room to breathe"
         },
         {
-          "id": "visual-engine",
-          "image": "/placeholder.svg",
-          "caption": "Live Visual Engine"
+          "id": "chair",
+          "image": "/images/chair.jpg",
+          "caption": "Your favourite corner"
         },
         {
-          "id": "cloud-publish",
-          "image": "/placeholder.svg",
-          "caption": "FIVORA Cloud Publishing"
+          "id": "wood",
+          "image": "/images/table.jpg",
+          "caption": "Warmth in the details"
         }
       ]
     },
     "servicesPage": {
-      "heading": "Framework Solutions & Capabilities",
-      "intro": "Every capability is backed by atomic DENEB components, automated packaging, and preflight verification."
+      "heading": "Considered pieces for every room",
+      "intro": "Explore the collection on our Home page. A dedicated Shop experience is planned for a later phase."
     },
     "services": [
       {
-        "id": "visual-editing",
-        "name": "Visual Editing Lab",
-        "description": "Simulate how merchants customize your template in real time with the built-in local development lab and field focus bridge.",
-        "imageUrl": "/placeholder.svg",
+        "id": "interior-consultation",
+        "name": "A little guidance for your space",
+        "description": "Talk to us about finding the right pieces for your home.",
+        "imageUrl": "/images/story.jpg",
         "features": [
-          "Zero-server static preview",
-          "Field focus bridge",
-          "Instant visual feedback"
-        ]
-      },
-      {
-        "id": "clean-packaging",
-        "name": "Automated Packager",
-        "description": "Automatically produce clean, upload-ready ZIP archives excluding junk, build caches, and sensitive files.",
-        "imageUrl": "/placeholder.svg",
-        "features": [
-          "Excludes node_modules",
-          "Excludes .next and .git",
-          "100% preflight compliant"
-        ]
-      },
-      {
-        "id": "dual-mode-system",
-        "name": "Dual-Mode Theme Engine",
-        "description": "Harmonic light and dark themes generated automatically with smart contrast adjustments for high visual appeal.",
-        "imageUrl": "/placeholder.svg",
-        "features": [
-          "Auto contrast calculations",
-          "ThemeToggle component",
-          "Persistent theme storage"
-        ]
+          "Room inspiration",
+          "Furniture selection",
+          "Thoughtful arrangements"
+        ],
+        "price": 0,
+        "priceLabel": "Enquire for details",
+        "showPrice": true
       }
     ],
     "contact": {
-      "heading": "Connect with the DENEB-UI Team",
-      "intro": "Have questions about DENEB-UI components or building custom storefronts with the FIVORA platform? Contact us today.",
+      "heading": "Let’s make room for something lovely.",
+      "intro": "Questions about the collection? We would love to hear from you.",
       "phone": "+94 11 234 5678",
-      "email": "hello@deneb-ui.dev",
+      "email": "hello@lumiliving.example",
       "address": "Colombo, Sri Lanka",
       "directionsLabel": "Get Directions",
       "directionsUrl": "https://maps.app.goo.gl/example",
@@ -193,71 +247,109 @@
     },
     "products": [
       {
-        "id": "prod-1",
-        "name": "Aura Luxury Storefront",
-        "description": "High-converting boutique and jewelry storefront template with dark aesthetics, before/after sliders, and quick checkout.",
-        "price": 4900,
-        "compareAtPrice": 6500,
+        "id": "sora-sofa",
+        "name": "Sora Linen Sofa",
+        "description": "Generous proportions, soft linen tones, and a relaxed silhouette.",
+        "price": 185000,
+        "compareAtPrice": 210000,
         "currency": "LKR",
-        "imageUrl": "/placeholder.svg",
-        "category": "E-Commerce",
-        "badge": "Popular",
-        "isAvailable": true
+        "imageUrl": "/images/sofa.jpg",
+        "category": "Sofas",
+        "badge": "LUMI favourite",
+        "isAvailable": true,
+        "ctaLabel": "View piece",
+        "ctaUrl": "/products/detail/?id=sora-sofa",
+        "details": "Generous proportions, soft linen tones, and a relaxed silhouette.",
+        "originalPrice": 210000
       },
       {
-        "id": "prod-2",
-        "name": "Apex SaaS & Analytics",
-        "description": "Clean, high-performance web template tailored for developer tools, SaaS metrics, and responsive pricing grids.",
-        "price": 6200,
-        "compareAtPrice": 7500,
+        "id": "nola-chair",
+        "name": "Nola Lounge Chair",
+        "description": "An inviting accent for a reading corner or a quiet afternoon.",
+        "price": 68000,
+        "compareAtPrice": 78000,
         "currency": "LKR",
-        "imageUrl": "/placeholder.svg",
-        "category": "Technology",
-        "badge": "Featured",
-        "isAvailable": true
+        "imageUrl": "/images/chair.jpg",
+        "category": "Chairs",
+        "badge": "New collection",
+        "isAvailable": true,
+        "ctaLabel": "View piece",
+        "ctaUrl": "/products/detail/?id=nola-chair",
+        "details": "An inviting accent for a reading corner or a quiet afternoon.",
+        "originalPrice": 78000
       },
       {
-        "id": "prod-3",
-        "name": "Zenith Artisan Portfolio",
-        "description": "Minimalist digital portfolio template featuring auto-balancing photo galleries, quote cards, and WhatsApp contact integration.",
-        "price": 3800,
-        "compareAtPrice": null,
+        "id": "elio-table",
+        "name": "Elio Writing Desk",
+        "description": "A simple workspace with warm wood tones and room for your ideas.",
+        "price": 42000,
+        "compareAtPrice": 49000,
         "currency": "LKR",
-        "imageUrl": "/placeholder.svg",
-        "category": "Portfolio",
-        "badge": "New",
-        "isAvailable": true
+        "imageUrl": "/images/table.jpg",
+        "category": "Tables",
+        "badge": "The essentials",
+        "isAvailable": true,
+        "ctaLabel": "View piece",
+        "ctaUrl": "/products/detail/?id=elio-table",
+        "details": "A simple workspace with warm wood tones and room for your ideas.",
+        "originalPrice": 49000
+      },
+      {
+        "id": "mira-storage",
+        "name": "Mira Wall Cabinet",
+        "description": "A considered home for the objects you love to keep close.",
+        "price": 96000,
+        "compareAtPrice": 110000,
+        "currency": "LKR",
+        "imageUrl": "/images/storage.jpg",
+        "category": "Storage",
+        "badge": "Natural living",
+        "isAvailable": true,
+        "ctaLabel": "View piece",
+        "ctaUrl": "/products/detail/?id=mira-storage",
+        "details": "A considered home for the objects you love to keep close.",
+        "originalPrice": 110000
       }
     ]
   },
   "media": {},
   "seo": null,
   "siteInstance": {
-    "id": "deneb-portfolio-showcase-instance",
-    "slug": "deneb-portfolio-showcase",
-    "domain": "deneb-showcase.fivora.site",
-    "subdomain": "deneb-showcase",
+    "id": null,
+    "slug": null,
+    "domain": null,
+    "subdomain": null,
     "customDomain": null,
-    "liveUrl": "https://deneb-showcase.fivora.site"
+    "liveUrl": null
   },
   "api": {
-    "baseUrl": "https://api.fivora.site",
-    "catalogUrl": "https://api.fivora.site/site-catalog/deneb-portfolio-showcase/live-data",
-    "contactUrl": "https://api.fivora.site/site-contact",
-    "analyticsUrl": "https://api.fivora.site/site-analytics/page-view"
+    "baseUrl": null,
+    "catalogUrl": null,
+    "contactUrl": null,
+    "analyticsUrl": null
   },
   "theme": {
-    "primaryColor": "#2563eb",
-    "secondaryColor": "#1e293b",
-    "accentColor": "#3b82f6",
-    "backgroundColor": "#ffffff",
-    "cardBackgroundColor": "#ffffff",
-    "textColor": "#0f172a",
-    "borderColor": "#e2e8f0",
-    "headingFont": "Inter",
+    "primaryColor": "#5b493c",
+    "secondaryColor": "#eee7dd",
+    "accentColor": "#a57450",
+    "backgroundColor": "#fbf9f5",
+    "cardBackgroundColor": "#f2ede5",
+    "textColor": "#30271f",
+    "borderColor": "#ded7cd",
+    "headingFont": "Georgia",
     "bodyFont": "Inter",
     "baseSize": "16px",
-    "heroMinHeight": "72vh",
-    "sectionPadding": "5rem"
+    "heroMinHeight": "80vh",
+    "sectionPadding": "5rem",
+    "borderRadius": "4px",
+    "designCustomizationVersion": 1,
+    "elementStyles": {
+      "common.headerCtaLabel": {},
+      "home.heroTitle": {}
+    }
+  },
+  "styles": {
+    "common.headerCtaLabel": {},
+    "home.heroTitle": {}
   }
 }
