@@ -1,13 +1,13 @@
 'use client';
 
 import { useState, type ReactNode } from 'react';
-import { usePathname } from 'next/navigation';
 import { useSiteData } from '@/lib/siteDataContext';
-import { Navbar, Footer, EditableDialog, getThemeCssProperties } from '@deneb-ui/ui';
+import { Footer, EditableDialog, getThemeCssProperties } from '@deneb-ui/ui';
+
+import LumiNavbar from './LumiNavbar';
 
 export default function SiteChrome({ children }: { children: ReactNode }) {
   const siteData = useSiteData();
-  const pathname = usePathname();
   const [cartPreviewOpen, setCartPreviewOpen] = useState(false);
   const home = siteData.content?.home as Record<string, string> | undefined;
   const navigation = [
@@ -22,7 +22,7 @@ export default function SiteChrome({ children }: { children: ReactNode }) {
 
   return (
     <div className="site-shell lumi-site" style={themeStyle}>
-      <Navbar activeRoute={pathname} defaultLinks={navigation} showSearch={false} showCart cartCount={0} onCartClick={() => setCartPreviewOpen(true)} />
+      <LumiNavbar onCartClick={() => setCartPreviewOpen(true)} />
       <main>{children}</main>
       <Footer defaultLinks={navigation} showNewsletter={false} />
       <EditableDialog open={cartPreviewOpen} onClose={() => setCartPreviewOpen(false)} title={home?.cartTitle ?? 'Your collection'} titleFieldPath="home.cartTitle" description={home?.cartDescription ?? 'Shopping features are coming in a later phase.'} descriptionFieldPath="home.cartDescription">

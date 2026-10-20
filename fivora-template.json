@@ -20,7 +20,17 @@
       "home.cartCloseLabel",
       "services[*].showPrice",
       "products[*].details",
-      "products[*].originalPrice"
+      "products[*].originalPrice",
+      "navigation.categories[*].id",
+      "navigation.categories[*].items[*].id",
+      "navigation.searchLabel",
+      "navigation.wishlistLabel",
+      "navigation.cartLabel",
+      "navigation.searchTitle",
+      "navigation.searchPlaceholder",
+      "navigation.searchEmpty",
+      "navigation.wishlistTitle",
+      "navigation.wishlistDescription"
     ]
   },
   "siteDataFile": "src/data/site-data.json",
@@ -77,11 +87,6 @@
             "label": "Website logo",
             "recommendedWidth": 512,
             "recommendedHeight": 512
-          },
-          {
-            "key": "headerCtaLabel",
-            "type": "text",
-            "label": "Header contact button"
           },
           {
             "key": "navLabels",
@@ -660,6 +665,125 @@
             "key": "originalPrice",
             "type": "number",
             "label": "originalPrice"
+          }
+        ]
+      },
+      {
+        "id": "navigation",
+        "path": "navigation",
+        "type": "object",
+        "label": "Furniture navigation",
+        "fields": [
+          {
+            "key": "homeLabel",
+            "label": "Home label",
+            "type": "text"
+          },
+          {
+            "key": "homeUrl",
+            "label": "Home link",
+            "type": "text"
+          },
+          {
+            "key": "searchLabel",
+            "label": "search Label",
+            "type": "text"
+          },
+          {
+            "key": "wishlistLabel",
+            "label": "wishlist Label",
+            "type": "text"
+          },
+          {
+            "key": "cartLabel",
+            "label": "cart Label",
+            "type": "text"
+          },
+          {
+            "key": "searchTitle",
+            "label": "search Title",
+            "type": "text"
+          },
+          {
+            "key": "searchPlaceholder",
+            "label": "search Placeholder",
+            "type": "text"
+          },
+          {
+            "key": "searchEmpty",
+            "label": "search Empty",
+            "type": "text"
+          },
+          {
+            "key": "wishlistTitle",
+            "label": "wishlist Title",
+            "type": "text"
+          },
+          {
+            "key": "wishlistDescription",
+            "label": "wishlist Description",
+            "type": "text"
+          },
+          {
+            "key": "categories",
+            "type": "list",
+            "label": "Mega-menu categories",
+            "minItems": 0,
+            "fields": [
+              {
+                "key": "id",
+                "label": "Stable category key",
+                "type": "text"
+              },
+              {
+                "key": "label",
+                "label": "Category title",
+                "type": "text"
+              },
+              {
+                "key": "description",
+                "label": "Menu introduction",
+                "type": "textarea"
+              },
+              {
+                "key": "browseLabel",
+                "label": "Collection link label",
+                "type": "text"
+              },
+              {
+                "key": "browseUrl",
+                "label": "Collection link",
+                "type": "text"
+              },
+              {
+                "key": "items",
+                "type": "list",
+                "label": "Furniture subcategories",
+                "minItems": 0,
+                "fields": [
+                  {
+                    "key": "id",
+                    "label": "Stable subcategory key",
+                    "type": "text"
+                  },
+                  {
+                    "key": "label",
+                    "label": "Subcategory label",
+                    "type": "text"
+                  },
+                  {
+                    "key": "url",
+                    "label": "Destination link",
+                    "type": "text"
+                  },
+                  {
+                    "key": "imageUrl",
+                    "label": "Hover preview image",
+                    "type": "image"
+                  }
+                ]
+              }
+            ]
           }
         ]
       }

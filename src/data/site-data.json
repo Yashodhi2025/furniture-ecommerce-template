@@ -36,7 +36,6 @@
         "borderRadius": "4px",
         "designCustomizationVersion": 1,
         "elementStyles": {
-          "common.headerCtaLabel": {},
           "home.heroTitle": {},
           "about.heading": {
             "fontSize": "40px",
@@ -84,7 +83,6 @@
       "websiteTitle": "LUMI LIVING",
       "shortDescription": "Considered furniture. Beautiful everyday living.",
       "logoUrl": "/lumi-mark.svg",
-      "headerCtaLabel": "Let?s talk",
       "navLabels": {
         "home": "Home",
         "services": "Shop",
@@ -318,7 +316,219 @@
         "details": "A considered home for the objects you love to keep close.",
         "originalPrice": 110000
       }
-    ]
+    ],
+    "navigation": {
+      "homeLabel": "Home",
+      "homeUrl": "/",
+      "searchLabel": "Search furniture",
+      "wishlistLabel": "Wishlist",
+      "cartLabel": "Cart",
+      "searchTitle": "Find your next favourite",
+      "searchPlaceholder": "Search sofas, chairs, tables...",
+      "searchEmpty": "No matching pieces. Try another search.",
+      "wishlistTitle": "A little room for favourites",
+      "wishlistDescription": "Wishlist saving is coming in a later phase. For now, explore the collection and find pieces you love.",
+      "categories": [
+        {
+          "id": "living-room",
+          "label": "Living Room",
+          "description": "Thoughtful pieces. Everyday comfort.",
+          "browseLabel": "Explore living room",
+          "browseUrl": "/#shop",
+          "items": [
+            {
+              "id": "sofas",
+              "label": "Sofas",
+              "url": "/#shop",
+              "imageUrl": "/images/sofa.jpg"
+            },
+            {
+              "id": "accent-chairs",
+              "label": "Accent Chairs",
+              "url": "/#shop",
+              "imageUrl": "/images/chair.jpg"
+            },
+            {
+              "id": "side-tables",
+              "label": "Coffee & Side Tables",
+              "url": "/#shop",
+              "imageUrl": "/images/table.jpg"
+            },
+            {
+              "id": "living-storage",
+              "label": "Cabinets & Storage",
+              "url": "/#shop",
+              "imageUrl": "/images/storage.jpg"
+            }
+          ]
+        },
+        {
+          "id": "bedroom",
+          "label": "Bedroom",
+          "description": "Create a softer place to land.",
+          "browseLabel": "Explore bedroom",
+          "browseUrl": "/#shop",
+          "items": [
+            {
+              "id": "beds",
+              "label": "Beds",
+              "url": "/#shop",
+              "imageUrl": "/images/bed.jpg"
+            },
+            {
+              "id": "bedside-tables",
+              "label": "Bedside Tables",
+              "url": "/#shop",
+              "imageUrl": "/images/table.jpg"
+            },
+            {
+              "id": "bedroom-storage",
+              "label": "Bedroom Storage",
+              "url": "/#shop",
+              "imageUrl": "/images/storage.jpg"
+            },
+            {
+              "id": "bedroom-seating",
+              "label": "Bedroom Seating",
+              "url": "/#shop",
+              "imageUrl": "/images/chair.jpg"
+            }
+          ]
+        },
+        {
+          "id": "kitchen-dining",
+          "label": "Kitchen & Dining",
+          "description": "Made for slow mornings and shared meals.",
+          "browseLabel": "Explore kitchen & dining",
+          "browseUrl": "/#shop",
+          "items": [
+            {
+              "id": "dining-tables",
+              "label": "Dining Tables",
+              "url": "/#shop",
+              "imageUrl": "/images/navigation/dining.jpg"
+            },
+            {
+              "id": "dining-chairs",
+              "label": "Dining Chairs",
+              "url": "/#shop",
+              "imageUrl": "/images/navigation/dining.jpg"
+            },
+            {
+              "id": "sideboards",
+              "label": "Sideboards",
+              "url": "/#shop",
+              "imageUrl": "/images/storage.jpg"
+            },
+            {
+              "id": "dining-lighting",
+              "label": "Dining Lighting",
+              "url": "/#shop",
+              "imageUrl": "/images/navigation/lighting.jpg"
+            }
+          ]
+        },
+        {
+          "id": "office",
+          "label": "Office Furniture",
+          "description": "Make space for your best ideas.",
+          "browseLabel": "Explore office furniture",
+          "browseUrl": "/#shop",
+          "items": [
+            {
+              "id": "desks",
+              "label": "Desks",
+              "url": "/#shop",
+              "imageUrl": "/images/navigation/office.jpg"
+            },
+            {
+              "id": "office-seating",
+              "label": "Office Seating",
+              "url": "/#shop",
+              "imageUrl": "/images/chair.jpg"
+            },
+            {
+              "id": "office-storage",
+              "label": "Office Storage",
+              "url": "/#shop",
+              "imageUrl": "/images/storage.jpg"
+            },
+            {
+              "id": "desk-lighting",
+              "label": "Desk Lighting",
+              "url": "/#shop",
+              "imageUrl": "/images/navigation/lighting.jpg"
+            }
+          ]
+        },
+        {
+          "id": "lighting-decor",
+          "label": "Lighting & Decor",
+          "description": "The finishing touches that feel like you.",
+          "browseLabel": "Explore lighting & decor",
+          "browseUrl": "/#shop",
+          "items": [
+            {
+              "id": "table-lamps",
+              "label": "Table Lamps",
+              "url": "/#shop",
+              "imageUrl": "/images/navigation/lighting.jpg"
+            },
+            {
+              "id": "wall-art",
+              "label": "Wall Art",
+              "url": "/#shop",
+              "imageUrl": "/images/navigation/art.jpg"
+            },
+            {
+              "id": "room-styling",
+              "label": "Room Styling",
+              "url": "/#shop",
+              "imageUrl": "/images/story.jpg"
+            },
+            {
+              "id": "decorative-storage",
+              "label": "Decorative Storage",
+              "url": "/#shop",
+              "imageUrl": "/images/storage.jpg"
+            }
+          ]
+        },
+        {
+          "id": "sale",
+          "label": "Sale",
+          "description": "Considered design, a little less.",
+          "browseLabel": "Explore sale",
+          "browseUrl": "/#shop",
+          "items": [
+            {
+              "id": "sofa-offers",
+              "label": "Sofa Offers",
+              "url": "/#shop",
+              "imageUrl": "/images/sofa.jpg"
+            },
+            {
+              "id": "chair-offers",
+              "label": "Chair Offers",
+              "url": "/#shop",
+              "imageUrl": "/images/chair.jpg"
+            },
+            {
+              "id": "table-offers",
+              "label": "Table Offers",
+              "url": "/#shop",
+              "imageUrl": "/images/table.jpg"
+            },
+            {
+              "id": "storage-offers",
+              "label": "Storage Offers",
+              "url": "/#shop",
+              "imageUrl": "/images/storage.jpg"
+            }
+          ]
+        }
+      ]
+    }
   },
   "media": {},
   "seo": null,
@@ -352,7 +562,6 @@
     "borderRadius": "4px",
     "designCustomizationVersion": 1,
     "elementStyles": {
-      "common.headerCtaLabel": {},
       "home.heroTitle": {},
       "about.heading": {
         "fontSize": "40px",
@@ -361,7 +570,6 @@
     }
   },
   "styles": {
-    "common.headerCtaLabel": {},
     "home.heroTitle": {},
     "about.heading": {
       "fontSize": "40px",
