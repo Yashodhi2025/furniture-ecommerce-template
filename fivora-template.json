@@ -30,7 +30,14 @@
       "navigation.searchPlaceholder",
       "navigation.searchEmpty",
       "navigation.wishlistTitle",
-      "navigation.wishlistDescription"
+      "navigation.wishlistDescription",
+      "products[*].homeCollection",
+      "home.look.imageAlt",
+      "home.look.emptyMessage",
+      "home.look.hotspots[*].id",
+      "home.look.hotspots[*].productId",
+      "home.look.hotspots[*].x",
+      "home.look.hotspots[*].y"
     ]
   },
   "siteDataFile": "src/data/site-data.json",
@@ -369,6 +376,130 @@
                 "label": "body"
               }
             ]
+          },
+          {
+            "key": "sampleNote",
+            "label": "sample Note",
+            "type": "text"
+          },
+          {
+            "key": "bestSellersEyebrow",
+            "label": "best Sellers Eyebrow",
+            "type": "text"
+          },
+          {
+            "key": "bestSellersHeading",
+            "label": "best Sellers Heading",
+            "type": "text"
+          },
+          {
+            "key": "bestSellersSummary",
+            "label": "best Sellers Summary",
+            "type": "text"
+          },
+          {
+            "key": "bestSellersLinkLabel",
+            "label": "best Sellers Link Label",
+            "type": "text"
+          },
+          {
+            "key": "bestSellersLinkUrl",
+            "label": "best Sellers Link Url",
+            "type": "text"
+          },
+          {
+            "key": "featuresEyebrow",
+            "label": "features Eyebrow",
+            "type": "text"
+          },
+          {
+            "key": "look",
+            "type": "object",
+            "label": "Shop the Look",
+            "fields": [
+              {
+                "key": "eyebrow",
+                "label": "Eyebrow",
+                "type": "text"
+              },
+              {
+                "key": "title",
+                "label": "Heading",
+                "type": "text"
+              },
+              {
+                "key": "summary",
+                "label": "Introduction",
+                "type": "textarea"
+              },
+              {
+                "key": "imageUrl",
+                "label": "Room image",
+                "type": "image"
+              },
+              {
+                "key": "imageAlt",
+                "label": "Room image description",
+                "type": "text"
+              },
+              {
+                "key": "caption",
+                "label": "Room caption",
+                "type": "text"
+              },
+              {
+                "key": "note",
+                "label": "Sample styling note",
+                "type": "text"
+              },
+              {
+                "key": "previewLabel",
+                "label": "Product preview label",
+                "type": "text"
+              },
+              {
+                "key": "emptyMessage",
+                "label": "Empty preview message",
+                "type": "text"
+              },
+              {
+                "key": "hotspots",
+                "type": "list",
+                "minItems": 0,
+                "label": "Furniture hotspots",
+                "fields": [
+                  {
+                    "key": "id",
+                    "label": "Stable hotspot ID",
+                    "type": "text"
+                  },
+                  {
+                    "key": "label",
+                    "label": "Accessible hotspot label",
+                    "type": "text"
+                  },
+                  {
+                    "key": "productId",
+                    "label": "Linked product ID",
+                    "type": "text"
+                  },
+                  {
+                    "key": "x",
+                    "label": "Horizontal position (%)",
+                    "type": "number",
+                    "min": 0,
+                    "max": 100
+                  },
+                  {
+                    "key": "y",
+                    "label": "Vertical position (%)",
+                    "type": "number",
+                    "min": 0,
+                    "max": 100
+                  }
+                ]
+              }
+            ]
           }
         ]
       },
@@ -665,6 +796,11 @@
             "key": "originalPrice",
             "type": "number",
             "label": "originalPrice"
+          },
+          {
+            "key": "homeCollection",
+            "label": "Home collection (new-arrivals / best-sellers)",
+            "type": "text"
           }
         ]
       },

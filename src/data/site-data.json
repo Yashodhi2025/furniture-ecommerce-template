@@ -110,74 +110,74 @@
       "secondaryCtaUrl": "/#our-story",
       "heroCaption": "THE CONSIDERED HOME",
       "heroCaptionDetail": "Soft tones. Natural textures. Room to breathe.",
-      "categoriesEyebrow": "FIND YOUR EVERYDAY FAVOURITES",
-      "categoriesTitle": "A place for every piece.",
-      "categoriesSummary": "From slow mornings to evenings together. Explore furniture for every corner of home.",
+      "categoriesEyebrow": "FIND YOUR KIND OF HOME",
+      "categoriesTitle": "Shop by Room",
+      "categoriesSummary": "A quieter corner. A place to gather. Discover the pieces that bring each room together.",
       "categories": [
         {
-          "id": "sofas",
-          "title": "Sofas",
-          "description": "Space to settle in",
-          "imageUrl": "/images/sofa.jpg",
-          "linkLabel": "Explore sofas",
+          "id": "living-room",
+          "title": "Living Room",
+          "description": "Slow down. Settle in.",
+          "imageUrl": "/images/living-room.jpg",
+          "linkLabel": "Explore living",
           "linkUrl": "/#shop"
         },
         {
-          "id": "chairs",
-          "title": "Chairs",
-          "description": "Your favourite seat",
-          "imageUrl": "/images/chair.jpg",
-          "linkLabel": "Explore chairs",
-          "linkUrl": "/#shop"
-        },
-        {
-          "id": "tables",
-          "title": "Tables",
-          "description": "Gather around",
-          "imageUrl": "/images/table.jpg",
-          "linkLabel": "Explore tables",
-          "linkUrl": "/#shop"
-        },
-        {
-          "id": "beds",
-          "title": "Beds",
-          "description": "Rest, beautifully",
+          "id": "bedroom",
+          "title": "Bedroom",
+          "description": "Your everyday retreat.",
           "imageUrl": "/images/bed.jpg",
-          "linkLabel": "Explore beds",
+          "linkLabel": "Explore bedroom",
           "linkUrl": "/#shop"
         },
         {
-          "id": "storage",
-          "title": "Storage",
-          "description": "Everything in its place",
-          "imageUrl": "/images/storage.jpg",
-          "linkLabel": "Explore storage",
+          "id": "kitchen-dining",
+          "title": "Kitchen & Dining",
+          "description": "Make room for together.",
+          "imageUrl": "/images/navigation/dining.jpg",
+          "linkLabel": "Explore dining",
+          "linkUrl": "/#shop"
+        },
+        {
+          "id": "office",
+          "title": "Office Furniture",
+          "description": "Space for good ideas.",
+          "imageUrl": "/images/navigation/office.jpg",
+          "linkLabel": "Explore office",
+          "linkUrl": "/#shop"
+        },
+        {
+          "id": "lighting-decor",
+          "title": "Lighting & Decor",
+          "description": "The finishing touches.",
+          "imageUrl": "/images/navigation/lighting.jpg",
+          "linkLabel": "Explore the details",
           "linkUrl": "/#shop"
         }
       ],
-      "productsEyebrow": "THE LUMI EDIT",
-      "productsHeading": "Good design. Great company.",
-      "productsSummary": "A few of our favourite pieces, ready to bring a little more warmth to your everyday.",
-      "storyEyebrow": "LESS, BUT MORE MEANINGFUL",
-      "introTitle": "Made for living.\nChosen with care.",
-      "introBody": "We believe a home comes together slowly. In the chair you always return to. The table that brings everyone closer. The small details that feel just right. LUMI LIVING is a collection of considered pieces for those everyday moments.",
+      "productsEyebrow": "FRESH PERSPECTIVES",
+      "productsHeading": "New Arrivals",
+      "productsSummary": "Soft textures, thoughtful shapes. A fresh edit for the way you live.",
+      "storyEyebrow": "OUR STORY",
+      "introTitle": "A home that\nfeels like you.",
+      "introBody": "The best rooms are the ones you live in. A favourite chair in the afternoon light. A table that makes space for one more. We bring together warm textures and considered forms, so you can build a home that feels entirely your own.",
       "storyImage": "/images/story.jpg",
       "storyImageAlt": "Natural materials and thoughtful furniture details in a quiet interior",
       "storyCtaLabel": "Get to know LUMI",
       "storyCtaUrl": "/about_us/",
-      "featuresHeading": "Thoughtful by nature.",
+      "featuresHeading": "Good living is in the details.",
       "features": [
         {
-          "title": "Timeless silhouettes",
-          "body": "Quiet shapes that feel at home beyond a single season."
+          "title": "Considered quality",
+          "body": "Natural inspiration, thoughtful proportions, and pieces chosen for the everyday moments that matter."
         },
         {
-          "title": "Natural inspiration",
-          "body": "Warm tones and tactile finishes, inspired by the world outside."
+          "title": "Thoughtful delivery",
+          "body": "Talk to us about delivery options, access requirements, and making room for your next piece."
         },
         {
-          "title": "Everyday comfort",
-          "body": "A collection centred on the moments that make a house a home."
+          "title": "Here to help",
+          "body": "From proportions to finishes, start a conversation and find the pieces that feel right for your space."
         }
       ],
       "newsletterEyebrow": "A NOTE FROM LUMI",
@@ -190,7 +190,48 @@
       "newsletterPreviewMessage": "Thank you for your interest. Newsletter sign-up is coming soon; your email has not been sent or saved.",
       "cartTitle": "Your space, your collection",
       "cartDescription": "Shopping bag, checkout and payments are coming in a later phase. For now, explore the collection and discover your favourite pieces.",
-      "cartCloseLabel": "Continue exploring"
+      "cartCloseLabel": "Continue exploring",
+      "sampleNote": "Sample collection. Prices are illustrative; live inventory and ordering are not connected.",
+      "bestSellersEyebrow": "THE EVERYDAY EDIT",
+      "bestSellersHeading": "Best Sellers",
+      "bestSellersSummary": "An illustrative selection of everyday favourites from our sample collection.",
+      "bestSellersLinkLabel": "Discover the look",
+      "bestSellersLinkUrl": "/#shop-the-look",
+      "look": {
+        "eyebrow": "ONE ROOM. MANY POSSIBILITIES.",
+        "title": "Shop the Look",
+        "summary": "Warm wood, soft lines, and a place to pause. Tap a marker to explore the pieces behind the mood.",
+        "imageUrl": "/images/living-room.jpg",
+        "imageAlt": "A sunlit living room with a sofa on the right, lounge seating on the left and a round table in the centre",
+        "caption": "The sunlit living room",
+        "note": "Room inspiration paired with sample pieces from our collection.",
+        "previewLabel": "A closer look",
+        "emptyMessage": "Choose a piece from the collection to complete this room.",
+        "hotspots": [
+          {
+            "id": "sofa",
+            "label": "Explore the sofa",
+            "productId": "sora-sofa",
+            "x": 82,
+            "y": 56
+          },
+          {
+            "id": "chair",
+            "label": "Explore the lounge chair",
+            "productId": "nola-chair",
+            "x": 25,
+            "y": 66
+          },
+          {
+            "id": "storage",
+            "label": "Explore the cabinet",
+            "productId": "mira-storage",
+            "x": 43,
+            "y": 51
+          }
+        ]
+      },
+      "featuresEyebrow": "THE LUMI APPROACH"
     },
     "about": {
       "heading": "A considered approach to home.",
@@ -266,7 +307,8 @@
         "ctaLabel": "View piece",
         "ctaUrl": "/products/detail/?id=sora-sofa",
         "details": "Generous proportions, soft linen tones, and a relaxed silhouette.",
-        "originalPrice": 210000
+        "originalPrice": 210000,
+        "homeCollection": "new-arrivals"
       },
       {
         "id": "nola-chair",
@@ -282,7 +324,8 @@
         "ctaLabel": "View piece",
         "ctaUrl": "/products/detail/?id=nola-chair",
         "details": "An inviting accent for a reading corner or a quiet afternoon.",
-        "originalPrice": 78000
+        "originalPrice": 78000,
+        "homeCollection": "new-arrivals"
       },
       {
         "id": "elio-table",
@@ -298,7 +341,8 @@
         "ctaLabel": "View piece",
         "ctaUrl": "/products/detail/?id=elio-table",
         "details": "A simple workspace with warm wood tones and room for your ideas.",
-        "originalPrice": 49000
+        "originalPrice": 49000,
+        "homeCollection": "new-arrivals"
       },
       {
         "id": "mira-storage",
@@ -314,7 +358,76 @@
         "ctaLabel": "View piece",
         "ctaUrl": "/products/detail/?id=mira-storage",
         "details": "A considered home for the objects you love to keep close.",
-        "originalPrice": 110000
+        "originalPrice": 110000,
+        "homeCollection": "new-arrivals"
+      },
+      {
+        "id": "aster-bed",
+        "name": "Aster Bedroom Edit",
+        "description": "A restful bedroom story in layered neutrals and soft textures.",
+        "price": 148000,
+        "compareAtPrice": 165000,
+        "currency": "LKR",
+        "imageUrl": "/images/bed.jpg",
+        "category": "Bedroom",
+        "badge": "Sample edit",
+        "isAvailable": true,
+        "ctaLabel": "View piece",
+        "ctaUrl": "/products/detail/?id=aster-bed",
+        "details": "A restful bedroom story in layered neutrals and soft textures.",
+        "originalPrice": 165000,
+        "homeCollection": "best-sellers"
+      },
+      {
+        "id": "forma-dining",
+        "name": "Forma Dining Edit",
+        "description": "A gathering space with rich tones, generous seating, and room to linger.",
+        "price": 125000,
+        "compareAtPrice": 142000,
+        "currency": "LKR",
+        "imageUrl": "/images/navigation/dining.jpg",
+        "category": "Dining",
+        "badge": "Sample edit",
+        "isAvailable": true,
+        "ctaLabel": "View piece",
+        "ctaUrl": "/products/detail/?id=forma-dining",
+        "details": "A gathering space with rich tones, generous seating, and room to linger.",
+        "originalPrice": 142000,
+        "homeCollection": "best-sellers"
+      },
+      {
+        "id": "arc-lamp",
+        "name": "Arc Table Lamp",
+        "description": "A clean silhouette and a warm accent for a desk or reading corner.",
+        "price": 18500,
+        "compareAtPrice": 22000,
+        "currency": "LKR",
+        "imageUrl": "/images/navigation/lighting.jpg",
+        "category": "Lighting",
+        "badge": "Sample edit",
+        "isAvailable": true,
+        "ctaLabel": "View piece",
+        "ctaUrl": "/products/detail/?id=arc-lamp",
+        "details": "A clean silhouette and a warm accent for a desk or reading corner.",
+        "originalPrice": 22000,
+        "homeCollection": "best-sellers"
+      },
+      {
+        "id": "studio-workspace",
+        "name": "Studio Workspace Edit",
+        "description": "A light-filled workspace for focus, movement, and everyday ideas.",
+        "price": 84000,
+        "compareAtPrice": 96000,
+        "currency": "LKR",
+        "imageUrl": "/images/navigation/office.jpg",
+        "category": "Office",
+        "badge": "Sample edit",
+        "isAvailable": true,
+        "ctaLabel": "View piece",
+        "ctaUrl": "/products/detail/?id=studio-workspace",
+        "details": "A light-filled workspace for focus, movement, and everyday ideas.",
+        "originalPrice": 96000,
+        "homeCollection": "best-sellers"
       }
     ],
     "navigation": {
