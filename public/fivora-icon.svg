@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 240" fill="none">
+  <defs>
+    <linearGradient id="fivora-navy" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0a1931" />
+      <stop offset="100%" stop-color="#001858" />
+    </linearGradient>
+    <linearGradient id="fivora-teal" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00adb5" />
+      <stop offset="100%" stop-color="#016a7e" />
+    </linearGradient>
+    <filter id="fivora-glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#00adb5" flood-opacity="0.35"/>
+    </filter>
+  </defs>
+
+  <g filter="url(#fivora-glow)">
+    <!-- Left Navy F-Shield Segment -->
+    <path
+      d="M20 20 H125 L115 50 H55 V95 H115 L95 125 H55 V165 L100 220 L75 220 L20 160 Z"
+      fill="url(#fivora-navy)"
+    />
+
+    <!-- Right Teal Accent Segment -->
+    <path
+      d="M135 35 L175 75 V145 L125 210 L105 185 L145 135 V85 L120 60 Z"
+      fill="url(#fivora-teal)"
+    />
+  </g>
+</svg>

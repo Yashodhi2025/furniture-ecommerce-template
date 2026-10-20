@@ -1,0 +1,46 @@
+{
+  "name": "furniture-ecommerce-template",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "node scripts/merge-platform-contract.js && next build",
+    "lint": "eslint",
+    "lab": "deneb lab .",
+    "validate": "node scripts/merge-platform-contract.js && deneb validate .",
+    "zip": "deneb zip .",
+    "validate-and-zip": "deneb validate-and-zip .",
+    "package:template": "deneb package .",
+    "update:deneb": "deneb update",
+    "fonts:install": "deneb fonts install ."
+  },
+  "dependencies": {
+    "@deneb-ui/ui": "^2.0.125",
+    "@fontsource/inter": "^5.3.0",
+    "next": "15.5.23",
+    "react": "19.2.8",
+    "react-dom": "19.2.8"
+  },
+  "devDependencies": {
+    "@deneb-ui/cli": "^2.0.125",
+    "@eslint/eslintrc": "3.3.6",
+    "@types/node": "^20",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "autoprefixer": "^10.4.20",
+    "eslint": "9.39.5",
+    "eslint-config-next": "15.5.23",
+    "postcss": "8.5.26",
+    "tailwindcss": "^3.4.17",
+    "typescript": "5.8.3"
+  },
+  "overrides": {
+    "react": "$react",
+    "react-dom": "$react-dom",
+    "sharp": "0.35.3",
+    "content-type": "2.1.0",
+    "@octokit/request": {
+      "content-type": "2.1.0"
+    }
+  }
+}

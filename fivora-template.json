@@ -1,0 +1,548 @@
+{
+  "framework": "nextjs-static-export",
+  "version": 2,
+  "visualEditing": {
+    "contractVersion": 1,
+    "mode": "strict",
+    "controlOnlyPaths": [
+      "products[*].id",
+      "products[*].isAvailable",
+      "services[*].id",
+      "products[*].currency",
+      "about.collageImages[*].id",
+      "contact.whatsapp"
+    ]
+  },
+  "siteDataFile": "src/data/site-data.json",
+  "outputDirectory": "out",
+  "installCommand": "npm install",
+  "buildCommand": "npm run build",
+  "basePathEnvVar": "NEXT_PUBLIC_SITE_BASE_PATH",
+  "pages": [
+    {
+      "id": "home",
+      "label": "Home",
+      "route": "/",
+      "required": true
+    },
+    {
+      "id": "about_us",
+      "label": "About Us",
+      "route": "/about_us"
+    },
+    {
+      "id": "services",
+      "label": "Services",
+      "route": "/services"
+    },
+    {
+      "id": "contact",
+      "label": "Contact",
+      "route": "/contact"
+    }
+  ],
+  "editorSchema": {
+    "version": 1,
+    "sections": [
+      {
+        "id": "common",
+        "path": "common",
+        "type": "object",
+        "label": "Shared Website Content",
+        "fields": [
+          {
+            "key": "websiteTitle",
+            "type": "text",
+            "label": "Website title",
+            "required": true
+          },
+          {
+            "key": "shortDescription",
+            "type": "textarea",
+            "label": "Short description"
+          },
+          {
+            "key": "logoUrl",
+            "type": "image",
+            "label": "Website logo",
+            "recommendedWidth": 512,
+            "recommendedHeight": 512
+          },
+          {
+            "key": "headerCtaLabel",
+            "type": "text",
+            "label": "Header contact button"
+          },
+          {
+            "key": "navLabels",
+            "type": "object",
+            "label": "Navigation labels",
+            "fields": [
+              {
+                "key": "home",
+                "type": "text",
+                "label": "Home label"
+              },
+              {
+                "key": "about_us",
+                "type": "text",
+                "label": "About label"
+              },
+              {
+                "key": "services",
+                "type": "text",
+                "label": "Services label"
+              },
+              {
+                "key": "contact",
+                "type": "text",
+                "label": "Contact label"
+              }
+            ]
+          },
+          {
+            "key": "footerHeading",
+            "type": "text",
+            "label": "Footer heading"
+          },
+          {
+            "key": "copyright",
+            "type": "text",
+            "label": "Copyright"
+          }
+        ]
+      },
+      {
+        "id": "home",
+        "path": "home",
+        "pageKey": "home",
+        "type": "object",
+        "label": "Home Page",
+        "fields": [
+          {
+            "key": "heroEyebrow",
+            "type": "text",
+            "label": "Hero eyebrow"
+          },
+          {
+            "key": "heroTitle",
+            "type": "text",
+            "label": "Hero title",
+            "required": true
+          },
+          {
+            "key": "heroSummary",
+            "type": "textarea",
+            "label": "Hero summary"
+          },
+          {
+            "key": "bannerImageUrl",
+            "type": "image",
+            "label": "Hero image",
+            "recommendedWidth": 1600,
+            "recommendedHeight": 900
+          },
+          {
+            "key": "primaryCtaLabel",
+            "type": "text",
+            "label": "Contact button"
+          },
+          {
+            "key": "secondaryCtaLabel",
+            "type": "text",
+            "label": "About button"
+          },
+          {
+            "key": "introTitle",
+            "type": "text",
+            "label": "Introduction title"
+          },
+          {
+            "key": "introBody",
+            "type": "textarea",
+            "label": "Introduction body"
+          },
+          {
+            "key": "featuresHeading",
+            "type": "text",
+            "label": "Features heading"
+          },
+          {
+            "key": "features",
+            "type": "list",
+            "label": "Features",
+            "minItems": 0,
+            "maxItems": 8,
+            "fields": [
+              {
+                "key": "title",
+                "type": "text",
+                "label": "Title",
+                "required": true
+              },
+              {
+                "key": "body",
+                "type": "textarea",
+                "label": "Description"
+              }
+            ]
+          },
+          {
+            "key": "demoPreOrderCta",
+            "type": "list",
+            "label": "Demo Pre Order Cta",
+            "itemLabel": "Demo Pre Order Cta",
+            "minItems": 0,
+            "maxItems": 12,
+            "fields": [
+              {
+                "key": "buttonLabel",
+                "type": "text",
+                "label": "Button Label"
+              },
+              {
+                "key": "buttonUrl",
+                "type": "url",
+                "label": "Button Url"
+              }
+            ]
+          },
+          {
+            "key": "productsHeading",
+            "type": "text",
+            "label": "Featured Products Heading"
+          },
+          {
+            "key": "productsSummary",
+            "type": "textarea",
+            "label": "Featured Products Summary"
+          }
+        ]
+      },
+      {
+        "id": "about",
+        "path": "about",
+        "pageKey": "about_us",
+        "type": "object",
+        "label": "About Page",
+        "fields": [
+          {
+            "key": "heading",
+            "type": "text",
+            "label": "Heading",
+            "required": true
+          },
+          {
+            "key": "body",
+            "type": "textarea",
+            "label": "About text"
+          },
+          {
+            "key": "imageUrl",
+            "type": "image",
+            "label": "About image",
+            "recommendedWidth": 1200,
+            "recommendedHeight": 900
+          },
+          {
+            "key": "collageHeading",
+            "type": "text",
+            "label": "Collage Heading"
+          },
+          {
+            "key": "collageDescription",
+            "type": "textarea",
+            "label": "Collage Description"
+          },
+          {
+            "key": "historyHeading",
+            "type": "text",
+            "label": "History Heading"
+          },
+          {
+            "key": "history",
+            "type": "textarea",
+            "label": "History"
+          },
+          {
+            "key": "collageImages",
+            "type": "list",
+            "label": "Collage Images",
+            "itemLabel": "Collage Image",
+            "minItems": 0,
+            "maxItems": 12,
+            "fields": [
+              {
+                "key": "image",
+                "type": "image",
+                "label": "Image"
+              },
+              {
+                "key": "caption",
+                "type": "text",
+                "label": "Caption"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "servicesPage",
+        "path": "servicesPage",
+        "pageKey": "services",
+        "type": "object",
+        "label": "Services Page",
+        "fields": [
+          {
+            "key": "heading",
+            "type": "text",
+            "label": "Heading",
+            "required": true
+          },
+          {
+            "key": "intro",
+            "type": "textarea",
+            "label": "Introduction"
+          }
+        ]
+      },
+      {
+        "id": "services",
+        "path": "services",
+        "pageKey": "services",
+        "type": "list",
+        "label": "Services",
+        "minItems": 0,
+        "maxItems": 12,
+        "fields": [
+          {
+            "key": "id",
+            "type": "text",
+            "label": "System ID"
+          },
+          {
+            "key": "name",
+            "type": "text",
+            "label": "Name",
+            "required": true
+          },
+          {
+            "key": "description",
+            "type": "textarea",
+            "label": "Description"
+          },
+          {
+            "key": "imageUrl",
+            "type": "image",
+            "label": "Image",
+            "recommendedWidth": 800,
+            "recommendedHeight": 600
+          },
+          {
+            "key": "features",
+            "type": "list",
+            "label": "Included features",
+            "itemField": {
+              "type": "text",
+              "label": "Feature"
+            }
+          },
+          {
+            "key": "price",
+            "type": "number",
+            "label": "Price"
+          },
+          {
+            "key": "priceLabel",
+            "type": "text",
+            "label": "Price Label (e.g. Starting from, per hour)"
+          },
+          {
+            "key": "showPrice",
+            "type": "boolean",
+            "label": "Show Price on Storefront"
+          }
+        ]
+      },
+      {
+        "id": "contact",
+        "path": "contact",
+        "pageKey": "contact",
+        "type": "object",
+        "label": "Contact Page",
+        "fields": [
+          {
+            "key": "heading",
+            "type": "text",
+            "label": "Heading",
+            "required": true
+          },
+          {
+            "key": "intro",
+            "type": "textarea",
+            "label": "Introduction"
+          },
+          {
+            "key": "phone",
+            "type": "tel",
+            "label": "Phone"
+          },
+          {
+            "key": "email",
+            "type": "email",
+            "label": "Email"
+          },
+          {
+            "key": "address",
+            "type": "textarea",
+            "label": "Address"
+          },
+          {
+            "key": "directionsLabel",
+            "type": "text",
+            "label": "Directions Label"
+          },
+          {
+            "key": "directionsUrl",
+            "type": "url",
+            "label": "Directions Url"
+          },
+          {
+            "key": "formTitle",
+            "type": "text",
+            "label": "Form heading"
+          },
+          {
+            "key": "submitLabel",
+            "type": "text",
+            "label": "Submit button"
+          },
+          {
+            "key": "directMessageText",
+            "type": "text",
+            "label": "Direct message label"
+          },
+          {
+            "key": "whatsapp",
+            "type": "tel",
+            "label": "WhatsApp"
+          }
+        ]
+      },
+      {
+        "id": "products",
+        "path": "products",
+        "pageKey": "home",
+        "type": "list",
+        "label": "Products",
+        "minItems": 0,
+        "fields": [
+          {
+            "key": "id",
+            "type": "text",
+            "label": "Product ID"
+          },
+          {
+            "key": "name",
+            "type": "text",
+            "label": "Title",
+            "required": true
+          },
+          {
+            "key": "description",
+            "type": "textarea",
+            "label": "Description"
+          },
+          {
+            "key": "price",
+            "type": "number",
+            "label": "Price"
+          },
+          {
+            "key": "compareAtPrice",
+            "type": "number",
+            "label": "Compare Price"
+          },
+          {
+            "key": "currency",
+            "type": "text",
+            "label": "Currency"
+          },
+          {
+            "key": "category",
+            "type": "text",
+            "label": "Category"
+          },
+          {
+            "key": "imageUrl",
+            "type": "image",
+            "label": "Product Image"
+          },
+          {
+            "key": "badge",
+            "type": "text",
+            "label": "Badge"
+          },
+          {
+            "key": "showPrice",
+            "type": "boolean",
+            "label": "Show Price on Storefront"
+          },
+          {
+            "key": "isPriceRange",
+            "type": "boolean",
+            "label": "Enable Price Range"
+          },
+          {
+            "key": "minPrice",
+            "type": "number",
+            "label": "Minimum Price"
+          },
+          {
+            "key": "maxPrice",
+            "type": "number",
+            "label": "Maximum Price"
+          },
+          {
+            "key": "priceRange",
+            "type": "text",
+            "label": "Price Range Display"
+          }
+        ]
+      }
+    ]
+  },
+  "themeSchema": {
+    "version": 1,
+    "tokens": [
+      "colors.primary",
+      "colors.secondary",
+      "colors.accent",
+      "colors.background",
+      "colors.text",
+      "typography.headingFont",
+      "typography.bodyFont",
+      "typography.baseSize",
+      "spacing.heroMinHeight",
+      "spacing.sectionPadding"
+    ],
+    "defaults": {
+      "colors": {
+        "primary": "#2563eb",
+        "secondary": "#0f172a",
+        "accent": "#14b8a6",
+        "background": "#ffffff",
+        "text": "#0f172a"
+      },
+      "typography": {
+        "headingFont": "Inter",
+        "bodyFont": "Inter",
+        "baseSize": "16px"
+      },
+      "spacing": {
+        "heroMinHeight": "72vh",
+        "sectionPadding": "5rem"
+      }
+    }
+  }
+}
