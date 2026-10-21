@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useId, useRef, useState, type CSSProperties, type KeyboardEvent } from 'react';
+import { useEffect, useId, useLayoutEffect, useRef, useState, type CSSProperties, type KeyboardEvent } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { DENEB_PREVIEW_FOCUS_MESSAGE, LEGACY_PREVIEW_FOCUS_MESSAGE, PREVIEW_FOCUS_MESSAGE, EditableCard, EditableIcon, EditableImage, EditableSection, EditableText } from '@deneb-ui/ui';
@@ -9,6 +9,8 @@ import { withBasePath } from '@/lib/utils';
 import './LumiNavbar.css';
 import RotatingAnnouncementBar from './RotatingAnnouncementBar';
 import SearchStudio from './SearchStudio';
+
+const desktopMenuMedia = '(min-width: 1025px)';
 
 /** Presentation-only navigation. Collection destinations and imagery belong to site data. */
 export default function LumiNavbar() {
@@ -37,7 +39,19 @@ export default function LumiNavbar() {
   const closeMenus = () => { if (closeTimer.current) clearTimeout(closeTimer.current); pendingLinkFocus.current = null; setOpenCategory(null); setMobileOpen(false); };
   const cancelClose = () => { if (closeTimer.current) clearTimeout(closeTimer.current); };
   const selectCategory = (index: number) => { cancelClose(); setOpenCategory(index); };
-  const isDesktopHover = () => window.matchMedia('(min-width: 960px) and (hover: hover)').matches;
+  const isDesktopHover = () => window.matchMedia(`${desktopMenuMedia} and (hover: hover)`).matches;
+
+  useLayoutEffect(() => {
+    if (!mobileOpen) return;
+    const bodyOverflow = document.body.style.overflow;
+    const rootOverflow = document.documentElement.style.overflow;
+    document.body.style.overflow = 'hidden';
+    document.documentElement.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = bodyOverflow;
+      document.documentElement.style.overflow = rootOverflow;
+    };
+  }, [mobileOpen]);
 
   useEffect(() => {
     const request = pendingLinkFocus.current;
@@ -60,7 +74,7 @@ export default function LumiNavbar() {
         setOpenCategory(null); setMobileOpen(false);
       }
     };
-    const desktop = window.matchMedia('(min-width: 960px)');
+    const desktop = window.matchMedia(desktopMenuMedia);
     const resize = () => { setOpenCategory(null); setMobileOpen(false); };
     // Reveal the target before Deneb scrolls to a field selected in the Inspector.
     const focusField = (event: MessageEvent) => {
@@ -117,7 +131,7 @@ export default function LumiNavbar() {
   };
 
   return <>
-    <header className="lumi-navbar" ref={header} onKeyDown={handleKeys} data-preview-field-path="navigation.dropdownBackgroundColor" style={{ '--lumi-dropdown-background': text('dropdownBackgroundColor', '#eee7dd') } as CSSProperties}>
+    <header className={`lumi-navbar${mobileOpen ? ' is-mobile-menu-open' : ''}`} ref={header} onKeyDown={handleKeys} data-preview-field-path="navigation.dropdownBackgroundColor" style={{ '--lumi-dropdown-background': text('dropdownBackgroundColor', '#eee7dd') } as CSSProperties}>
       <div className="lumi-navbar-top">
         <button ref={hamburger} className="lumi-nav-icon lumi-hamburger" type="button" aria-label={mobileOpen ? 'Close navigation' : 'Open navigation'} aria-expanded={mobileOpen} aria-controls={menuId} onClick={() => { cancelClose(); setMobileOpen(!mobileOpen); setOpenCategory(null); }} data-preview-static="navigation-disclosure">
           <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">{mobileOpen ? <path d="m6 6 12 12M6 18 18 6" /> : <path d="M3 6h18M3 12h18M3 18h18" />}</svg>

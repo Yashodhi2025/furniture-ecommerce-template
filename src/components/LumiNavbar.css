@@ -69,7 +69,7 @@
 /* A stationary viewport owns hover detection; only the inner surface moves.
    This prevents the reveal from repeatedly leaving/re-entering its own hit area. */
 .lumi-mega-surface { display:contents; }
-@media(min-width:960px) {
+@media(min-width:1025px) {
   .lumi-mega-panel {
     display:block;
     padding:0;
@@ -128,38 +128,43 @@
     transition:none;
   }
 }
-@media(min-width:960px) and (max-width:1150px) { .lumi-nav-trigger,.lumi-nav-home { padding-left:10px; padding-right:10px; } .lumi-mega-panel,.lumi-mega-surface { gap:34px; } }
-@media(max-width:959px) {
-  .lumi-navbar-top { min-height:76px; padding:16px 4%; gap:9px; }
+@media(min-width:1025px) and (max-width:1150px) { .lumi-nav-trigger,.lumi-nav-home { padding-left:10px; padding-right:10px; } .lumi-mega-panel,.lumi-mega-surface { gap:34px; } }
+@media(max-width:1024px) {
+  .lumi-navbar.is-mobile-menu-open { position:fixed; inset:0 0 auto; display:flex; flex-direction:column; max-height:100dvh; overflow:hidden; }
+  .lumi-navbar-top { width:100%; flex:0 0 auto; min-height:76px; padding:16px 4%; gap:9px; }
   .lumi-hamburger { display:inline-flex; flex-shrink:0; }
   .lumi-nav-brand { gap:8px; }
   .lumi-nav-brand img { width:24px; height:29px; }
   .lumi-site .lumi-nav-brand span { font-size:var(--deneb-font-size,14px) !important; letter-spacing:var(--deneb-letter-spacing,.1em) !important; }
   .lumi-nav-utilities { gap:0; }
   .lumi-nav-icon { width:36px; height:42px; }
-  .lumi-navbar-menu { display:none; padding:8px 5% 24px; max-height:calc(100dvh - 76px); overflow:auto; }
+  .lumi-navbar-menu { display:none; flex:0 1 auto; min-height:0; padding:8px 5% 16px; overflow-x:hidden; overflow-y:auto; overscroll-behavior-y:contain; }
   .lumi-navbar-menu.is-mobile-open { display:block; }
   .lumi-nav-categories { display:block; }
   .lumi-nav-category,.lumi-nav-home { border-bottom:1px solid var(--lumi-line,#ded7cd); }
-  .lumi-nav-trigger,.lumi-nav-home { width:100%; min-height:52px; padding:16px 0; }
-  .lumi-site .lumi-navbar-menu .lumi-nav-home span,.lumi-site .lumi-nav-trigger span { font-size:var(--deneb-font-size,14px) !important; }
+  .lumi-nav-trigger,.lumi-nav-home { width:100%; min-height:52px; padding:12px 0; }
+  .lumi-site .lumi-navbar .lumi-navbar-menu :is(.lumi-nav-home,.lumi-nav-trigger) span { font-size:var(--deneb-font-size,14px) !important; }
   .lumi-nav-trigger::after,.lumi-nav-home::after { display:none; }
-  .lumi-mega-panel { position:static; display:none; grid-template-columns:1fr; gap:22px; padding:8px 0 24px !important; border:0; box-shadow:none; transform:none; }
-  .is-open > .lumi-mega-panel { display:grid; }
-  .lumi-site .lumi-mega-description { font-size:var(--deneb-font-size,15px) !important; margin-bottom:12px; }
+  .lumi-mega-panel { position:static; grid-template-columns:minmax(0,1fr); gap:16px; padding:4px 0 16px !important; border:0; box-shadow:none; transform:none; }
+  /* Outrank Deneb's section display default so collapsed panels take no space. */
+  .lumi-navbar .lumi-nav-category:not(.is-open) > .lumi-mega-panel { display:none; }
+  .lumi-navbar .is-open > .lumi-mega-panel { display:var(--deneb-section-display,grid); }
+  .lumi-mega-copy { padding:4px 0; }
+  .lumi-site .lumi-mega-description { font-size:var(--deneb-font-size,14px) !important; margin-bottom:8px; }
   .lumi-mega-items { grid-template-columns:1fr; gap:0; }
-  .lumi-mega-link { min-height:48px; padding:12px 8px; }
+  .lumi-mega-link { min-height:44px; padding:10px 8px; }
+  .lumi-site .lumi-mega-link span { font-size:var(--deneb-font-size,16px) !important; }
   .lumi-subcategory-preview { display:flex; align-items:center; justify-content:center; flex:0 0 44px; border:0; background:transparent; color:inherit; cursor:pointer; }
   .lumi-subcategory-preview[aria-pressed="true"] { background:var(--lumi-sand,#eee7dd); }
-  .lumi-mega-browse { margin-top:22px; }
-  .lumi-mega-imagery { min-height:210px; }
+  .lumi-mega-browse { min-height:44px; margin-top:16px; padding:10px 16px; }
+  .lumi-mega-imagery { min-height:0; height:clamp(120px,20vw,160px); }
 }
 @media(max-width:360px) { .lumi-navbar-top { gap:4px; padding-left:3%; padding-right:3%; } .lumi-nav-brand img { display:none; } .lumi-site .lumi-nav-brand span { font-size:13px; } }
 @media(prefers-reduced-motion:reduce) { .lumi-navbar *, .lumi-navbar *::after { transition:none !important; } }
 
 /* Category labels navigate; a separate disclosure keeps touch menus accessible. */
 .lumi-category-toggle{display:none}
-@media(max-width:959px){
+@media(max-width:1024px){
   .lumi-nav-category{position:relative}
   .lumi-nav-category>.lumi-nav-trigger{padding-right:48px}
   .lumi-nav-category>.lumi-nav-trigger>.lumi-nav-chevron{display:none}
@@ -172,6 +177,6 @@
 .lumi-navbar-menu [aria-current="page"]{background:var(--lumi-sand,#eee7dd)}
 .lumi-navbar-menu [aria-current="page"]::after{transform:scaleX(1);height:3px}
 .lumi-site .lumi-navbar-menu [aria-current="page"]>span{font-weight:var(--deneb-font-weight,600)!important}
-@media(max-width:959px){
+@media(max-width:1024px){
   .lumi-navbar-menu [aria-current="page"]{box-shadow:inset 3px 0 currentColor;padding-left:12px}
 }

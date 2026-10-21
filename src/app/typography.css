@@ -93,6 +93,11 @@
   line-height:var(--deneb-line-height,1.15) !important;
   letter-spacing:var(--deneb-letter-spacing,-.04em) !important;
 }
+/* Legacy informational routes share the cream storefront background. */
+.lumi-site [data-preview-page-key="services"] :is(h1,h2,h3),
+.lumi-site [data-preview-page-key="about_us"] :is(h1,h2,h3) {
+  color:var(--deneb-color,#38291f) !important;
+}
 @media (min-width:960px) and (max-width:1150px) {
   .lumi-site .lumi-navbar-menu .lumi-nav-home span,
   .lumi-site .lumi-nav-trigger span { font-size:var(--deneb-font-size,13px) !important; }
