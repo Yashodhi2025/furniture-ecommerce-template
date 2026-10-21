@@ -162,3 +162,22 @@
 }
 @media(max-width:360px) { .lumi-navbar-top { gap:4px; padding-left:3%; padding-right:3%; } .lumi-nav-brand img { display:none; } .lumi-site .lumi-nav-brand span { font-size:13px; } }
 @media(prefers-reduced-motion:reduce) { .lumi-navbar *, .lumi-navbar *::after { transition:none !important; } }
+
+/* Category labels navigate; a separate disclosure keeps touch menus accessible. */
+.lumi-category-toggle{display:none}
+@media(max-width:959px){
+  .lumi-nav-category{position:relative}
+  .lumi-nav-category>.lumi-nav-trigger{padding-right:48px}
+  .lumi-nav-category>.lumi-nav-trigger>.lumi-nav-chevron{display:none}
+  .lumi-category-toggle{position:absolute;right:0;top:0;display:grid;place-items:center;width:44px;height:52px;padding:0;border:0;background:transparent;color:inherit;cursor:pointer}
+  .lumi-category-toggle svg{transition:transform .2s ease}
+  .lumi-category-toggle[aria-expanded=true] svg{transform:rotate(180deg)}
+}
+
+/* Persistent current-page indicator, independent of hover and menu state. */
+.lumi-navbar-menu [aria-current="page"]{background:var(--lumi-sand,#eee7dd)}
+.lumi-navbar-menu [aria-current="page"]::after{transform:scaleX(1);height:3px}
+.lumi-site .lumi-navbar-menu [aria-current="page"]>span{font-weight:var(--deneb-font-weight,600)!important}
+@media(max-width:959px){
+  .lumi-navbar-menu [aria-current="page"]{box-shadow:inset 3px 0 currentColor;padding-left:12px}
+}

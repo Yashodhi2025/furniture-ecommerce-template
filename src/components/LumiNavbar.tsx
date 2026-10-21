@@ -1,6 +1,8 @@
 'use client';
 
 import { useEffect, useId, useRef, useState, type CSSProperties, type KeyboardEvent } from 'react';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { DENEB_PREVIEW_FOCUS_MESSAGE, LEGACY_PREVIEW_FOCUS_MESSAGE, PREVIEW_FOCUS_MESSAGE, EditableCard, EditableDialog, EditableIcon, EditableImage, EditableSection, EditableText } from '@deneb-ui/ui';
 import { contentList, contentObject, contentText, useProducts, useSiteData } from '@/lib/siteDataContext';
 import { withBasePath } from '@/lib/utils';
@@ -8,6 +10,7 @@ import './LumiNavbar.css';
 
 /** Presentation-only navigation. Collection destinations and imagery belong to site data. */
 export default function LumiNavbar({ onCartClick }: { onCartClick: () => void }) {
+  const pathname = usePathname();
   const siteData = useSiteData();
   const content = contentObject(siteData.content);
   const common = contentObject(content.common);
@@ -27,7 +30,12 @@ export default function LumiNavbar({ onCartClick }: { onCartClick: () => void })
   const pendingLinkFocus = useRef<{ index: number; last: boolean } | null>(null);
   const menuId = useId();
   const text = (key: string, fallback = '') => contentText(navigation[key]) || fallback;
-  const closeMenus = () => { setOpenCategory(null); setMobileOpen(false); };
+  const isCurrentPage = (url: string) => {
+    if (url.includes('#')) return false;
+    const normalize = (path: string) => withBasePath(path).replace(/\/+$/, '') || '/';
+    return normalize(pathname) === normalize(url.split('?')[0]);
+  };
+  const closeMenus = () => { if (closeTimer.current) clearTimeout(closeTimer.current); pendingLinkFocus.current = null; setOpenCategory(null); setMobileOpen(false); };
   const cancelClose = () => { if (closeTimer.current) clearTimeout(closeTimer.current); };
   const selectCategory = (index: number) => { cancelClose(); setOpenCategory(index); };
   const isDesktopHover = () => window.matchMedia('(min-width: 960px) and (hover: hover)').matches;
@@ -39,7 +47,7 @@ export default function LumiNavbar({ onCartClick }: { onCartClick: () => void })
     let focusFrame = 0;
     const frame = requestAnimationFrame(() => {
       focusFrame = requestAnimationFrame(() => {
-        const links = header.current?.querySelectorAll<HTMLAnchorElement>(`[data-category-index="${openCategory}"] + .lumi-mega-panel .lumi-mega-link`);
+        const links = header.current?.querySelector(`[data-category-index="${openCategory}"]`)?.closest('li')?.querySelectorAll<HTMLAnchorElement>('.lumi-mega-link');
         (request.last ? links?.[links.length - 1] : links?.[0])?.focus();
         pendingLinkFocus.current = null;
       });
@@ -110,7 +118,7 @@ export default function LumiNavbar({ onCartClick }: { onCartClick: () => void })
       event.preventDefault(); cancelClose();
       if (openCategory !== null) {
         setOpenCategory(null);
-        header.current?.querySelector<HTMLButtonElement>(`[data-category-index="${openCategory}"]`)?.focus();
+        header.current?.querySelector<HTMLElement>(`[data-category-index="${openCategory}"]`)?.focus();
       } else { setMobileOpen(false); hamburger.current?.focus(); }
     }
     if ((event.key === 'ArrowLeft' || event.key === 'ArrowRight') && target.closest('[data-nav-trigger]')) {
@@ -143,7 +151,7 @@ export default function LumiNavbar({ onCartClick }: { onCartClick: () => void })
         </div>
       </div>
       <nav className={`lumi-navbar-menu${mobileOpen ? ' is-mobile-open' : ''}`} id={menuId}>
-        <a className="lumi-nav-home" data-nav-trigger href={withBasePath(text('homeUrl', '/'))} data-preview-field-path="navigation.homeUrl" onClick={closeMenus}><EditableText as="span" fieldPath="navigation.homeLabel" defaultValue={text('homeLabel', 'Home')} /></a>
+        <a className="lumi-nav-home" data-nav-trigger href={withBasePath(text('homeUrl', '/'))} aria-current={isCurrentPage(text('homeUrl', '/')) ? 'page' : undefined} data-preview-field-path="navigation.homeUrl" onClick={closeMenus}><EditableText as="span" fieldPath="navigation.homeLabel" defaultValue={text('homeLabel', 'Home')} /></a>
         <ul className="lumi-nav-categories" data-preview-list-path="navigation.categories">
           {categories.map((category, categoryIndex) => {
             const items = contentList(category.items).map(contentObject);
@@ -153,14 +161,14 @@ export default function LumiNavbar({ onCartClick }: { onCartClick: () => void })
             return <li className={`lumi-nav-category${isOpen ? ' is-open' : ''}`} key={contentText(category.id) || categoryIndex} data-preview-item-path={`navigation.categories[${categoryIndex}]`}
               onMouseEnter={() => { if (isDesktopHover()) selectCategory(categoryIndex); }}
               onMouseLeave={event => {
-                if (!isDesktopHover() || event.currentTarget.contains(document.activeElement)) return;
+                if (!isDesktopHover()) return;
                 // Keep the selected dropdown visible while adjusting its colour in Local Lab.
                 if (event.currentTarget.querySelector('[data-fivora-local-selected-target], [data-marketplace-local-selected-target]')) return;
                 cancelClose(); closeTimer.current = setTimeout(() => setOpenCategory(null), 160);
               }}
               onBlur={event => { if (!event.currentTarget.contains(event.relatedTarget)) setOpenCategory(current => current === categoryIndex ? null : current); }}>
-              <button type="button" className={`lumi-nav-trigger${contentText(category.id) === 'sale' ? ' lumi-nav-sale' : ''}`} data-nav-trigger data-category-index={categoryIndex} id={`${panelId}-trigger`} aria-expanded={isOpen} aria-controls={panelId}
-                onClick={() => { cancelClose(); setOpenCategory(isOpen ? null : categoryIndex); }}
+              <Link href={withBasePath(contentText(category.browseUrl) || '/#shop')} aria-current={isCurrentPage(contentText(category.browseUrl) || '/#shop') ? 'page' : undefined} className={`lumi-nav-trigger${contentText(category.id) === 'sale' ? ' lumi-nav-sale' : ''}`} data-preview-field-path={`navigation.categories[${categoryIndex}].browseUrl`} data-nav-trigger data-category-index={categoryIndex} id={`${panelId}-trigger`} aria-expanded={isOpen} aria-controls={panelId}
+                onClick={closeMenus}
                 onKeyDown={event => {
                   if (event.key !== 'ArrowDown' && event.key !== 'ArrowUp') return;
                   event.preventDefault();
@@ -175,7 +183,8 @@ export default function LumiNavbar({ onCartClick }: { onCartClick: () => void })
                 }}>
                 <EditableText as="span" data-preview-field-path={`navigation.categories[${categoryIndex}].label`} defaultValue={contentText(category.label)} placeholder="Collection" />
                 <svg className="lumi-nav-chevron" viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" aria-hidden="true"><path d="m4 6 4 4 4-4" /></svg>
-              </button>
+              </Link>
+              <button type="button" className="lumi-category-toggle" aria-label={`Show ${contentText(category.label)} subcategories`} aria-expanded={isOpen} aria-controls={panelId} onClick={() => { cancelClose(); setOpenCategory(isOpen ? null : categoryIndex); }}><svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" aria-hidden="true"><path d="m4 6 4 4 4-4" /></svg></button>
               <EditableSection as="div" name={`navigation-dropdown-${categoryIndex}`} padding="none" className="lumi-mega-panel" id={panelId} inert={!isOpen} aria-labelledby={`${panelId}-trigger`}>
                 <div className="lumi-mega-surface" data-preview-field-path="navigation.dropdownBackgroundColor">
                 <div className="lumi-mega-copy">

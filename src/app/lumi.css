@@ -132,3 +132,9 @@
   .lumi-site .lumi-category-image img{transition:transform 1.2s cubic-bezier(.16,1,.3,1)}
   .lumi-site .lumi-category-card:hover .lumi-category-image img{transform:scale(1.065)}
 }
+
+.lumi-route-content{width:100%;min-width:0}
+@media(prefers-reduced-motion:no-preference){
+  .lumi-route-content{animation:lumi-route-enter 400ms ease-in-out both}
+  @keyframes lumi-route-enter{from{opacity:0}to{opacity:1}}
+}

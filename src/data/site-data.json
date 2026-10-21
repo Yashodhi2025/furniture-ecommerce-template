@@ -499,7 +499,7 @@
           "label": "Bedroom",
           "description": "Create a softer place to land.",
           "browseLabel": "Explore bedroom",
-          "browseUrl": "/#shop",
+          "browseUrl": "/collections/bedroom/",
           "items": [
             {
               "id": "beds",
@@ -532,7 +532,7 @@
           "label": "Kitchen & Dining",
           "description": "Made for slow mornings and shared meals.",
           "browseLabel": "Explore kitchen & dining",
-          "browseUrl": "/#shop",
+          "browseUrl": "/collections/kitchen-dining/",
           "items": [
             {
               "id": "dining-tables",
@@ -565,7 +565,7 @@
           "label": "Office Furniture",
           "description": "Make space for your best ideas.",
           "browseLabel": "Explore office furniture",
-          "browseUrl": "/#shop",
+          "browseUrl": "/collections/office/",
           "items": [
             {
               "id": "desks",
@@ -598,7 +598,7 @@
           "label": "Lighting & Decor",
           "description": "The finishing touches that feel like you.",
           "browseLabel": "Explore lighting & decor",
-          "browseUrl": "/#shop",
+          "browseUrl": "/collections/lighting-decor/",
           "items": [
             {
               "id": "table-lamps",
@@ -631,7 +631,7 @@
           "label": "Sale",
           "description": "Considered design, a little less.",
           "browseLabel": "Explore sale",
-          "browseUrl": "/#shop",
+          "browseUrl": "/collections/sale/",
           "items": [
             {
               "id": "sofa-offers",

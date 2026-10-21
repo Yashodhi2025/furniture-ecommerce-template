@@ -6,11 +6,13 @@ import { useProducts } from '@/lib/siteDataContext';
 import { formatPrice, isLivingProduct, productHref } from '@/lib/living-room';
 import { withBasePath } from '@/lib/utils';
 import ProductPhotoGallery from './ProductPhotoGallery';
+import { collections, type CollectionId } from '@/lib/collections';
 
 const sortOptions = <><option value="featured">Featured</option><option value="price-low">Price: low to high</option><option value="price-high">Price: high to low</option><option value="name">Name: A–Z</option></>;
-export default function LivingRoomProducts() {
+export default function LivingRoomProducts({ collectionId = 'living-room' }: { collectionId?: CollectionId }) {
   const products = useProducts();
-  const catalog = useMemo(() => products.map((product, index) => ({ product, index })).filter(({ product }) => isLivingProduct(product)), [products]);
+  const collection = collections[collectionId];
+  const catalog = useMemo(() => products.map((product, index) => ({ product, index })).filter(({ product }) => collectionId === 'living-room' ? isLivingProduct(product) : collectionId === 'sale' ? Number(product.compareAtPrice) > Number(product.price) : collection.categories.some(category => category.toLowerCase() === String(product.category ?? '').toLowerCase())), [products, collectionId, collection]);
   const categories = [...new Set(catalog.map(({ product }) => String(product.category)))];
   const ceiling = Math.max(1, ...catalog.map(({ product }) => Number(product.price) || 0));
   const [category, setCategory] = useState('');
@@ -26,8 +28,8 @@ export default function LivingRoomProducts() {
   const draftCount = catalog.filter(({ product }) => (!draftCategory || product.category === draftCategory) && Number(product.price) <= (draftPrice ?? ceiling)).length;
   useEffect(() => {
     const initial = new URLSearchParams(window.location.search).get('category');
-    if (initial) setCategory(initial);
-  }, []);
+    setCategory(initial || '');
+  }, [collectionId]);
   useEffect(() => {
     if (!open || !dialog.current) return;
     const element = dialog.current;
@@ -44,8 +46,8 @@ export default function LivingRoomProducts() {
   };
   const clear = () => { setCategory(''); setMaxPrice(null); setDraftCategory(''); setDraftPrice(null); };
   return <div className="lr-collection" data-preview-page-key="living_room">
-    <header className="lr-heading"><nav className="lr-breadcrumbs" aria-label="Breadcrumb"><a href={withBasePath('/')} aria-label="Home">⌂</a><span>/</span><a href={withBasePath('/#categories')}>Collections</a><span>/</span><span aria-current="page">Living Room</span></nav><h1>Living Room Furniture</h1><p>Made for good company. Chosen for everyday living.</p></header>
-    <section aria-label="Living room products">
+    <header className="lr-heading"><nav className="lr-breadcrumbs" aria-label="Breadcrumb"><a href={withBasePath('/')} aria-label="Home">⌂</a><span>/</span><a href={withBasePath('/#categories')}>Collections</a><span>/</span><span aria-current="page">{collection.label}</span></nav><h1>{collection.title}</h1><p>{collection.description}</p></header>
+    <section aria-label={`${collection.label} products`}>
       <div className="lr-collection-toolbar"><button type="button" className="lr-filter-button" ref={trigger} aria-haspopup="dialog" onClick={() => { setDraftCategory(category); setDraftPrice(maxPrice); setOpen(true); }}><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18M8 3v6M16 9v6M10 15v6" /></svg>Show filters{(category || maxPrice !== null) && <span className="lr-filter-indicator" />}</button><span className="lr-product-count" role="status" aria-live="polite">{filtered.length} {filtered.length === 1 ? 'product' : 'products'}</span><label className="lr-sort">Sort by:<select aria-label="Sort products" value={sort} onChange={event => setSort(event.target.value)}>{sortOptions}</select></label></div>
       {(category || maxPrice !== null) && <div className="lr-active-filters">{category && <button type="button" onClick={() => setCategory('')}>{category} ×</button>}{maxPrice !== null && <button type="button" onClick={() => setMaxPrice(null)}>Up to {formatPrice(maxPrice)} ×</button>}<button type="button" onClick={clear}>Clear all</button></div>}
       <div className="lr-product-grid" data-preview-list-path="products">{filtered.map(({ product, index }) => <EditableCard key={String(product.id)} item={{}} itemPath={`products[${index}]`} data-preview-item-path={`products[${index}]`} as="article" className="lr-product-card">
@@ -55,9 +57,9 @@ export default function LivingRoomProducts() {
       {!filtered.length && <div className="lr-empty"><h2>A little more room to explore.</h2><p>No products match these filters.</p><button type="button" className="lr-filter-button" onClick={clear}>View all products</button></div>}
       <p className="lr-sample-note">A sample collection for LUMI LIVING. Additional product views are AI-generated illustrations.</p>
     </section>
-    <dialog ref={dialog} className="lr-filter-drawer" aria-label="Filter living room furniture" onKeyDown={trapFocus} onCancel={event => { event.preventDefault(); setOpen(false); }} onClick={event => { if (event.target === event.currentTarget) { const rect = event.currentTarget.getBoundingClientRect(); if (event.clientX > rect.right || event.clientX < rect.left || event.clientY < rect.top || event.clientY > rect.bottom) setOpen(false); } }}>
+    <dialog ref={dialog} className="lr-filter-drawer" aria-label={`Filter ${collection.label.toLowerCase()} furniture`} onKeyDown={trapFocus} onCancel={event => { event.preventDefault(); setOpen(false); }} onClick={event => { if (event.target === event.currentTarget) { const rect = event.currentTarget.getBoundingClientRect(); if (event.clientX > rect.right || event.clientX < rect.left || event.clientY < rect.top || event.clientY > rect.bottom) setOpen(false); } }}>
       <div className="lr-drawer-heading"><h2>Refine your collection</h2><button type="button" aria-label="Close filters" onClick={() => setOpen(false)} autoFocus>×</button></div>
-      <div className="lr-drawer-content"><fieldset><legend>Product type</legend><label><input type="radio" name="category" checked={!draftCategory} onChange={() => setDraftCategory('')} />All living room</label>{categories.map(value => <label key={value}><input type="radio" name="category" checked={draftCategory === value} onChange={() => setDraftCategory(value)} />{value}</label>)}</fieldset><label className="lr-price-filter">Maximum price<strong>{formatPrice(draftPrice ?? ceiling)}</strong><input type="range" min="0" max={ceiling} step="1" value={Math.min(draftPrice ?? ceiling, ceiling)} onChange={event => setDraftPrice(Number(event.target.value))} /><span>LKR 0 <span>{formatPrice(ceiling)}</span></span></label></div>
+      <div className="lr-drawer-content"><fieldset><legend>Product type</legend><label><input type="radio" name="category" checked={!draftCategory} onChange={() => setDraftCategory('')} />All {collection.label.toLowerCase()}</label>{categories.map(value => <label key={value}><input type="radio" name="category" checked={draftCategory === value} onChange={() => setDraftCategory(value)} />{value}</label>)}</fieldset><label className="lr-price-filter">Maximum price<strong>{formatPrice(draftPrice ?? ceiling)}</strong><input type="range" min="0" max={ceiling} step="1" value={Math.min(draftPrice ?? ceiling, ceiling)} onChange={event => setDraftPrice(Number(event.target.value))} /><span>LKR 0 <span>{formatPrice(ceiling)}</span></span></label></div>
       <div className="lr-drawer-bottom"><p aria-live="polite">{draftCount} matching {draftCount === 1 ? 'product' : 'products'}</p><button type="button" className="lr-primary-button" onClick={() => { setCategory(draftCategory); setMaxPrice(draftPrice); setOpen(false); }}>Show products ↗</button><button type="button" className="lr-clear-button" onClick={clear}>Clear all</button></div>
     </dialog>
   </div>;
