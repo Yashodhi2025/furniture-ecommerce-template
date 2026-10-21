@@ -1,8 +1,9 @@
 'use client';
 
 import { useState, type FormEvent } from 'react';
-import { EditableText, EditableBox } from '@deneb-ui/ui';
+import { EditableText, EditableBox, EditableIcon, EditableImage } from '@deneb-ui/ui';
 import { contentObject, contentText, useSiteData } from '@/lib/siteDataContext';
+import './contact.css';
 
 export default function ContactPage() {
   const siteData = useSiteData();
@@ -19,6 +20,9 @@ export default function ContactPage() {
   const email = contentText(contact.email);
   const whatsapp = contentText(contact.whatsapp);
   const directMessageText = contentText(contact.directMessageText) || 'Chat on WhatsApp';
+  const lifestyleImage = 'lifestyleImage' in contact
+    ? contentText(contact.lifestyleImage)
+    : '/images/story.jpg';
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -51,7 +55,7 @@ export default function ContactPage() {
   }
 
   return (
-    <div data-preview-page-key="contact">
+    <div className="lumi-contact" data-preview-page-key="contact">
       <section className="page-section page-heading" data-design-section="contact-heading">
         <EditableText
           variant="h1"
@@ -79,21 +83,32 @@ export default function ContactPage() {
             data-preview-static="contact-heading"
             defaultValue="Direct Information"
           />
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', marginTop: '0.5rem' }}>
-            <a href={phone ? `tel:${phone}` : ''} data-preview-field-path="contact.phone">
-              {phone}
+          <div className="lumi-contact-information" style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', marginTop: '0.5rem' }}>
+            <a className="lumi-contact-info-row" href={phone ? `tel:${phone}` : ''} data-preview-field-path="contact.phone">
+              <span className="lumi-contact-symbol" aria-hidden="true" data-preview-static="contact-phone-icon">
+                <EditableIcon name="phone" size={17} strokeWidth={1.5} />
+              </span>
+              <span className="lumi-contact-value" data-preview-field-path="contact.phone">{phone}</span>
             </a>
-            <a href={email ? `mailto:${email}` : ''} data-preview-field-path="contact.email">
-              {email}
+            <a className="lumi-contact-info-row" href={email ? `mailto:${email}` : ''} data-preview-field-path="contact.email">
+              <span className="lumi-contact-symbol" aria-hidden="true" data-preview-static="contact-email-icon">
+                <EditableIcon name="mail" size={17} strokeWidth={1.5} />
+              </span>
+              <span className="lumi-contact-value" data-preview-field-path="contact.email">{email}</span>
             </a>
-            <EditableText
-              variant="p"
-              color="muted"
-              data-preview-field-path="contact.address"
-              defaultValue={address}
-            />
+            <div className="lumi-contact-info-row">
+              <span className="lumi-contact-symbol" aria-hidden="true" data-preview-static="contact-location-icon">
+                <EditableIcon name="map-pin" size={17} strokeWidth={1.5} />
+              </span>
+              <EditableText
+                variant="p"
+                color="muted"
+                data-preview-field-path="contact.address"
+                defaultValue={address}
+              />
+            </div>
           </div>
-          <div style={{ marginTop: '1.5rem', display: 'flex', flexWrap: 'wrap', gap: '0.75rem' }}>
+          <div className="lumi-contact-actions" style={{ marginTop: '1.5rem', display: 'flex', flexWrap: 'wrap', gap: '0.75rem' }}>
             <a
               href={directionsUrl || '#'}
               data-preview-field-path="contact.directionsUrl"
@@ -135,6 +150,17 @@ export default function ContactPage() {
               </span>
             </a>
           </div>
+          {lifestyleImage && (
+            <figure className="lumi-contact-lifestyle">
+              <EditableImage
+                data-preview-field-path="contact.lifestyleImage"
+                src={lifestyleImage}
+                alt={contentText(contact.lifestyleImageAlt)}
+                fit="cover"
+                loading="lazy"
+              />
+            </figure>
+          )}
         </EditableBox>
 
         <EditableBox className="card" balance radius="xl">

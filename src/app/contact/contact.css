@@ -1,0 +1,38 @@
+/* Presentation only: the existing Deneb fields and contact handlers stay intact. */
+.lumi-contact{max-width:1360px;margin:auto;color:#30271f;--heading-color:#38291f;--muted-text:#766658}
+.lumi-contact>.page-section{padding-left:var(--deneb-section-px,5%);padding-right:var(--deneb-section-px,5%)}
+.lumi-contact>.page-heading{padding-top:var(--deneb-section-pt,40px);padding-bottom:var(--deneb-section-pb,24px);margin-bottom:0}
+.lumi-contact>.page-heading::before{content:"";display:block;width:36px;height:2px;background:#b3977c;margin-bottom:18px}
+.lumi-site .lumi-contact :is(h1,h2,h3){color:var(--deneb-color,#38291f)!important}
+.lumi-site .lumi-contact .page-heading h1{max-width:24ch;font-size:var(--deneb-font-size,clamp(32px,3.5vw,48px))!important;line-height:var(--deneb-line-height,1.2)!important;font-weight:var(--deneb-font-weight,500)!important;letter-spacing:var(--deneb-letter-spacing,-.035em)!important;margin:0 0 14px}
+.lumi-site .lumi-contact .page-heading>p{font-size:var(--deneb-font-size,15px)!important;line-height:var(--deneb-line-height,1.8)!important;color:var(--deneb-color,#766658)!important;margin:0;max-width:58ch}
+.lumi-contact>.contact-grid{grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:26px;align-items:stretch;padding-top:var(--deneb-section-pt,8px);padding-bottom:var(--deneb-section-pb,56px)}
+.lumi-contact .contact-grid>.card{padding:28px;border:1px solid #e0d5c7;background:#fffdfa;box-shadow:0 4px 18px #5b493c08;min-width:0}
+.lumi-site .lumi-contact .card :is(h2,h3){font-size:var(--deneb-font-size,22px)!important;font-weight:var(--deneb-font-weight,500)!important;line-height:var(--deneb-line-height,1.35)!important;letter-spacing:var(--deneb-letter-spacing,-.025em)!important;margin:0}
+.lumi-contact .contact-details{gap:18px;font-size:15px}.lumi-contact .contact-details>div{margin-top:0!important}
+.lumi-contact .contact-details a{font-size:15px;font-weight:500;color:#5b493c;overflow-wrap:anywhere;word-break:normal}
+.lumi-contact .lumi-contact-info-row{display:flex;align-items:center;gap:12px;min-width:0;min-height:32px}
+.lumi-contact .lumi-contact-symbol{display:inline-flex;align-items:center;justify-content:center;flex:0 0 32px;height:32px;border-radius:50%;background:#f4eee6;color:#8d7057;transition:background-color .25s,color .25s}
+.lumi-contact .lumi-contact-value{min-width:0;text-decoration:underline;text-decoration-color:transparent;text-underline-offset:5px;transition:text-decoration-color .25s}
+.lumi-contact a.lumi-contact-info-row:focus-visible .lumi-contact-value{text-decoration-color:currentColor}
+.lumi-contact .lumi-contact-actions{padding-top:2px}
+.lumi-contact .lumi-contact-actions a{gap:8px}
+.lumi-contact .lumi-contact-actions a::after{content:"\2197";display:inline-block;transition:transform .25s}
+.lumi-contact .lumi-contact-lifestyle{margin: auto 0 0;height:140px;flex-shrink:0;border-radius:10px;overflow:hidden;background:#eee7dd}
+.lumi-contact .lumi-contact-lifestyle img{width:100%;height:100%;object-fit:cover;transition:transform .65s cubic-bezier(.22,.61,.36,1)}
+.lumi-site .lumi-contact .contact-details p{color:var(--deneb-color,#766658)!important;font-size:var(--deneb-font-size,14px)!important;line-height:var(--deneb-line-height,1.8)!important}
+.lumi-contact .contact-form{padding:0;border:0;border-radius:0;gap:16px;background:transparent}.lumi-contact .contact-form h2{margin-bottom:4px!important}
+.lumi-contact .contact-form label{gap:7px;font-size:13px;font-weight:500;color:#5b493c}
+.lumi-contact .contact-form :is(input,textarea){min-width:0;min-height:46px;border:1px solid #d5c7b6;border-radius:10px;background:#fffdf9;color:#30271f;padding:11px 14px;font-size:15px;font-weight:400;line-height:1.6;transition:border-color .2s,background-color .2s,box-shadow .2s}
+.lumi-contact .contact-form textarea{resize:vertical;min-height:120px}
+.lumi-contact .contact-form :is(input,textarea):focus{border-color:#947256;background:#fffefd;box-shadow:0 0 0 4px #a5745018,0 3px 12px #5b493c06}
+.lumi-contact :is(input,textarea):focus-visible{outline:2px solid #947256;outline-offset:2px}
+.lumi-contact .contact-details :is(.deneb-map-link,.button-secondary){min-height:44px;border:1px solid #cbb9a4!important;border-radius:10px!important;background:transparent!important;color:#5b493c!important;font-size:14px!important;font-weight:500;transition:background-color .2s,border-color .2s,box-shadow .2s!important}
+.lumi-contact .contact-form .button-primary{width:100%;min-height:48px;padding:12px 20px;border:1px solid #5b493c;border-radius:10px;background:#5b493c;color:#fffdfa;font-size:14px;font-weight:500;transition:background-color .25s,box-shadow .25s,transform .2s}
+.lumi-contact :is(button,a):focus-visible{outline:2px solid #947256;outline-offset:4px}
+@media(hover:hover){.lumi-contact .contact-form :is(input,textarea):not(:focus):hover{border-color:#b59a7f}.lumi-contact .contact-details :is(.deneb-map-link,.button-secondary):hover{border-color:#a58a6e!important;background:#eee7dd!important;box-shadow:0 3px 10px #5b493c0a}.lumi-contact .contact-form .button-primary:hover{background:#45352a;border-color:#45352a;box-shadow:0 4px 12px #5b493c18}.lumi-contact a.lumi-contact-info-row:hover .lumi-contact-value{text-decoration-color:currentColor}.lumi-contact .lumi-contact-info-row:hover .lumi-contact-symbol{background:#eaddcc;color:#5b493c}}
+@media(hover:hover) and (prefers-reduced-motion:no-preference){.lumi-contact .contact-form .button-primary:hover{transform:translateY(-1px)}.lumi-contact .lumi-contact-lifestyle:hover img{transform:scale(1.035)}.lumi-contact .lumi-contact-actions a:hover::after{transform:translate(2px,-2px)}}
+@media(prefers-reduced-motion:no-preference){.lumi-contact .contact-form .button-primary:active{transform:translateY(0) scale(.99);box-shadow:0 1px 4px #5b493c18}}
+@media(max-width:750px){.lumi-contact>.page-heading{padding-top:var(--deneb-section-pt,30px);padding-bottom:var(--deneb-section-pb,22px)}.lumi-contact>.contact-grid{grid-template-columns:1fr;gap:20px;padding-bottom:var(--deneb-section-pb,40px)}.lumi-contact .contact-grid>.card{padding:24px}.lumi-contact .lumi-contact-lifestyle{height:130px;margin-top:2px}}
+@media(max-width:380px){.lumi-contact .contact-grid>.card{padding:20px}.lumi-contact .lumi-contact-actions>a{width:100%}}
+@media(prefers-reduced-motion:reduce){.lumi-contact :is(button,a,input,textarea,img,.lumi-contact-symbol,.lumi-contact-value),.lumi-contact .lumi-contact-actions a::after{transition:none!important}.lumi-contact .contact-form .button-primary:hover,.lumi-contact .contact-form .button-primary:active{transform:none}}

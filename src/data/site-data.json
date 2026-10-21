@@ -352,6 +352,8 @@
     "contact": {
       "heading": "Let’s make room for something lovely.",
       "intro": "Questions about the collection? We would love to hear from you.",
+      "lifestyleImage": "/images/story.jpg",
+      "lifestyleImageAlt": "Natural materials and thoughtful furniture details in a quiet interior",
       "phone": "+94 11 234 5678",
       "email": "hello@lumiliving.example",
       "address": "Colombo, Sri Lanka",

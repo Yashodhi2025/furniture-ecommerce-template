@@ -13,6 +13,7 @@
       "common.navLabels.about_us",
       "ourStory.imageAlt",
       "contact.whatsapp",
+      "contact.lifestyleImageAlt",
       "home.categories[*].id",
       "home.heroImageAlt",
       "home.storyImageAlt",
@@ -816,6 +817,16 @@
             "key": "intro",
             "type": "textarea",
             "label": "Introduction"
+          },
+          {
+            "key": "lifestyleImage",
+            "type": "image",
+            "label": "Contact lifestyle image"
+          },
+          {
+            "key": "lifestyleImageAlt",
+            "type": "text",
+            "label": "Contact lifestyle image description"
           },
           {
             "key": "phone",
