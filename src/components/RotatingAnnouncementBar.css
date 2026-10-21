@@ -1,13 +1,15 @@
 .lumi-announcements{display:flex;align-items:center;flex:1;min-width:0;max-width:760px;min-height:56px;margin:0 auto;padding:10px 20px;background:transparent;color:#5b493c;text-align:center}
 .lumi-announcement-messages{display:grid;flex:1;min-width:0;overflow:hidden}
-.lumi-announcement-slide{grid-area:1/1;min-width:0;align-self:center;opacity:0;visibility:hidden;pointer-events:none;transition:opacity 500ms ease-in-out,visibility 0s linear 500ms}
+.lumi-announcement-slide{grid-area:1/1;display:flex;align-items:center;justify-content:center;gap:10px;min-width:0;align-self:center;opacity:0;visibility:hidden;pointer-events:none;transition:opacity 500ms ease-in-out,visibility 0s linear 500ms}
+.lumi-announcement-icon{flex-shrink:0;color:#98704c}
+.lumi-announcements .deneb-announcement-bar{min-width:0}
 .lumi-announcement-slide.is-active{opacity:1;visibility:visible;pointer-events:auto;transition-delay:0s}
 .lumi-announcements .deneb-announcement-bar>div{padding:0;max-width:100%;width:100%;justify-content:center}
-.lumi-announcements .deneb-announcement-text{color:#5b493c;letter-spacing:.025em;font-weight:500;text-wrap:balance}
+.lumi-announcements .deneb-announcement-text{color:#3f2c1f;letter-spacing:.02em;font-weight:600;text-wrap:balance}
 @media(min-width:960px) and (max-width:1200px){.lumi-announcements{padding:10px 14px}}
 @media(max-width:959px){
   .lumi-navbar-top{flex-wrap:wrap}
   .lumi-announcements{order:5;flex:1 0 100%;max-width:100%;min-height:50px;margin:7px 0 -6px;padding:8px 14px}
-  .lumi-announcements .deneb-announcement-bar{font-size:14px!important;padding:3px 0!important;min-height:34px!important}
+  .lumi-announcements .deneb-announcement-bar{font-size:16px!important;padding:3px 0!important;min-height:34px!important}
 }
 @media(prefers-reduced-motion:reduce){.lumi-announcement-slide{transition:none}}

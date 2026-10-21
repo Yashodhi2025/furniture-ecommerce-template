@@ -691,13 +691,16 @@
       "enabled": true,
       "messages": [
         {
-          "text": "Thoughtful pieces. Everyday comfort."
+          "text": "Thoughtful pieces. Everyday comfort.",
+          "icon": "sparkles"
         },
         {
-          "text": "Create a softer place to land."
+          "text": "Create a softer place to land.",
+          "icon": "heart"
         },
         {
-          "text": "Make room for good company."
+          "text": "Make room for good company.",
+          "icon": "utensils"
         }
       ]
     }

@@ -10,6 +10,7 @@ export default function ProductPhotoGallery({ product, index, href, thumbnails =
   const colors = Array.isArray(product.colors) ? product.colors.flatMap((color, i) => typeof color === 'object' && color.hex && color.image ? [{ ...color, path: `products[${index}].colors[${i}].image` }] : []) : [];
   const slides = [...photos, ...colors.map(color => ({ src: color.image!, path: color.path }))];
   const [selected, setSelected] = useState(0);
+  const [popupSelected, setPopupSelected] = useState(0);
   const [hovered, setHovered] = useState(false);
   const [open, setOpen] = useState(false);
   const [closing, setClosing] = useState(false);
@@ -17,24 +18,30 @@ export default function ProductPhotoGallery({ product, index, href, thumbnails =
   const trigger = useRef<HTMLButtonElement>(null);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const gallery = useRef<HTMLDivElement>(null);
-  const previousIndex = useRef(0);
+  const previousIndex = useRef({ card: 0, popup: 0 });
   const slideDirection = useRef(1);
   const photoId = useId();
   const titleId = useId();
   const activeIndex = Math.min(selected, Math.max(0, slides.length - 1));
+  const popupIndex = Math.min(popupSelected, Math.max(0, slides.length - 1));
   const move = (direction: number) => {
     slideDirection.current = direction;
-    setSelected(value => (Math.min(value, Math.max(0, photos.length - 1)) + direction + photos.length) % Math.max(1, photos.length));
+    const update = open ? setPopupSelected : setSelected;
+    update(value => (Math.min(value, Math.max(0, photos.length - 1)) + direction + photos.length) % Math.max(1, photos.length));
   };
-  const choosePhoto = (value: number) => { slideDirection.current = 1; setSelected(value); };
+  const choosePhoto = (value: number) => { slideDirection.current = 1; (open ? setPopupSelected : setSelected)(value); };
   useLayoutEffect(() => {
     const previous = previousIndex.current;
-    previousIndex.current = activeIndex;
-    if (previous === activeIndex || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    previousIndex.current = { card: activeIndex, popup: popupIndex };
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     const animations: Animation[] = [];
     gallery.current?.querySelectorAll('.lr-image-track').forEach(track => {
-      const outgoing = track.children[previous];
-      const incoming = track.children[activeIndex];
+      const popup = track.getAttribute('data-gallery-view') === 'popup';
+      const before = popup ? previous.popup : previous.card;
+      const after = popup ? popupIndex : activeIndex;
+      if (before === after) return;
+      const outgoing = track.children[before];
+      const incoming = track.children[after];
       const direction = slideDirection.current;
       const options: KeyframeAnimationOptions = { duration: 400, easing: 'ease-in-out' };
       if (outgoing) animations.push(outgoing.animate([
@@ -47,7 +54,7 @@ export default function ProductPhotoGallery({ product, index, href, thumbnails =
       ], options));
     });
     return () => animations.forEach(animation => animation.cancel());
-  }, [activeIndex, open]);
+  }, [activeIndex, popupIndex, open]);
   const close = () => {
     if (closing) return;
     setClosing(true);
@@ -60,6 +67,15 @@ export default function ProductPhotoGallery({ product, index, href, thumbnails =
     return () => clearInterval(timer);
   }, [hovered, open, thumbnails, photos.length]);
   useEffect(() => {
+    if (!open || closing || photos.length < 2 || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    // Restart the countdown after an arrow or thumbnail selection as well.
+    const timer = setTimeout(() => {
+      slideDirection.current = 1;
+      setPopupSelected(value => (value + 1) % photos.length);
+    }, 3000);
+    return () => clearTimeout(timer);
+  }, [open, closing, photos.length, popupSelected]);
+  useEffect(() => {
     if (!open || !dialog.current) return;
     const element = dialog.current;
     const opener = trigger.current;
@@ -68,17 +84,17 @@ export default function ProductPhotoGallery({ product, index, href, thumbnails =
     document.body.style.overflow = 'hidden';
     return () => { element.close(); document.body.style.overflow = overflow; opener?.focus(); };
   }, [open]);
-  const images = (popup = false) => <div className="lr-image-stack"><div className="lr-image-track">
-    {slides.length ? slides.map((photo, value) => <div key={`${photo.path}-${photo.src}`} className={`lr-image-layer${value === activeIndex ? ' is-active' : ''}`} aria-hidden={value !== activeIndex}>
+  const images = (popup = false) => <div className="lr-image-stack"><div className="lr-image-track" data-gallery-view={popup ? 'popup' : 'card'}>
+    {slides.length ? slides.map((photo, value) => <div key={`${photo.path}-${photo.src}`} className={`lr-image-layer${value === (popup ? popupIndex : activeIndex) ? ' is-active' : ''}`} aria-hidden={value !== (popup ? popupIndex : activeIndex)}>
       {popup ? <img src={withBasePath(photo.src)} alt={`${product.name} — view ${value + 1}`} /> : <EditableImage src={withBasePath(photo.src)} alt={`${product.name} — view ${value + 1}`} data-preview-field-path={photo.path} fit={thumbnails ? 'contain' : 'cover'} loading="lazy" />}
     </div>) : <img src={withBasePath('/placeholder.svg')} alt="Product image not yet available" />}
   </div></div>;
-  const swatches = colors.length > 0 && <div className="lr-color-options" role="group" aria-label={`Color of ${product.name}`}>
-    {colors.map((color, value) => <button type="button" key={color.path} style={{ backgroundColor: color.hex }} title={color.name} aria-label={color.name} aria-pressed={activeIndex === photos.length + value} onClick={() => choosePhoto(photos.length + value)} />)}
-    <span>{activeIndex >= photos.length ? colors[activeIndex - photos.length]?.name : 'Choose color'}</span>
+  const swatches = (popup = false) => colors.length > 0 && <div className="lr-color-options" role="group" aria-label={`Color of ${product.name}`}>
+    {colors.map((color, value) => <button type="button" key={color.path} style={{ backgroundColor: color.hex }} title={color.name} aria-label={color.name} aria-pressed={(popup ? popupIndex : activeIndex) === photos.length + value} onClick={() => choosePhoto(photos.length + value)} />)}
+    <span>{(popup ? popupIndex : activeIndex) >= photos.length ? colors[(popup ? popupIndex : activeIndex) - photos.length]?.name : 'Choose color'}</span>
   </div>;
   const previews = (popup = false) => <div className={popup || thumbnails ? 'lr-thumbnails' : 'lr-photo-dots'} aria-label={`Photos of ${product.name}`}>
-    {photos.map((photo, value) => <button type="button" key={photo.path} onClick={() => choosePhoto(value)} aria-label={`Show photo ${value + 1} of ${product.name}`} aria-pressed={activeIndex === value} aria-controls={popup ? undefined : photoId}>
+    {photos.map((photo, value) => <button type="button" key={photo.path} onClick={() => choosePhoto(value)} aria-label={`Show photo ${value + 1} of ${product.name}`} aria-pressed={(popup ? popupIndex : activeIndex) === value} aria-controls={popup ? undefined : photoId}>
       <img src={withBasePath(photo.src)} alt="" loading="lazy" />
     </button>)}
   </div>;
@@ -90,19 +106,19 @@ export default function ProductPhotoGallery({ product, index, href, thumbnails =
       move(1);
       setHovered(true);
     }} onPointerLeave={() => setHovered(false)} onFocusCapture={() => setHovered(false)} onKeyDown={keyboard}>
-      {href ? <button ref={trigger} type="button" className="lr-photo-link" aria-label={`View images of ${product.name}`} aria-haspopup="dialog" onClick={() => { setHovered(false); setOpen(true); }}>{images()}<span className="lr-view-product">View piece ↗</span></button> : <div className="lr-photo-main">{images()}</div>}
+      {href ? <button ref={trigger} type="button" className="lr-photo-link" aria-label={`View images of ${product.name}`} aria-haspopup="dialog" onClick={() => { setHovered(false); setPopupSelected(activeIndex); previousIndex.current.popup = activeIndex; setOpen(true); }}>{images()}<span className="lr-view-product">View piece ↗</span></button> : <div className="lr-photo-main">{images()}</div>}
       {photos.length > 1 && arrows}
       <span className="lr-photo-counter">{activeIndex < photos.length ? `${activeIndex + 1} / ${photos.length}` : colors[activeIndex - photos.length]?.name}</span>
     </div>
     {photos.length > 1 && previews()}
-    {swatches}
+    {swatches()}
     <dialog ref={dialog} className={`lr-image-dialog${closing ? ' is-closing' : ''}`} aria-labelledby={titleId} onKeyDown={keyboard} onCancel={event => { event.preventDefault(); close(); }} onClick={event => {
       if (event.target !== event.currentTarget) return;
       const rect = event.currentTarget.getBoundingClientRect();
       if (event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom) close();
     }}>
       <header><h2 id={titleId}>{product.name}</h2><button type="button" aria-label="Close image gallery" autoFocus onClick={close}>×</button></header>
-      {open && <><div className="lr-popup-stage">{images(true)}{photos.length > 1 && arrows}</div><div className="lr-popup-footer"><span aria-live="polite">{activeIndex < photos.length ? `${activeIndex + 1} / ${photos.length}` : colors[activeIndex - photos.length]?.name}</span>{previews(true)}{swatches}</div></>}
+      {open && <><div className="lr-popup-stage">{images(true)}{photos.length > 1 && arrows}</div><div className="lr-popup-footer"><span aria-live="polite">{popupIndex < photos.length ? `${popupIndex + 1} / ${photos.length}` : colors[popupIndex - photos.length]?.name}</span>{previews(true)}{swatches(true)}</div></>}
     </dialog>
   </div>;
 }

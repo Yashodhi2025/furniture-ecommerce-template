@@ -1073,6 +1073,11 @@
                 "key": "text",
                 "type": "text",
                 "label": "Message"
+              },
+              {
+                "key": "icon",
+                "type": "icon",
+                "label": "Announcement icon"
               }
             ]
           }
