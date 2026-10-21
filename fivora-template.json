@@ -97,11 +97,78 @@
       "id": "sale",
       "label": "Sale",
       "route": "/collections/sale"
+    },
+    {
+      "id": "cart",
+      "label": "Cart",
+      "route": "/cart",
+      "required": true
+    },
+    {
+      "id": "wishlist",
+      "label": "Wishlist",
+      "route": "/wishlist",
+      "required": true
     }
   ],
   "editorSchema": {
     "version": 1,
     "sections": [
+      {
+        "id": "wishlist",
+        "path": "wishlist",
+        "pageKey": "wishlist",
+        "type": "object",
+        "label": "Wishlist page",
+        "fields": [
+          { "key": "title", "type": "text", "label": "Title" },
+          { "key": "description", "type": "textarea", "label": "Description" },
+          { "key": "emptyTitle", "type": "text", "label": "Empty wishlist heading" },
+          { "key": "emptyDescription", "type": "textarea", "label": "Empty wishlist description" },
+          { "key": "continueShoppingLabel", "type": "text", "label": "Continue Shopping label" },
+          { "key": "continueShoppingUrl", "type": "text", "label": "Continue Shopping link" },
+          { "key": "removeLabel", "type": "text", "label": "Remove from Wishlist label" },
+          { "key": "removedMessage", "type": "text", "label": "Removed from wishlist confirmation" }
+        ]
+      },
+      {
+        "id": "cart",
+        "path": "cart",
+        "pageKey": "cart",
+        "type": "object",
+        "label": "Cart page",
+        "fields": [
+          { "key": "title", "type": "text", "label": "Title" },
+          { "key": "description", "type": "textarea", "label": "Description" },
+          { "key": "emptyTitle", "type": "text", "label": "Empty cart heading" },
+          { "key": "emptyDescription", "type": "textarea", "label": "Empty cart description" },
+          { "key": "continueShoppingLabel", "type": "text", "label": "Continue Shopping label" },
+          { "key": "continueShoppingUrl", "type": "text", "label": "Continue Shopping link" },
+          { "key": "summaryTitle", "type": "text", "label": "Summary heading" },
+          { "key": "unitPriceLabel", "type": "text", "label": "Unit price label" },
+          { "key": "removeLabel", "type": "text", "label": "Remove button label" },
+          { "key": "subtotalLabel", "type": "text", "label": "Subtotal label" },
+          { "key": "totalLabel", "type": "text", "label": "Total label" }
+        ]
+      },
+      {
+        "id": "product-detail-content",
+        "path": "productDetail",
+        "type": "object",
+        "label": "Product detail content",
+        "description": "Shared text and enquiry link for all product detail pages.",
+        "fields": [
+          { "key": "brand", "type": "text", "label": "Brand" },
+          { "key": "enquiryHeading", "type": "text", "label": "Enquiry heading" },
+          { "key": "enquiryText", "type": "textarea", "label": "Enquiry text" },
+          { "key": "enquiryButtonLabel", "type": "text", "label": "Enquiry button label" },
+          { "key": "enquiryButtonUrl", "type": "text", "label": "Enquiry button link" },
+          { "key": "addToCartLabel", "type": "text", "label": "Add to Cart button label" },
+          { "key": "unavailableLabel", "type": "text", "label": "Unavailable button label" },
+          { "key": "wishlistLabel", "type": "text", "label": "Wishlist button label" },
+          { "key": "wishlistSavedLabel", "type": "text", "label": "Saved Wishlist button label" }
+        ]
+      },
       {
         "id": "common",
         "path": "common",

@@ -10,7 +10,7 @@ import './LumiNavbar.css';
 import RotatingAnnouncementBar from './RotatingAnnouncementBar';
 
 /** Presentation-only navigation. Collection destinations and imagery belong to site data. */
-export default function LumiNavbar({ onCartClick }: { onCartClick: () => void }) {
+export default function LumiNavbar() {
   const pathname = usePathname();
   const siteData = useSiteData();
   const content = contentObject(siteData.content);
@@ -21,7 +21,7 @@ export default function LumiNavbar({ onCartClick }: { onCartClick: () => void })
   const [mobileOpen, setMobileOpen] = useState(false);
   const [openCategory, setOpenCategory] = useState<number | null>(null);
   const [previews, setPreviews] = useState<Record<number, number>>({});
-  const [utility, setUtility] = useState<'search' | 'wishlist' | null>(null);
+  const [utility, setUtility] = useState<'search' | null>(null);
   const [query, setQuery] = useState('');
   const header = useRef<HTMLElement>(null);
   const hamburger = useRef<HTMLButtonElement>(null);
@@ -101,7 +101,7 @@ export default function LumiNavbar({ onCartClick }: { onCartClick: () => void })
     setUtility(null); setQuery('');
     requestAnimationFrame(() => utilityOpener.current?.focus());
   };
-  const openUtility = (kind: 'search' | 'wishlist', opener: HTMLElement) => {
+  const openUtility = (kind: 'search', opener: HTMLElement) => {
     closeMenus(); utilityOpener.current = opener; setUtility(kind);
   };
   const trapDialogFocus = (event: KeyboardEvent<HTMLDivElement>) => {
@@ -148,8 +148,8 @@ export default function LumiNavbar({ onCartClick }: { onCartClick: () => void })
         <RotatingAnnouncementBar />
         <div className="lumi-nav-utilities">
           <button className="lumi-nav-icon" type="button" aria-label={text('searchLabel', 'Search')} onClick={event => openUtility('search', event.currentTarget)} data-preview-static="search-dialog-trigger"><EditableIcon name="search" size={21} strokeWidth={1.5} aria-hidden="true" /></button>
-          <button className="lumi-nav-icon" type="button" aria-label={text('wishlistLabel', 'Wishlist')} onClick={event => openUtility('wishlist', event.currentTarget)} data-preview-static="wishlist-dialog-trigger"><EditableIcon name="heart" size={21} strokeWidth={1.5} aria-hidden="true" /></button>
-          <button className="lumi-nav-icon" type="button" aria-label={text('cartLabel', 'Cart')} onClick={() => { closeMenus(); onCartClick(); }} data-preview-static="cart-dialog-trigger"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true"><path d="M5 7h14l1 14H4L5 7ZM9 8V6a3 3 0 0 1 6 0v2" /></svg></button>
+          <Link href="/wishlist/" className="lumi-nav-icon" aria-label={text('wishlistLabel', 'Wishlist')} aria-current={isCurrentPage('/wishlist/') ? 'page' : undefined} onClick={closeMenus} data-preview-static="wishlist-page-link"><EditableIcon name="heart" size={21} strokeWidth={1.5} aria-hidden="true" /></Link>
+          <Link href="/cart/" className="lumi-nav-icon" aria-label={text('cartLabel', 'Cart')} aria-current={isCurrentPage('/cart/') ? 'page' : undefined} onClick={closeMenus} data-preview-static="cart-page-link"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true"><path d="M5 7h14l1 14H4L5 7ZM9 8V6a3 3 0 0 1 6 0v2" /></svg></Link>
         </div>
       </div>
       <nav className={`lumi-navbar-menu${mobileOpen ? ' is-mobile-open' : ''}`} id={menuId}>
@@ -215,7 +215,7 @@ export default function LumiNavbar({ onCartClick }: { onCartClick: () => void })
         </ul>
       </nav>
     </header>
-    <EditableDialog open={utility !== null} onClose={closeUtility} title={utility === 'search' ? text('searchTitle', 'Find your next favourite') : text('wishlistTitle', 'Your wishlist')} aria-label={utility === 'search' ? text('searchTitle', 'Find your next favourite') : text('wishlistTitle', 'Your wishlist')} titleFieldPath={utility === 'search' ? 'navigation.searchTitle' : 'navigation.wishlistTitle'} description={utility === 'wishlist' ? text('wishlistDescription') : undefined} descriptionFieldPath={utility === 'wishlist' ? 'navigation.wishlistDescription' : undefined} className="lumi-nav-dialog" onKeyDown={trapDialogFocus}>
+    <EditableDialog open={utility !== null} onClose={closeUtility} title={text('searchTitle', 'Find your next favourite')} aria-label={text('searchTitle', 'Find your next favourite')} titleFieldPath="navigation.searchTitle" className="lumi-nav-dialog" onKeyDown={trapDialogFocus}>
       <div ref={dialogContent}>
         {utility === 'search' && <>
           <label className="lumi-search-label" htmlFor={`${menuId}-search`}>{text('searchLabel', 'Search')}</label>

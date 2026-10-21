@@ -1,11 +1,11 @@
 'use client';
 
-import { useEffect, useId, useLayoutEffect, useRef, useState, type KeyboardEvent } from 'react';
+import { useEffect, useId, useLayoutEffect, useRef, useState, type KeyboardEvent, type ReactNode } from 'react';
 import { EditableImage, type ProductItem } from '@deneb-ui/ui';
 import { productPhotos } from '@/lib/living-room';
 import { withBasePath } from '@/lib/utils';
 
-export default function ProductPhotoGallery({ product, index, href, thumbnails = false }: { product: Pick<ProductItem, 'name' | 'imageUrl' | 'gallery' | 'colors'>; index: number; href?: string; thumbnails?: boolean }) {
+export default function ProductPhotoGallery({ product, index, href, thumbnails = false, imageAction }: { product: Pick<ProductItem, 'name' | 'imageUrl' | 'gallery' | 'colors'>; index: number; href?: string; thumbnails?: boolean; imageAction?: ReactNode }) {
   const photos = productPhotos(product, index);
   const colors = Array.isArray(product.colors) ? product.colors.flatMap((color, i) => typeof color === 'object' && color.hex && color.image ? [{ ...color, path: `products[${index}].colors[${i}].image` }] : []) : [];
   const slides = [...photos, ...colors.map(color => ({ src: color.image!, path: color.path }))];
@@ -100,13 +100,14 @@ export default function ProductPhotoGallery({ product, index, href, thumbnails =
   </div>;
   const arrows = <><button className="lr-photo-arrow lr-photo-prev" type="button" aria-label={`Previous photo of ${product.name}`} onClick={() => move(-1)}>‹</button><button className="lr-photo-arrow lr-photo-next" type="button" aria-label={`Next photo of ${product.name}`} onClick={() => move(1)}>›</button></>;
   const keyboard = (event: KeyboardEvent) => { if (event.key === 'ArrowRight' || event.key === 'ArrowLeft') { event.preventDefault(); move(event.key === 'ArrowRight' ? 1 : -1); } };
-  return <div ref={gallery} className={`lr-gallery${thumbnails ? ' lr-gallery-detail' : ''}`} data-preview-list-path={`products[${index}].gallery`}>
+  return <div ref={gallery} className={`lr-gallery${thumbnails ? ' lr-gallery-detail' : ''}${imageAction ? ' lr-gallery-has-action' : ''}`} data-preview-list-path={`products[${index}].gallery`}>
     <div className="lr-gallery-stage" id={photoId} onPointerEnter={event => {
       if (event.pointerType !== 'mouse' || thumbnails || open || photos.length < 2) return;
       move(1);
       setHovered(true);
     }} onPointerLeave={() => setHovered(false)} onFocusCapture={() => setHovered(false)} onKeyDown={keyboard}>
       {href ? <button ref={trigger} type="button" className="lr-photo-link" aria-label={`View images of ${product.name}`} aria-haspopup="dialog" onClick={() => { setHovered(false); setPopupSelected(activeIndex); previousIndex.current.popup = activeIndex; setOpen(true); }}>{images()}<span className="lr-view-product">View piece ↗</span></button> : <div className="lr-photo-main">{images()}</div>}
+      {imageAction}
       {photos.length > 1 && arrows}
       {/* Select the gallery list independently of the cover's scalar imageUrl field. */}
       <span className="lr-photo-counter" data-preview-list-path={`products[${index}].gallery`}>{photos.length === 0 ? '0 / 0' : activeIndex < photos.length ? `${activeIndex + 1} / ${photos.length}` : colors[activeIndex - photos.length]?.name}</span>

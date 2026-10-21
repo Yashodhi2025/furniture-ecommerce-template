@@ -103,6 +103,9 @@
 .lumi-product-card > .editable-card-body { padding:0 !important; }
 .lumi-product-info { padding-top:20px; }
 .lumi-product-card .deneb-product-card-media { position:relative; overflow:hidden; }
+.lumi-product-heart{position:absolute;top:12px;right:12px;z-index:4;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border:1px solid #5b493c22;border-radius:50%;background:#fffdfaf2;color:#5b493c;box-shadow:0 2px 8px #30271f0d;cursor:pointer;transition:background .2s,transform .2s}.lumi-product-heart:hover{background:#eee7dd;transform:scale(1.05)}.lumi-product-heart[aria-pressed=true]{background:#f3eee7;color:#5b493c}.lumi-product-heart:disabled{opacity:.45;cursor:not-allowed}.lr-gallery-has-action .lr-view-product{right:auto;left:16px}
+@media(max-width:480px){.lr-gallery-has-action .lr-photo-link .lr-view-product{left:10px;right:auto}.lumi-product-heart{top:10px;right:10px;width:34px;height:34px}}
+@media(prefers-reduced-motion:reduce){.lumi-product-heart{transition:none}.lumi-product-heart:hover{transform:none}}
 .lumi-product-badge { position:absolute; top:12px; left:12px; padding:6px 9px; }
 .lumi-product-prices { display:flex; align-items:baseline; gap:6px; margin-top:16px; font-size:12px; }
 .lumi-product-prices > s { margin-left:6px; color:#8b7d6e; }

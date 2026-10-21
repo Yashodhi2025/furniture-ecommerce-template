@@ -2,6 +2,7 @@
 
 import { EditableCard, EditableText, EditableImage, type ProductItem } from '@deneb-ui/ui';
 import { withBasePath } from '@/lib/utils';
+import ProductWishlistButton from './ProductWishlistButton';
 
 /** Furniture presentation only; catalog state remains in SiteDataProvider. */
 export default function FurnitureProductCard({ product, index, compact = false }: {product: ProductItem; index: number; compact?: boolean}) {
@@ -11,6 +12,7 @@ export default function FurnitureProductCard({ product, index, compact = false }
     <div className="deneb-product-card-media">
       <EditableImage id={`products[${index}].imageUrl`} data-preview-field-path={`products[${index}].imageUrl`} src={String(product.imageUrl ?? '')} alt={String(product.name ?? '')} loading="lazy" />
       <EditableText as="span" data-preview-field-path={`products[${index}].badge`} defaultValue={product.badge} className="lumi-product-badge" />
+      <ProductWishlistButton product={product} />
     </div>
     <div className="lumi-product-info">
       <EditableText as="p" data-preview-field-path={`products[${index}].category`} defaultValue={product.category} />

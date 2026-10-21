@@ -24,7 +24,9 @@
         "kitchen_dining",
         "office",
         "lighting_decor",
-        "sale"
+        "sale",
+        "cart",
+        "wishlist"
       ],
       "theme": {
         "primaryColor": "#5b493c",
@@ -86,11 +88,47 @@
       "kitchen_dining",
       "office",
       "lighting_decor",
-      "sale"
+      "sale",
+      "cart",
+      "wishlist"
     ],
     "requiredFeatures": []
   },
   "content": {
+    "wishlist": {
+      "title": "Your wishlist",
+      "description": "Keep the pieces you love close. Make room for them when you are ready.",
+      "emptyTitle": "A little inspiration starts here.",
+      "emptyDescription": "Save your favourite pieces using the heart on a product page. They will be waiting here for you.",
+      "continueShoppingLabel": "Continue Shopping",
+      "continueShoppingUrl": "/#shop",
+      "removeLabel": "Remove from Wishlist",
+      "removedMessage": "Removed from your wishlist."
+    },
+    "cart": {
+      "title": "Your shopping cart",
+      "description": "Thoughtful pieces, ready for your space.",
+      "emptyTitle": "Make room for something lovely.",
+      "emptyDescription": "Your cart is empty. Explore our collection to find your favourite pieces.",
+      "continueShoppingLabel": "Continue Shopping",
+      "continueShoppingUrl": "/#shop",
+      "summaryTitle": "Your collection",
+      "unitPriceLabel": "Unit price",
+      "removeLabel": "Remove",
+      "subtotalLabel": "Subtotal",
+      "totalLabel": "Total"
+    },
+    "productDetail": {
+      "brand": "LUMI LIVING",
+      "enquiryHeading": "Let’s make room for it.",
+      "enquiryText": "Talk to us about this piece, finishes and your space.",
+      "enquiryButtonLabel": "Enquire about this piece",
+      "enquiryButtonUrl": "/contact/",
+      "addToCartLabel": "Add to Cart",
+      "unavailableLabel": "Unavailable",
+      "wishlistLabel": "Wishlist",
+      "wishlistSavedLabel": "Saved to Wishlist"
+    },
     "common": {
       "websiteTitle": "LUMI LIVING",
       "shortDescription": "Considered furniture. Beautiful everyday living.",
