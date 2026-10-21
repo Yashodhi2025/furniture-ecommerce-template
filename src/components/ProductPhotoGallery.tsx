@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useId, useRef, useState, type KeyboardEvent } from 'react';
+import { useEffect, useId, useLayoutEffect, useRef, useState, type KeyboardEvent } from 'react';
 import { EditableImage, type ProductItem } from '@deneb-ui/ui';
 import { productPhotos } from '@/lib/living-room';
 import { withBasePath } from '@/lib/utils';
@@ -16,10 +16,38 @@ export default function ProductPhotoGallery({ product, index, href, thumbnails =
   const dialog = useRef<HTMLDialogElement>(null);
   const trigger = useRef<HTMLButtonElement>(null);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const gallery = useRef<HTMLDivElement>(null);
+  const previousIndex = useRef(0);
+  const slideDirection = useRef(1);
   const photoId = useId();
   const titleId = useId();
   const activeIndex = Math.min(selected, Math.max(0, slides.length - 1));
-  const move = (direction: number) => setSelected(value => (Math.min(value, Math.max(0, photos.length - 1)) + direction + photos.length) % Math.max(1, photos.length));
+  const move = (direction: number) => {
+    slideDirection.current = direction;
+    setSelected(value => (Math.min(value, Math.max(0, photos.length - 1)) + direction + photos.length) % Math.max(1, photos.length));
+  };
+  const choosePhoto = (value: number) => { slideDirection.current = 1; setSelected(value); };
+  useLayoutEffect(() => {
+    const previous = previousIndex.current;
+    previousIndex.current = activeIndex;
+    if (previous === activeIndex || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const animations: Animation[] = [];
+    gallery.current?.querySelectorAll('.lr-image-track').forEach(track => {
+      const outgoing = track.children[previous];
+      const incoming = track.children[activeIndex];
+      const direction = slideDirection.current;
+      const options: KeyframeAnimationOptions = { duration: 400, easing: 'ease-in-out' };
+      if (outgoing) animations.push(outgoing.animate([
+        { transform: 'translateX(0)', visibility: 'visible' },
+        { transform: `translateX(${-direction * 100}%)`, visibility: 'visible' },
+      ], options));
+      if (incoming) animations.push(incoming.animate([
+        { transform: `translateX(${direction * 100}%)` },
+        { transform: 'translateX(0)' },
+      ], options));
+    });
+    return () => animations.forEach(animation => animation.cancel());
+  }, [activeIndex, open]);
   const close = () => {
     if (closing) return;
     setClosing(true);
@@ -28,7 +56,7 @@ export default function ProductPhotoGallery({ product, index, href, thumbnails =
   useEffect(() => () => { if (closeTimer.current) clearTimeout(closeTimer.current); }, []);
   useEffect(() => {
     if (!hovered || open || thumbnails || photos.length < 2 || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    const timer = setInterval(() => setSelected(value => (value + 1) % photos.length), 1100);
+    const timer = setInterval(() => { slideDirection.current = 1; setSelected(value => (value + 1) % photos.length); }, 1500);
     return () => clearInterval(timer);
   }, [hovered, open, thumbnails, photos.length]);
   useEffect(() => {
@@ -40,23 +68,23 @@ export default function ProductPhotoGallery({ product, index, href, thumbnails =
     document.body.style.overflow = 'hidden';
     return () => { element.close(); document.body.style.overflow = overflow; opener?.focus(); };
   }, [open]);
-  const images = (popup = false) => <div className="lr-image-stack">
+  const images = (popup = false) => <div className="lr-image-stack"><div className="lr-image-track">
     {slides.length ? slides.map((photo, value) => <div key={`${photo.path}-${photo.src}`} className={`lr-image-layer${value === activeIndex ? ' is-active' : ''}`} aria-hidden={value !== activeIndex}>
       {popup ? <img src={withBasePath(photo.src)} alt={`${product.name} — view ${value + 1}`} /> : <EditableImage src={withBasePath(photo.src)} alt={`${product.name} — view ${value + 1}`} data-preview-field-path={photo.path} fit={thumbnails ? 'contain' : 'cover'} loading="lazy" />}
     </div>) : <img src={withBasePath('/placeholder.svg')} alt="Product image not yet available" />}
-  </div>;
+  </div></div>;
   const swatches = colors.length > 0 && <div className="lr-color-options" role="group" aria-label={`Color of ${product.name}`}>
-    {colors.map((color, value) => <button type="button" key={color.path} style={{ backgroundColor: color.hex }} title={color.name} aria-label={color.name} aria-pressed={activeIndex === photos.length + value} onClick={() => setSelected(photos.length + value)} />)}
+    {colors.map((color, value) => <button type="button" key={color.path} style={{ backgroundColor: color.hex }} title={color.name} aria-label={color.name} aria-pressed={activeIndex === photos.length + value} onClick={() => choosePhoto(photos.length + value)} />)}
     <span>{activeIndex >= photos.length ? colors[activeIndex - photos.length]?.name : 'Choose color'}</span>
   </div>;
   const previews = (popup = false) => <div className={popup || thumbnails ? 'lr-thumbnails' : 'lr-photo-dots'} aria-label={`Photos of ${product.name}`}>
-    {photos.map((photo, value) => <button type="button" key={photo.path} onClick={() => setSelected(value)} aria-label={`Show photo ${value + 1} of ${product.name}`} aria-pressed={activeIndex === value} aria-controls={popup ? undefined : photoId}>
+    {photos.map((photo, value) => <button type="button" key={photo.path} onClick={() => choosePhoto(value)} aria-label={`Show photo ${value + 1} of ${product.name}`} aria-pressed={activeIndex === value} aria-controls={popup ? undefined : photoId}>
       <img src={withBasePath(photo.src)} alt="" loading="lazy" />
     </button>)}
   </div>;
   const arrows = <><button className="lr-photo-arrow lr-photo-prev" type="button" aria-label={`Previous photo of ${product.name}`} onClick={() => move(-1)}>‹</button><button className="lr-photo-arrow lr-photo-next" type="button" aria-label={`Next photo of ${product.name}`} onClick={() => move(1)}>›</button></>;
   const keyboard = (event: KeyboardEvent) => { if (event.key === 'ArrowRight' || event.key === 'ArrowLeft') { event.preventDefault(); move(event.key === 'ArrowRight' ? 1 : -1); } };
-  return <div className={`lr-gallery${thumbnails ? ' lr-gallery-detail' : ''}`}>
+  return <div ref={gallery} className={`lr-gallery${thumbnails ? ' lr-gallery-detail' : ''}`}>
     <div className="lr-gallery-stage" id={photoId} onPointerEnter={event => {
       if (event.pointerType !== 'mouse' || thumbnails || open || photos.length < 2) return;
       move(1);

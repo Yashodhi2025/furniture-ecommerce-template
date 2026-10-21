@@ -11,12 +11,12 @@
 
 /* Keep gallery sizing independent of the absolutely positioned image layers. */
 .lumi-site .lr-collection,.lumi-site .lr-detail-page{width:100%;min-width:0}
-/* Persistent layers crossfade without replacing the visible image. */
+/* Animate the outgoing and incoming images directly for seamless forward loops. */
 .lr-photo-link{position:relative;padding:0;border:0;background:transparent;text-align:inherit;color:inherit;cursor:zoom-in}
 .lr-image-stack{position:relative;width:100%;height:100%;overflow:hidden}
-.lr-image-layer{position:absolute;inset:0;opacity:0;pointer-events:none;transform:translateX(-10%);transition:opacity 380ms ease-out,transform 460ms cubic-bezier(.22,1,.36,1)}
-.lr-image-layer.is-active{z-index:1;opacity:1;pointer-events:auto;transform:translateX(0);animation:lr-image-arrive 460ms cubic-bezier(.22,1,.36,1) both}
-@keyframes lr-image-arrive{from{opacity:0;transform:translateX(18%)}to{opacity:1;transform:translateX(0)}}
+.lr-image-track{position:relative;width:100%;height:100%}
+.lr-image-layer{position:absolute;inset:0;visibility:hidden;pointer-events:none}
+.lr-image-layer.is-active{visibility:visible;pointer-events:auto}
 .lr-gallery-stage .lr-image-layer img{animation:none;transform:scale(1);transition:transform 220ms cubic-bezier(.22,1,.36,1)}
 .lr-photo-link:hover .lr-image-layer img{transform:scale(1.035)}
 .lr-photo-dots button,.lr-thumbnails button{transition:border-color .3s,opacity .3s,transform .3s}
