@@ -6,6 +6,7 @@ import SiteChrome from "@/components/SiteChrome";
 import './globals.css';
 import '../fonts/deneb-fonts.css';
 import './lumi.css';
+import './typography.css';
 
 export async function generateMetadata(): Promise<Metadata> {
   const sd = siteData as any;

@@ -9,7 +9,7 @@
 .lumi-home .lumi-rooms .lumi-category-image img { height:100%; min-height:100%; }
 .lumi-home .lumi-rooms .lumi-category-card:first-child h3 { font-size:var(--deneb-font-size,32px) !important; }
 .lumi-home .lumi-room-number { position:absolute; left:14px; top:14px; display:flex; align-items:center; justify-content:center; width:30px; height:30px; border-radius:50%; background:#fbf9f5e8; color:#5b493c; font-size:10px; letter-spacing:.05em; }
-.lumi-home .lumi-category-card h3 { font-family:var(--deneb-font-family,Georgia,serif) !important; }
+.lumi-home .lumi-category-card h3 { font-family:var(--deneb-font-family,var(--heading-font,Inter,sans-serif)) !important; }
 .lumi-home .lumi-category-card .lumi-category-link { margin-top:auto; padding-top:12px !important; }
 .lumi-home .lumi-category-card p { margin-bottom:15px; }
 .lumi-home .lumi-arrivals { background:var(--deneb-section-bg,#f1ece4); }
@@ -25,7 +25,7 @@
 .lumi-home .lumi-product-card .deneb-product-card-media img { aspect-ratio:4/5 !important; transition:transform .55s ease; }
 .lumi-home .lumi-product-card:hover .deneb-product-card-media img { transform:scale(1.035); }
 .lumi-home .lumi-product-info { display:flex; flex-direction:column; flex:1; padding-top:20px; }
-.lumi-home .lumi-product-info h3 { margin:9px 0 10px; font-family:var(--deneb-font-family,Georgia,serif) !important; line-height:var(--deneb-line-height,1.25) !important; }
+.lumi-home .lumi-product-info h3 { margin:9px 0 10px; font-family:var(--deneb-font-family,var(--heading-font,Inter,sans-serif)) !important; line-height:var(--deneb-line-height,1.25) !important; }
 .lumi-home .lumi-product-info p { margin-bottom:0; }
 .lumi-home .lumi-product-info [data-preview-field-path$=".description"] { margin-bottom:18px; }
 .lumi-home .lumi-product-info [data-preview-field-path$=".description"] { font-size:var(--deneb-font-size,12px) !important; line-height:var(--deneb-line-height,1.8) !important; }
@@ -66,7 +66,7 @@
 .lumi-home .lumi-value-symbol { display:inline-flex; color:#8a6b50; margin-bottom:20px; }
 .lumi-home .lumi-home-values .lumi-value-card { border:0; border-right:1px solid var(--lumi-line); background:var(--deneb-card-bg,transparent); }
 .lumi-home .lumi-home-values .lumi-value-card:last-child { border:0; }
-.lumi-home .lumi-home-values .lumi-value-card h3 { font-family:var(--deneb-font-family,Georgia,serif) !important; }
+.lumi-home .lumi-home-values .lumi-value-card h3 { font-family:var(--deneb-font-family,var(--heading-font,Inter,sans-serif)) !important; }
 @keyframes lumi-look-in { from { opacity:.3; transform:translateY(5px); } to { opacity:1; transform:none; } }
 @media(min-width:1600px) { .lumi-home .lumi-home-story { margin-left:max(5%,calc((100vw - 1440px)/2)); margin-right:max(5%,calc((100vw - 1440px)/2)); } }
 @media(max-width:1100px) { .lumi-home .lumi-look-grid { grid-template-columns:minmax(0,1.35fr) minmax(250px,1fr); gap:24px; } .lumi-home .lumi-look-preview { padding:22px; } .lumi-home .lumi-look-scene figcaption { flex-direction:column; gap:8px; } }
