@@ -1,11 +1,12 @@
 'use client';
 
-import { useEffect, useId, useLayoutEffect, useRef, useState, type KeyboardEvent, type ReactNode } from 'react';
-import { EditableImage, type ProductItem } from '@deneb-ui/ui';
+import { useCallback, useEffect, useId, useLayoutEffect, useRef, useState, type KeyboardEvent, type PointerEvent, type ReactNode } from 'react';
+import { EditableImage, isPreviewValidation, useSiteData, type ProductItem } from '@deneb-ui/ui';
 import { productPhotos } from '@/lib/living-room';
 import { withBasePath } from '@/lib/utils';
 
 export default function ProductPhotoGallery({ product, index, href, thumbnails = false, imageAction }: { product: Pick<ProductItem, 'name' | 'imageUrl' | 'gallery' | 'colors'>; index: number; href?: string; thumbnails?: boolean; imageAction?: ReactNode }) {
+  const siteData = useSiteData();
   const photos = productPhotos(product, index);
   const colors = Array.isArray(product.colors) ? product.colors.flatMap((color, i) => typeof color === 'object' && color.hex && color.image ? [{ ...color, path: `products[${index}].colors[${i}].image` }] : []) : [];
   const slides = [...photos, ...colors.map(color => ({ src: color.image!, path: color.path }))];
@@ -18,12 +19,54 @@ export default function ProductPhotoGallery({ product, index, href, thumbnails =
   const trigger = useRef<HTMLButtonElement>(null);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const gallery = useRef<HTMLDivElement>(null);
+  const zoomSurface = useRef<HTMLDivElement>(null);
+  const zoomFrame = useRef<number | null>(null);
+  const visualEditing = useRef(false);
   const previousIndex = useRef({ card: 0, popup: 0 });
   const slideDirection = useRef(1);
   const photoId = useId();
   const titleId = useId();
   const activeIndex = Math.min(selected, Math.max(0, slides.length - 1));
   const popupIndex = Math.min(popupSelected, Math.max(0, slides.length - 1));
+  const resetZoom = useCallback(() => {
+    if (zoomFrame.current !== null) cancelAnimationFrame(zoomFrame.current);
+    zoomFrame.current = null;
+    zoomSurface.current?.removeAttribute('data-zoomed');
+  }, []);
+  const followCursor = (event: PointerEvent<HTMLDivElement>) => {
+    if (!thumbnails || open || event.pointerType !== 'mouse' || visualEditing.current || isPreviewValidation(siteData) || !window.matchMedia('(min-width: 751px) and (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)').matches || document.querySelector('[data-fivora-edit-badge], [data-fivora-local-selected-target], [data-marketplace-local-selected-target]')) {
+      resetZoom();
+      return;
+    }
+    const surface = event.currentTarget;
+    const bounds = surface.getBoundingClientRect();
+    if (!bounds.width || !bounds.height) return;
+    const x = Math.min(100, Math.max(0, (event.clientX - bounds.left) / bounds.width * 100));
+    const y = Math.min(100, Math.max(0, (event.clientY - bounds.top) / bounds.height * 100));
+    if (zoomFrame.current !== null) cancelAnimationFrame(zoomFrame.current);
+    zoomFrame.current = requestAnimationFrame(() => {
+      surface.style.setProperty('--lr-zoom-x', `${x}%`);
+      surface.style.setProperty('--lr-zoom-y', `${y}%`);
+      surface.setAttribute('data-zoomed', 'true');
+      zoomFrame.current = null;
+    });
+  };
+  useEffect(() => {
+    if (!thumbnails) return;
+    const preference = window.matchMedia('(min-width: 751px) and (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)');
+    const editing = (event: MessageEvent) => {
+      if (event.source !== window.parent || !['FIVORA_PREVIEW_EDIT_MODE', 'MARKETPLACE_PREVIEW_EDIT_MODE'].includes(event.data?.type)) return;
+      visualEditing.current = Boolean(event.data.editMode);
+      resetZoom();
+    };
+    preference.addEventListener('change', resetZoom);
+    window.addEventListener('message', editing);
+    return () => {
+      preference.removeEventListener('change', resetZoom);
+      window.removeEventListener('message', editing);
+      resetZoom();
+    };
+  }, [thumbnails, resetZoom]);
   const move = (direction: number) => {
     slideDirection.current = direction;
     const update = open ? setPopupSelected : setSelected;
@@ -31,6 +74,7 @@ export default function ProductPhotoGallery({ product, index, href, thumbnails =
   };
   const choosePhoto = (value: number) => { slideDirection.current = 1; (open ? setPopupSelected : setSelected)(value); };
   useLayoutEffect(() => {
+    resetZoom();
     const previous = previousIndex.current;
     previousIndex.current = { card: activeIndex, popup: popupIndex };
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
@@ -54,7 +98,7 @@ export default function ProductPhotoGallery({ product, index, href, thumbnails =
       ], options));
     });
     return () => animations.forEach(animation => animation.cancel());
-  }, [activeIndex, popupIndex, open]);
+  }, [activeIndex, popupIndex, open, resetZoom]);
   const close = () => {
     if (closing) return;
     setClosing(true);
@@ -106,7 +150,7 @@ export default function ProductPhotoGallery({ product, index, href, thumbnails =
       move(1);
       setHovered(true);
     }} onPointerLeave={() => setHovered(false)} onFocusCapture={() => setHovered(false)} onKeyDown={keyboard}>
-      {href ? <button ref={trigger} type="button" className="lr-photo-link" aria-label={`View images of ${product.name}`} aria-haspopup="dialog" onClick={() => { setHovered(false); setPopupSelected(activeIndex); previousIndex.current.popup = activeIndex; setOpen(true); }}>{images()}<span className="lr-view-product">View piece ↗</span></button> : <div className="lr-photo-main">{images()}</div>}
+      {href ? <button ref={trigger} type="button" className="lr-photo-link" aria-label={`View images of ${product.name}`} aria-haspopup="dialog" onClick={() => { setHovered(false); setPopupSelected(activeIndex); previousIndex.current.popup = activeIndex; setOpen(true); }}>{images()}<span className="lr-view-product">View piece ↗</span></button> : <div ref={zoomSurface} className="lr-photo-main" onPointerEnter={followCursor} onPointerMove={followCursor} onPointerLeave={resetZoom} onPointerCancel={resetZoom} onPointerDown={resetZoom} onFocusCapture={resetZoom}>{images()}</div>}
       {imageAction}
       {photos.length > 1 && arrows}
       {/* Select the gallery list independently of the cover's scalar imageUrl field. */}
