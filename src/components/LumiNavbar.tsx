@@ -1,7 +1,7 @@
 'use client';
 
-import { useEffect, useId, useRef, useState, type KeyboardEvent } from 'react';
-import { DENEB_PREVIEW_FOCUS_MESSAGE, LEGACY_PREVIEW_FOCUS_MESSAGE, PREVIEW_FOCUS_MESSAGE, EditableDialog, EditableIcon, EditableImage, EditableText } from '@deneb-ui/ui';
+import { useEffect, useId, useRef, useState, type CSSProperties, type KeyboardEvent } from 'react';
+import { DENEB_PREVIEW_FOCUS_MESSAGE, LEGACY_PREVIEW_FOCUS_MESSAGE, PREVIEW_FOCUS_MESSAGE, EditableCard, EditableDialog, EditableIcon, EditableImage, EditableSection, EditableText } from '@deneb-ui/ui';
 import { contentList, contentObject, contentText, useProducts, useSiteData } from '@/lib/siteDataContext';
 import { withBasePath } from '@/lib/utils';
 import './LumiNavbar.css';
@@ -58,7 +58,10 @@ export default function LumiNavbar({ onCartClick }: { onCartClick: () => void })
     // Reveal the target before Deneb scrolls to a field selected in the Inspector.
     const focusField = (event: MessageEvent) => {
       if (event.source !== window.parent || !event.data || ![PREVIEW_FOCUS_MESSAGE, DENEB_PREVIEW_FOCUS_MESSAGE, LEGACY_PREVIEW_FOCUS_MESSAGE].includes(event.data.type)) return;
-      const match = typeof event.data.fieldPath === 'string' && /^navigation\.categories\[(\d+)\](?:\.items\[(\d+)\])?/.exec(event.data.fieldPath);
+      const fieldPath = typeof event.data.fieldPath === 'string' ? event.data.fieldPath : '';
+      const match = /^navigation\.categories\[(\d+)\](?:\.items\[(\d+)\])?/.exec(fieldPath)
+        || /^navigation-dropdown-(\d+)\.section/.exec(fieldPath)
+        || (fieldPath === 'navigation.dropdownBackgroundColor' ? ['shared-dropdown', '0'] : null);
       if (!match) return;
       if (closeTimer.current) clearTimeout(closeTimer.current);
       setMobileOpen(!desktop.matches); setOpenCategory(Number(match[1]));
@@ -124,7 +127,7 @@ export default function LumiNavbar({ onCartClick }: { onCartClick: () => void })
   );
 
   return <>
-    <header className="lumi-navbar" ref={header} onKeyDown={handleKeys}>
+    <header className="lumi-navbar" ref={header} onKeyDown={handleKeys} style={{ '--lumi-dropdown-background': text('dropdownBackgroundColor', '#eee7dd') } as CSSProperties}>
       <div className="lumi-navbar-top">
         <button ref={hamburger} className="lumi-nav-icon lumi-hamburger" type="button" aria-label={mobileOpen ? 'Close navigation' : 'Open navigation'} aria-expanded={mobileOpen} aria-controls={menuId} onClick={() => { cancelClose(); setMobileOpen(!mobileOpen); setOpenCategory(null); }} data-preview-static="navigation-disclosure">
           <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">{mobileOpen ? <path d="m6 6 12 12M6 18 18 6" /> : <path d="M3 6h18M3 12h18M3 18h18" />}</svg>
@@ -151,6 +154,8 @@ export default function LumiNavbar({ onCartClick }: { onCartClick: () => void })
               onMouseEnter={() => { if (isDesktopHover()) selectCategory(categoryIndex); }}
               onMouseLeave={event => {
                 if (!isDesktopHover() || event.currentTarget.contains(document.activeElement)) return;
+                // Keep the selected dropdown visible while adjusting its colour in Local Lab.
+                if (event.currentTarget.querySelector('[data-fivora-local-selected-target], [data-marketplace-local-selected-target]')) return;
                 cancelClose(); closeTimer.current = setTimeout(() => setOpenCategory(null), 160);
               }}
               onBlur={event => { if (!event.currentTarget.contains(event.relatedTarget)) setOpenCategory(current => current === categoryIndex ? null : current); }}>
@@ -171,7 +176,8 @@ export default function LumiNavbar({ onCartClick }: { onCartClick: () => void })
                 <EditableText as="span" data-preview-field-path={`navigation.categories[${categoryIndex}].label`} defaultValue={contentText(category.label)} placeholder="Collection" />
                 <svg className="lumi-nav-chevron" viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" aria-hidden="true"><path d="m4 6 4 4 4-4" /></svg>
               </button>
-              <div className="lumi-mega-panel" id={panelId} inert={!isOpen} aria-labelledby={`${panelId}-trigger`}>
+              <EditableSection as="div" name={`navigation-dropdown-${categoryIndex}`} padding="none" className="lumi-mega-panel" id={panelId} inert={!isOpen} aria-labelledby={`${panelId}-trigger`}>
+                <div className="lumi-mega-surface" data-preview-field-path="navigation.dropdownBackgroundColor">
                 <div className="lumi-mega-copy">
                   <EditableText as="p" className="lumi-mega-description" data-preview-field-path={`navigation.categories[${categoryIndex}].description`} defaultValue={contentText(category.description)} />
                   <ul className="lumi-mega-items" data-preview-list-path={`navigation.categories[${categoryIndex}].items`}>
@@ -186,12 +192,13 @@ export default function LumiNavbar({ onCartClick }: { onCartClick: () => void })
                   <a className="lumi-mega-browse" href={withBasePath(contentText(category.browseUrl) || '/#shop')} data-preview-field-path={`navigation.categories[${categoryIndex}].browseUrl`} onClick={closeMenus}><EditableText as="span" data-preview-field-path={`navigation.categories[${categoryIndex}].browseLabel`} defaultValue={contentText(category.browseLabel)} placeholder="Explore the collection" /><span aria-hidden="true">&#8594;</span></a>
                 </div>
                 <div className="lumi-mega-imagery" data-preview-list-path={`navigation.categories[${categoryIndex}].items`}>
-                  {items.map((item, itemIndex) => <figure className={`lumi-mega-figure${selected === itemIndex ? ' is-current' : ''}`} key={contentText(item.id) || itemIndex} data-preview-item-path={`navigation.categories[${categoryIndex}].items[${itemIndex}]`} inert={selected !== itemIndex}>
+                  {items.map((item, itemIndex) => <EditableCard as="figure" itemPath={`navigation.categories[${categoryIndex}].items[${itemIndex}]`} item={{}} radius="lg" padding="none" className={`lumi-mega-figure${selected === itemIndex ? ' is-current' : ''}`} key={contentText(item.id) || itemIndex} data-preview-item-path={`navigation.categories[${categoryIndex}].items[${itemIndex}]`} inert={selected !== itemIndex}>
                     <EditableImage data-preview-field-path={`navigation.categories[${categoryIndex}].items[${itemIndex}].imageUrl`} src={contentText(item.imageUrl)} alt={contentText(item.label)} loading="eager" />
                     <figcaption><EditableText as="span" data-preview-field-path={`navigation.categories[${categoryIndex}].items[${itemIndex}].label`} defaultValue={contentText(item.label)} /></figcaption>
-                  </figure>)}
+                  </EditableCard>)}
                 </div>
-              </div>
+                </div>
+              </EditableSection>
             </li>;
           })}
         </ul>

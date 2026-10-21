@@ -811,6 +811,11 @@
         "label": "Furniture navigation",
         "fields": [
           {
+            "key": "dropdownBackgroundColor",
+            "label": "Subcategory box background",
+            "type": "color"
+          },
+          {
             "key": "homeLabel",
             "label": "Home label",
             "type": "text"

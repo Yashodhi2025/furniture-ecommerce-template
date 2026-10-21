@@ -59,12 +59,12 @@
   letter-spacing:var(--deneb-letter-spacing,-.015em) !important;
 }
 .lumi-site .lumi-mega-description {
-  font-size:var(--deneb-font-size,clamp(24px,2.3vw,32px)) !important;
-  font-weight:var(--deneb-font-weight,500) !important;
-  letter-spacing:var(--deneb-letter-spacing,-.03em) !important;
+  font-size:var(--deneb-font-size,15px) !important;
+  font-weight:var(--deneb-font-weight,400) !important;
+  letter-spacing:var(--deneb-letter-spacing,0) !important;
 }
 .lumi-site .lumi-mega-link span {
-  font-size:var(--deneb-font-size,16px) !important;
+  font-size:var(--deneb-font-size,18px) !important;
   font-weight:var(--deneb-font-weight,500) !important;
 }
 .lumi-site .lumi-mega-browse span,

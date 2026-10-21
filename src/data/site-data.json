@@ -431,6 +431,7 @@
       }
     ],
     "navigation": {
+      "dropdownBackgroundColor": "#eee7dd",
       "homeLabel": "Home",
       "homeUrl": "/",
       "searchLabel": "Search furniture",
