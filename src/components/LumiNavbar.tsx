@@ -7,6 +7,7 @@ import { DENEB_PREVIEW_FOCUS_MESSAGE, LEGACY_PREVIEW_FOCUS_MESSAGE, PREVIEW_FOCU
 import { contentList, contentObject, contentText, useProducts, useSiteData } from '@/lib/siteDataContext';
 import { withBasePath } from '@/lib/utils';
 import './LumiNavbar.css';
+import RotatingAnnouncementBar from './RotatingAnnouncementBar';
 
 /** Presentation-only navigation. Collection destinations and imagery belong to site data. */
 export default function LumiNavbar({ onCartClick }: { onCartClick: () => void }) {
@@ -144,6 +145,7 @@ export default function LumiNavbar({ onCartClick }: { onCartClick: () => void })
           <EditableImage id="common.logoUrl" src={contentText(common.logoUrl)} alt="" />
           <EditableText as="span" fieldPath="common.websiteTitle" defaultValue={contentText(common.websiteTitle)} placeholder="LUMI LIVING" />
         </a>
+        <RotatingAnnouncementBar />
         <div className="lumi-nav-utilities">
           <button className="lumi-nav-icon" type="button" aria-label={text('searchLabel', 'Search')} onClick={event => openUtility('search', event.currentTarget)} data-preview-static="search-dialog-trigger"><EditableIcon name="search" size={21} strokeWidth={1.5} aria-hidden="true" /></button>
           <button className="lumi-nav-icon" type="button" aria-label={text('wishlistLabel', 'Wishlist')} onClick={event => openUtility('wishlist', event.currentTarget)} data-preview-static="wishlist-dialog-trigger"><EditableIcon name="heart" size={21} strokeWidth={1.5} aria-hidden="true" /></button>

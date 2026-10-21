@@ -37,7 +37,8 @@
       "home.look.hotspots[*].id",
       "home.look.hotspots[*].productId",
       "home.look.hotspots[*].x",
-      "home.look.hotspots[*].y"
+      "home.look.hotspots[*].y",
+      "announcements.enabled"
     ]
   },
   "siteDataFile": "src/data/site-data.json",
@@ -1048,6 +1049,32 @@
             "key": "description",
             "type": "textarea",
             "label": "Subtitle"
+          }
+        ]
+      },
+      {
+        "id": "announcements",
+        "path": "announcements",
+        "type": "object",
+        "label": "Rotating announcements",
+        "fields": [
+          {
+            "key": "enabled",
+            "type": "boolean",
+            "label": "Show announcement bar"
+          },
+          {
+            "key": "messages",
+            "type": "list",
+            "label": "Promotional messages",
+            "minItems": 0,
+            "fields": [
+              {
+                "key": "text",
+                "type": "text",
+                "label": "Message"
+              }
+            ]
           }
         ]
       }

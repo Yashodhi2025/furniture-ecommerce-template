@@ -686,6 +686,20 @@
         "title": "Furniture Sale",
         "description": "Considered design, a little less."
       }
+    },
+    "announcements": {
+      "enabled": true,
+      "messages": [
+        {
+          "text": "Thoughtful pieces. Everyday comfort."
+        },
+        {
+          "text": "Create a softer place to land."
+        },
+        {
+          "text": "Make room for good company."
+        }
+      ]
     }
   },
   "media": {},
