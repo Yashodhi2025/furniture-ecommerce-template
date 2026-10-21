@@ -66,6 +66,11 @@
       "id": "contact",
       "label": "Contact",
       "route": "/contact"
+    },
+    {
+      "id": "living_room",
+      "label": "Living Room",
+      "route": "/collections/living-room"
     }
   ],
   "editorSchema": {
@@ -801,6 +806,16 @@
             "key": "homeCollection",
             "label": "Home collection (new-arrivals / best-sellers)",
             "type": "text"
+          },
+          {
+            "key": "gallery",
+            "type": "list",
+            "label": "Additional product photos",
+            "minItems": 0,
+            "itemField": {
+              "type": "image",
+              "label": "Product photo"
+            }
           }
         ]
       },

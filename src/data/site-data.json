@@ -18,7 +18,8 @@
         "home",
         "about_us",
         "services",
-        "contact"
+        "contact",
+        "living_room"
       ],
       "theme": {
         "primaryColor": "#5b493c",
@@ -74,7 +75,8 @@
       "home",
       "about_us",
       "services",
-      "contact"
+      "contact",
+      "living_room"
     ],
     "requiredFeatures": []
   },
@@ -120,7 +122,7 @@
           "description": "Slow down. Settle in.",
           "imageUrl": "/images/living-room.jpg",
           "linkLabel": "Explore living",
-          "linkUrl": "/#shop"
+          "linkUrl": "/collections/living-room/"
         },
         {
           "id": "bedroom",
@@ -308,7 +310,11 @@
         "ctaUrl": "/products/detail/?id=sora-sofa",
         "details": "Generous proportions, soft linen tones, and a relaxed silhouette.",
         "originalPrice": 210000,
-        "homeCollection": "new-arrivals"
+        "homeCollection": "new-arrivals",
+        "gallery": [
+          "/images/products/sofa-angle.webp",
+          "/images/products/sofa-detail.webp"
+        ]
       },
       {
         "id": "nola-chair",
@@ -325,7 +331,11 @@
         "ctaUrl": "/products/detail/?id=nola-chair",
         "details": "An inviting accent for a reading corner or a quiet afternoon.",
         "originalPrice": 78000,
-        "homeCollection": "new-arrivals"
+        "homeCollection": "new-arrivals",
+        "gallery": [
+          "/images/products/chair-angle.webp",
+          "/images/products/chair-detail.webp"
+        ]
       },
       {
         "id": "elio-table",
@@ -359,7 +369,11 @@
         "ctaUrl": "/products/detail/?id=mira-storage",
         "details": "A considered home for the objects you love to keep close.",
         "originalPrice": 110000,
-        "homeCollection": "new-arrivals"
+        "homeCollection": "new-arrivals",
+        "gallery": [
+          "/images/products/storage-angle.webp",
+          "/images/products/storage-detail.webp"
+        ]
       },
       {
         "id": "aster-bed",
@@ -410,7 +424,11 @@
         "ctaUrl": "/products/detail/?id=arc-lamp",
         "details": "A clean silhouette and a warm accent for a desk or reading corner.",
         "originalPrice": 22000,
-        "homeCollection": "best-sellers"
+        "homeCollection": "best-sellers",
+        "gallery": [
+          "/images/products/lamp-angle.webp",
+          "/images/products/lamp-detail.webp"
+        ]
       },
       {
         "id": "studio-workspace",
@@ -448,30 +466,30 @@
           "label": "Living Room",
           "description": "Thoughtful pieces. Everyday comfort.",
           "browseLabel": "Explore living room",
-          "browseUrl": "/#shop",
+          "browseUrl": "/collections/living-room/",
           "items": [
             {
               "id": "sofas",
               "label": "Sofas",
-              "url": "/#shop",
+              "url": "/collections/living-room/?category=Sofas",
               "imageUrl": "/images/sofa.jpg"
             },
             {
               "id": "accent-chairs",
               "label": "Accent Chairs",
-              "url": "/#shop",
+              "url": "/collections/living-room/?category=Chairs",
               "imageUrl": "/images/chair.jpg"
             },
             {
               "id": "side-tables",
               "label": "Coffee & Side Tables",
-              "url": "/#shop",
+              "url": "/collections/living-room/?category=Coffee%20Tables",
               "imageUrl": "/images/table.jpg"
             },
             {
               "id": "living-storage",
               "label": "Cabinets & Storage",
-              "url": "/#shop",
+              "url": "/collections/living-room/?category=Storage",
               "imageUrl": "/images/storage.jpg"
             }
           ]

@@ -1,11 +1,14 @@
 'use client';
 
-import { PlatformProductDetail } from '@deneb-ui/ui';
+import { EditableProductDetail, PlatformProductDetail } from '@deneb-ui/ui';
+import LivingProductDetail from '@/components/LivingProductDetail';
+import '@/app/furniture-collection.css';
 
 export default function ProductDetailPage() {
   return (
     <PlatformProductDetail
       backHref="/"
+      renderProduct={(product, context) => product.gallery?.length ? <LivingProductDetail product={product} index={context.productIndex} /> : <EditableProductDetail product={product} sectionPath={context.sectionPath} />}
       loadingFallback={
         <div
           role="status"

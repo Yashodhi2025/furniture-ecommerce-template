@@ -12,7 +12,7 @@ function checkFields(value, fields, prefix) {
   for (const [key, item] of Object.entries(value)) {
     const field = fields.find(field => field.key === key);
     assert.ok(field, `Missing Inspector field: ${prefix}.${key}`);
-    if (Array.isArray(item)) item.forEach(child => checkFields(child, field.fields, `${prefix}.${key}[*]`));
+    if (Array.isArray(item)) item.forEach(child => typeof child === 'object' && child !== null ? checkFields(child, field.fields, `${prefix}.${key}[*]`) : assert.ok(field.itemField, `Missing list item control: ${prefix}.${key}`));
     else if (item && typeof item === 'object') checkFields(item, field.fields, `${prefix}.${key}`);
   }
 }

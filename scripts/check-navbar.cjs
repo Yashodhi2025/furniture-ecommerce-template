@@ -22,10 +22,11 @@ for (const category of navigation.categories) {
   assert.equal(new Set(category.items.map(item => item.id)).size, category.items.length);
   for (const item of category.items) {
     assert.ok(fs.existsSync(path.join(root, 'public', item.imageUrl)), `Missing preview image: ${item.imageUrl}`);
-    assert.equal(item.url, '/#shop', 'Phase 1 links must use the existing collection, not unimplemented category pages');
+    if (category.id === 'living-room') assert.ok(item.url.startsWith('/collections/living-room/'));
+    else assert.equal(item.url, '/#shop', 'Other collections retain their current destination');
     assert.ok(item.label.trim());
   }
-  assert.equal(category.browseUrl, '/#shop');
+  assert.equal(category.browseUrl, category.id === 'living-room' ? '/collections/living-room/' : '/#shop');
 }
 const chrome = fs.readFileSync(path.join(root, 'src/components/SiteChrome.tsx'), 'utf8');
 assert.match(chrome, /id:'about_us',label:'About',route:'\/about_us\/'/);

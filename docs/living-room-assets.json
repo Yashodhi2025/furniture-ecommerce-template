@@ -1,0 +1,49 @@
+{
+  "tool": "Built-in image_gen.imagegen",
+  "purpose": "Illustrative alternate views of existing LUMI LIVING sample products",
+  "encoding": "Generated PNG encoded to WebP at quality 82; no composition changes",
+  "sharedPromptPrefix": "Create ONE photorealistic landscape 3:2 premium furniture catalog photo. Reference image is the exact product to preserve. ",
+  "sharedPromptSuffix": " Soft natural daylight and realistic materials, elegant restrained LUMI LIVING demo catalog styling. Single photograph, no text, logos, watermark, collage or other products.",
+  "assets": [
+    {
+      "path": "public/images/products/sofa-angle.webp",
+      "reference": "public/images/sofa.jpg",
+      "fullPrompt": "Create ONE photorealistic e-commerce product photo, landscape 3:2. Reference is the exact teal velvet sofa in the attached local image. Preserve the sofa identity exactly: teal emerald velvet, two large back cushions, two cylindrical bolster pillows, straight low squared arms, single bench seat and four tapered honey-brown wooden legs. Photograph it from a three-quarter left side angle, all of the sofa visible with generous breathing room, against a warm ivory plaster wall and pale oak floor. Soft natural daylight, premium LUMI LIVING furniture catalog style. No text, logos, watermark, other furniture or collage. This is an alternate demo product angle of the reference piece."
+    },
+    {
+      "path": "public/images/products/sofa-detail.webp",
+      "reference": "public/images/sofa.jpg",
+      "subjectPrompt": "The exact emerald teal velvet sofa in reference, close-up of its right low square arm, cylindrical bolster cushion, rich velvet seam and tapered honey oak leg. Keep full visual identity. Warm ivory wall and pale oak floor. Detail photography."
+    },
+    {
+      "path": "public/images/products/chair-angle.webp",
+      "reference": "public/images/chair.jpg",
+      "subjectPrompt": "The exact ivory cream button-tufted accent chair in reference with its curving fan-shaped backrest and distinctive white turned spindle front legs. Three-quarter right side view, entire chair visible including all legs. Preserve exact chair identity. Warm pale ivory studio background."
+    },
+    {
+      "path": "public/images/products/chair-detail.webp",
+      "reference": "public/images/chair.jpg",
+      "subjectPrompt": "The exact ivory cream button-tufted accent chair in reference. Close-up photograph of its fan-shaped upholstered backrest, fabric buttons, piping and soft rounded seat cushion, preserving its cream fabric and exact identity. Warm pale ivory studio background."
+    },
+    {
+      "path": "public/images/products/storage-angle.webp",
+      "reference": "public/images/storage.jpg",
+      "subjectPrompt": "The exact floating light natural oak cabinet in reference with two tall wooden slab doors flanking two narrow central columns of open square shelving. Full cabinet visible at three-quarter left angle on warm pink beige plaster wall. Preserve exact cabinet structure, proportions, wood tone and identity. Style open shelves with folded neutral linens as reference."
+    },
+    {
+      "path": "public/images/products/storage-detail.webp",
+      "reference": "public/images/storage.jpg",
+      "subjectPrompt": "The exact light oak floating cabinet in reference. Close-up photo of oak wood grain, edge of one tall closed door and adjacent open central shelves with folded neutral textiles. Keep same light wood and exact cabinet identity. Warm pink beige plaster wall."
+    },
+    {
+      "path": "public/images/products/lamp-angle.webp",
+      "reference": "public/images/navigation/lighting.jpg",
+      "subjectPrompt": "The exact charcoal grey metal task lamp in reference with conical flared shade, pivot bracket and star-shaped knob at side. Three-quarter opposite side view of the lamp head and upper stem against warm white plaster. Do not invent a lamp base that is not visible in reference. Preserve lamp identity."
+    },
+    {
+      "path": "public/images/products/lamp-detail.webp",
+      "reference": "public/images/navigation/lighting.jpg",
+      "subjectPrompt": "The exact charcoal grey metal task lamp in reference. Close-up macro photo of the angular shade, pivot bracket and star-shaped side tightening knob. Warm ivory studio backdrop, soft daylight, same charcoal metal finish and exact lamp identity."
+    }
+  ]
+}
