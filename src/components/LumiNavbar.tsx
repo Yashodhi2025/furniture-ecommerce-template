@@ -3,11 +3,12 @@
 import { useEffect, useId, useRef, useState, type CSSProperties, type KeyboardEvent } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { DENEB_PREVIEW_FOCUS_MESSAGE, LEGACY_PREVIEW_FOCUS_MESSAGE, PREVIEW_FOCUS_MESSAGE, EditableCard, EditableDialog, EditableIcon, EditableImage, EditableSection, EditableText } from '@deneb-ui/ui';
-import { contentList, contentObject, contentText, useProducts, useSiteData } from '@/lib/siteDataContext';
+import { DENEB_PREVIEW_FOCUS_MESSAGE, LEGACY_PREVIEW_FOCUS_MESSAGE, PREVIEW_FOCUS_MESSAGE, EditableCard, EditableIcon, EditableImage, EditableSection, EditableText } from '@deneb-ui/ui';
+import { contentList, contentObject, contentText, useSiteData } from '@/lib/siteDataContext';
 import { withBasePath } from '@/lib/utils';
 import './LumiNavbar.css';
 import RotatingAnnouncementBar from './RotatingAnnouncementBar';
+import SearchStudio from './SearchStudio';
 
 /** Presentation-only navigation. Collection destinations and imagery belong to site data. */
 export default function LumiNavbar() {
@@ -17,16 +18,13 @@ export default function LumiNavbar() {
   const common = contentObject(content.common);
   const navigation = contentObject(content.navigation);
   const categories = contentList(navigation.categories).map(contentObject);
-  const products = useProducts();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [openCategory, setOpenCategory] = useState<number | null>(null);
   const [previews, setPreviews] = useState<Record<number, number>>({});
-  const [utility, setUtility] = useState<'search' | null>(null);
-  const [query, setQuery] = useState('');
+  const [searchOpen, setSearchOpen] = useState(false);
   const header = useRef<HTMLElement>(null);
   const hamburger = useRef<HTMLButtonElement>(null);
   const utilityOpener = useRef<HTMLElement | null>(null);
-  const dialogContent = useRef<HTMLDivElement>(null);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const pendingLinkFocus = useRef<{ index: number; last: boolean } | null>(null);
   const menuId = useId();
@@ -68,6 +66,11 @@ export default function LumiNavbar() {
     const focusField = (event: MessageEvent) => {
       if (event.source !== window.parent || !event.data || ![PREVIEW_FOCUS_MESSAGE, DENEB_PREVIEW_FOCUS_MESSAGE, LEGACY_PREVIEW_FOCUS_MESSAGE].includes(event.data.type)) return;
       const fieldPath = typeof event.data.fieldPath === 'string' ? event.data.fieldPath : '';
+      if (fieldPath.startsWith('navigation.search')) {
+        setOpenCategory(null); setMobileOpen(false); setSearchOpen(true);
+        utilityOpener.current = header.current?.querySelector<HTMLButtonElement>('[data-preview-static="search-dialog-trigger"]') ?? null;
+        return;
+      }
       const match = /^navigation\.categories\[(\d+)\](?:\.items\[(\d+)\])?/.exec(fieldPath)
         || /^navigation-dropdown-(\d+)\.section/.exec(fieldPath)
         || (fieldPath === 'navigation.dropdownBackgroundColor' ? ['shared-dropdown', '0'] : null);
@@ -87,30 +90,12 @@ export default function LumiNavbar() {
     };
   }, []);
 
-  useEffect(() => {
-    if (!utility) return;
-    const timer = setTimeout(() => {
-      const dialog = dialogContent.current?.closest('[role="dialog"]');
-      const input = dialogContent.current?.querySelector<HTMLInputElement>('input');
-      (input ?? dialog?.querySelector<HTMLElement>('button'))?.focus();
-    }, 0);
-    return () => clearTimeout(timer);
-  }, [utility]);
-
-  const closeUtility = () => {
-    setUtility(null); setQuery('');
+  const closeSearchStudio = () => {
+    setSearchOpen(false);
     requestAnimationFrame(() => utilityOpener.current?.focus());
   };
-  const openUtility = (kind: 'search', opener: HTMLElement) => {
-    closeMenus(); utilityOpener.current = opener; setUtility(kind);
-  };
-  const trapDialogFocus = (event: KeyboardEvent<HTMLDivElement>) => {
-    if (event.key !== 'Tab') return;
-    const dialog = event.currentTarget.querySelector('[role="dialog"]') ?? event.currentTarget;
-    const focusable = [...dialog.querySelectorAll<HTMLElement>('button, a[href], input, [tabindex="0"]')];
-    const first = focusable[0]; const last = focusable.at(-1);
-    if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last?.focus(); }
-    else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first?.focus(); }
+  const openSearchStudio = (opener: HTMLElement) => {
+    closeMenus(); utilityOpener.current = opener; setSearchOpen(true);
   };
 
   const handleKeys = (event: KeyboardEvent<HTMLElement>) => {
@@ -131,10 +116,6 @@ export default function LumiNavbar() {
     }
   };
 
-  const matches = products.filter(product =>
-    `${product.name} ${product.category ?? ''}`.toLowerCase().includes(query.trim().toLowerCase()),
-  );
-
   return <>
     <header className="lumi-navbar" ref={header} onKeyDown={handleKeys} data-preview-field-path="navigation.dropdownBackgroundColor" style={{ '--lumi-dropdown-background': text('dropdownBackgroundColor', '#eee7dd') } as CSSProperties}>
       <div className="lumi-navbar-top">
@@ -147,7 +128,7 @@ export default function LumiNavbar() {
         </a>
         <RotatingAnnouncementBar />
         <div className="lumi-nav-utilities">
-          <button className="lumi-nav-icon" type="button" aria-label={text('searchLabel', 'Search')} onClick={event => openUtility('search', event.currentTarget)} data-preview-static="search-dialog-trigger"><EditableIcon name="search" size={21} strokeWidth={1.5} aria-hidden="true" /></button>
+          <button className="lumi-nav-icon" type="button" aria-label={text('searchLabel', 'Search')} aria-haspopup="dialog" aria-expanded={searchOpen} aria-controls={`${menuId}-search-studio`} onClick={event => openSearchStudio(event.currentTarget)} data-preview-static="search-dialog-trigger"><EditableIcon name="search" size={21} strokeWidth={1.5} aria-hidden="true" /></button>
           <Link href="/wishlist/" className="lumi-nav-icon" aria-label={text('wishlistLabel', 'Wishlist')} aria-current={isCurrentPage('/wishlist/') ? 'page' : undefined} onClick={closeMenus} data-preview-static="wishlist-page-link"><EditableIcon name="heart" size={21} strokeWidth={1.5} aria-hidden="true" /></Link>
           <Link href="/cart/" className="lumi-nav-icon" aria-label={text('cartLabel', 'Cart')} aria-current={isCurrentPage('/cart/') ? 'page' : undefined} onClick={closeMenus} data-preview-static="cart-page-link"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true"><path d="M5 7h14l1 14H4L5 7ZM9 8V6a3 3 0 0 1 6 0v2" /></svg></Link>
         </div>
@@ -215,16 +196,6 @@ export default function LumiNavbar() {
         </ul>
       </nav>
     </header>
-    <EditableDialog open={utility !== null} onClose={closeUtility} title={text('searchTitle', 'Find your next favourite')} aria-label={text('searchTitle', 'Find your next favourite')} titleFieldPath="navigation.searchTitle" className="lumi-nav-dialog" onKeyDown={trapDialogFocus}>
-      <div ref={dialogContent}>
-        {utility === 'search' && <>
-          <label className="lumi-search-label" htmlFor={`${menuId}-search`}>{text('searchLabel', 'Search')}</label>
-          <input id={`${menuId}-search`} className="lumi-nav-search" type="search" value={query} onChange={event => setQuery(event.target.value)} placeholder={text('searchPlaceholder', 'Search furniture')} autoComplete="off" />
-          <div className="lumi-search-results" aria-live="polite">
-            {matches.length ? matches.map(product => <a key={product.id} href={withBasePath(contentText(product.ctaUrl) || `/products/detail/?id=${encodeURIComponent(String(product.id ?? ''))}`)} onClick={closeUtility} data-preview-static="read-only-search-result">{product.name}<span aria-hidden="true">&#8599;</span></a>) : <p>{text('searchEmpty', 'No matching pieces. Try another search.')}</p>}
-          </div>
-        </>}
-      </div>
-    </EditableDialog>
+    <SearchStudio open={searchOpen} onClose={closeSearchStudio} id={`${menuId}-search-studio`} />
   </>;
 }
