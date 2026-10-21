@@ -1,14 +1,24 @@
 'use client';
 
-import { EditableProductDetail, PlatformProductDetail } from '@deneb-ui/ui';
+import { useEffect, useState } from 'react';
+import { PlatformProductDetail } from '@deneb-ui/ui';
 import LivingProductDetail from '@/components/LivingProductDetail';
+import { isCollectionId, productCollection } from '@/lib/collections';
+import { withBasePath } from '@/lib/utils';
 import '@/app/furniture-collection.css';
 
 export default function ProductDetailPage() {
+  const [sourceCollection, setSourceCollection] = useState<string | null>(null);
+  useEffect(() => { setSourceCollection(new URLSearchParams(window.location.search).get('collection')); }, []);
   return (
     <PlatformProductDetail
-      backHref="/"
-      renderProduct={(product, context) => product.gallery?.length ? <LivingProductDetail product={product} index={context.productIndex} /> : <EditableProductDetail product={product} sectionPath={context.sectionPath} />}
+      backHref={isCollectionId(sourceCollection) ? withBasePath(`/collections/${sourceCollection}/`) : withBasePath('/')}
+      renderProduct={(product, context) => {
+        const collectionId = productCollection(product.category, sourceCollection);
+        // Keep the same editable gallery mounted, even when gallery is absent
+        // or empty, so adding the first image never changes renderer/bindings.
+        return <LivingProductDetail product={product} index={context.productIndex} collectionId={collectionId} />;
+      }}
       loadingFallback={
         <div
           role="status"

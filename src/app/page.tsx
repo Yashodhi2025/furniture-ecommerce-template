@@ -16,7 +16,7 @@ export default function HomePage() {
   const products = useProducts();
   // Keep the original catalog index in every field binding after filtering.
   const indexedProducts = products.map((product, index) => ({ product, index }));
-  const newArrivals = indexedProducts.filter(({ product }) => contentText(product.homeCollection) !== 'best-sellers');
+  const newArrivals = indexedProducts.filter(({ product }) => !['best-sellers', 'collection-only'].includes(contentText(product.homeCollection)));
   const bestSellers = indexedProducts.filter(({ product }) => contentText(product.homeCollection) === 'best-sellers');
   const selectedPages = data.requirements?.requiredPages ?? data.template?.structure?.pages ?? [];
   const text = (key: string) => contentText(home[key]);

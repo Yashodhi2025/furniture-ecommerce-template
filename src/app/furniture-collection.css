@@ -103,3 +103,6 @@
 @media(max-width:380px){.lr-title-band{--lr-title-py:24px;--lr-title-px:18px}.lr-title-band h1{font-size:27px}}
 
 @media(max-width:750px){.lumi-site .lr-title-band p{font-size:var(--deneb-font-size,13px)!important;line-height:var(--deneb-line-height,1.7)!important}}
+
+.lr-product-caption .lr-photo-pending{font-size:var(--deneb-font-size,11px)!important;color:var(--deneb-color,#88715b)!important;margin:0 0 8px;line-height:1.5}
+.lr-product-caption .lr-sale-original{display:inline-block;margin-top:4px;font-size:var(--deneb-font-size,12px)!important;color:var(--deneb-color,#8b7c6b)!important}

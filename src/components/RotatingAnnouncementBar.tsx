@@ -29,8 +29,7 @@ export default function RotatingAnnouncementBar() {
     return () => window.removeEventListener('message', revealMessage);
   }, [messages]);
 
-  if (!enabled || !messages.length) return null;
-  return <div className="lumi-announcements" role="region" aria-label="Store announcements" aria-roledescription="carousel">
+  return <div className="lumi-announcements" role="region" aria-label="Store announcements" aria-roledescription="carousel" style={!enabled || !messages.length ? { display: 'none' } : undefined}>
     <div className="lumi-announcement-messages" data-preview-list-path="announcements.messages" aria-live="off">
       {messages.map(({ message, index }, position) => {
         // Deneb 2.0.125's announcement reads { siteData }, while its provider

@@ -136,7 +136,7 @@ export default function LumiNavbar({ onCartClick }: { onCartClick: () => void })
   );
 
   return <>
-    <header className="lumi-navbar" ref={header} onKeyDown={handleKeys} style={{ '--lumi-dropdown-background': text('dropdownBackgroundColor', '#eee7dd') } as CSSProperties}>
+    <header className="lumi-navbar" ref={header} onKeyDown={handleKeys} data-preview-field-path="navigation.dropdownBackgroundColor" style={{ '--lumi-dropdown-background': text('dropdownBackgroundColor', '#eee7dd') } as CSSProperties}>
       <div className="lumi-navbar-top">
         <button ref={hamburger} className="lumi-nav-icon lumi-hamburger" type="button" aria-label={mobileOpen ? 'Close navigation' : 'Open navigation'} aria-expanded={mobileOpen} aria-controls={menuId} onClick={() => { cancelClose(); setMobileOpen(!mobileOpen); setOpenCategory(null); }} data-preview-static="navigation-disclosure">
           <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">{mobileOpen ? <path d="m6 6 12 12M6 18 18 6" /> : <path d="M3 6h18M3 12h18M3 18h18" />}</svg>
@@ -169,7 +169,7 @@ export default function LumiNavbar({ onCartClick }: { onCartClick: () => void })
                 cancelClose(); closeTimer.current = setTimeout(() => setOpenCategory(null), 160);
               }}
               onBlur={event => { if (!event.currentTarget.contains(event.relatedTarget)) setOpenCategory(current => current === categoryIndex ? null : current); }}>
-              <Link href={withBasePath(contentText(category.browseUrl) || '/#shop')} aria-current={isCurrentPage(contentText(category.browseUrl) || '/#shop') ? 'page' : undefined} className={`lumi-nav-trigger${contentText(category.id) === 'sale' ? ' lumi-nav-sale' : ''}`} data-preview-field-path={`navigation.categories[${categoryIndex}].browseUrl`} data-nav-trigger data-category-index={categoryIndex} id={`${panelId}-trigger`} aria-expanded={isOpen} aria-controls={panelId}
+              <Link href={contentText(category.browseUrl) || '/#shop'} aria-current={isCurrentPage(contentText(category.browseUrl) || '/#shop') ? 'page' : undefined} className={`lumi-nav-trigger${contentText(category.id) === 'sale' ? ' lumi-nav-sale' : ''}`} data-preview-field-path={`navigation.categories[${categoryIndex}].browseUrl`} data-nav-trigger data-category-index={categoryIndex} id={`${panelId}-trigger`} aria-expanded={isOpen} aria-controls={panelId}
                 onClick={closeMenus}
                 onKeyDown={event => {
                   if (event.key !== 'ArrowDown' && event.key !== 'ArrowUp') return;
