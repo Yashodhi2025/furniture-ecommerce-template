@@ -942,6 +942,114 @@
             ]
           }
         ]
+      },
+      {
+        "id": "living-room-heading",
+        "path": "collectionHeadings.living-room",
+        "type": "object",
+        "label": "Living Room Furniture heading",
+        "fields": [
+          {
+            "key": "title",
+            "type": "text",
+            "label": "Title"
+          },
+          {
+            "key": "description",
+            "type": "textarea",
+            "label": "Subtitle"
+          }
+        ]
+      },
+      {
+        "id": "bedroom-heading",
+        "path": "collectionHeadings.bedroom",
+        "type": "object",
+        "label": "Bedroom Furniture heading",
+        "fields": [
+          {
+            "key": "title",
+            "type": "text",
+            "label": "Title"
+          },
+          {
+            "key": "description",
+            "type": "textarea",
+            "label": "Subtitle"
+          }
+        ]
+      },
+      {
+        "id": "kitchen-dining-heading",
+        "path": "collectionHeadings.kitchen-dining",
+        "type": "object",
+        "label": "Kitchen & Dining Furniture heading",
+        "fields": [
+          {
+            "key": "title",
+            "type": "text",
+            "label": "Title"
+          },
+          {
+            "key": "description",
+            "type": "textarea",
+            "label": "Subtitle"
+          }
+        ]
+      },
+      {
+        "id": "office-heading",
+        "path": "collectionHeadings.office",
+        "type": "object",
+        "label": "Office Furniture heading",
+        "fields": [
+          {
+            "key": "title",
+            "type": "text",
+            "label": "Title"
+          },
+          {
+            "key": "description",
+            "type": "textarea",
+            "label": "Subtitle"
+          }
+        ]
+      },
+      {
+        "id": "lighting-decor-heading",
+        "path": "collectionHeadings.lighting-decor",
+        "type": "object",
+        "label": "Lighting & Decor heading",
+        "fields": [
+          {
+            "key": "title",
+            "type": "text",
+            "label": "Title"
+          },
+          {
+            "key": "description",
+            "type": "textarea",
+            "label": "Subtitle"
+          }
+        ]
+      },
+      {
+        "id": "sale-heading",
+        "path": "collectionHeadings.sale",
+        "type": "object",
+        "label": "Furniture Sale heading",
+        "fields": [
+          {
+            "key": "title",
+            "type": "text",
+            "label": "Title"
+          },
+          {
+            "key": "description",
+            "type": "textarea",
+            "label": "Subtitle"
+          }
+        ]
       }
     ]
   },

@@ -660,6 +660,32 @@
           ]
         }
       ]
+    },
+    "collectionHeadings": {
+      "living-room": {
+        "title": "Living Room Furniture",
+        "description": "Made for good company. Chosen for everyday living."
+      },
+      "bedroom": {
+        "title": "Bedroom Furniture",
+        "description": "Create a softer place to land."
+      },
+      "kitchen-dining": {
+        "title": "Kitchen & Dining Furniture",
+        "description": "Made for slow mornings and shared meals."
+      },
+      "office": {
+        "title": "Office Furniture",
+        "description": "Make space for your best ideas."
+      },
+      "lighting-decor": {
+        "title": "Lighting & Decor",
+        "description": "The finishing touches that feel like you."
+      },
+      "sale": {
+        "title": "Furniture Sale",
+        "description": "Considered design, a little less."
+      }
     }
   },
   "media": {},
