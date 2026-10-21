@@ -28,7 +28,7 @@ export default function ProductPhotoGallery({ product, index, href, thumbnails =
   useEffect(() => () => { if (closeTimer.current) clearTimeout(closeTimer.current); }, []);
   useEffect(() => {
     if (!hovered || open || thumbnails || photos.length < 2 || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    const timer = setInterval(() => setSelected(value => (value + 1) % photos.length), 2000);
+    const timer = setInterval(() => setSelected(value => (value + 1) % photos.length), 1100);
     return () => clearInterval(timer);
   }, [hovered, open, thumbnails, photos.length]);
   useEffect(() => {
@@ -57,7 +57,11 @@ export default function ProductPhotoGallery({ product, index, href, thumbnails =
   const arrows = <><button className="lr-photo-arrow lr-photo-prev" type="button" aria-label={`Previous photo of ${product.name}`} onClick={() => move(-1)}>‹</button><button className="lr-photo-arrow lr-photo-next" type="button" aria-label={`Next photo of ${product.name}`} onClick={() => move(1)}>›</button></>;
   const keyboard = (event: KeyboardEvent) => { if (event.key === 'ArrowRight' || event.key === 'ArrowLeft') { event.preventDefault(); move(event.key === 'ArrowRight' ? 1 : -1); } };
   return <div className={`lr-gallery${thumbnails ? ' lr-gallery-detail' : ''}`}>
-    <div className="lr-gallery-stage" id={photoId} onPointerEnter={event => { if (event.pointerType === 'mouse') setHovered(true); }} onPointerLeave={() => setHovered(false)} onFocusCapture={() => setHovered(false)} onKeyDown={keyboard}>
+    <div className="lr-gallery-stage" id={photoId} onPointerEnter={event => {
+      if (event.pointerType !== 'mouse' || thumbnails || open || photos.length < 2) return;
+      move(1);
+      setHovered(true);
+    }} onPointerLeave={() => setHovered(false)} onFocusCapture={() => setHovered(false)} onKeyDown={keyboard}>
       {href ? <button ref={trigger} type="button" className="lr-photo-link" aria-label={`View images of ${product.name}`} aria-haspopup="dialog" onClick={() => { setHovered(false); setOpen(true); }}>{images()}<span className="lr-view-product">View piece ↗</span></button> : <div className="lr-photo-main">{images()}</div>}
       {photos.length > 1 && arrows}
       <span className="lr-photo-counter">{activeIndex < photos.length ? `${activeIndex + 1} / ${photos.length}` : colors[activeIndex - photos.length]?.name}</span>
