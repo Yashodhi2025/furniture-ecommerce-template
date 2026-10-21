@@ -12,7 +12,7 @@ export default function SiteChrome({ children }: { children: ReactNode }) {
   const navigation = [
     {id:'home',label:'Home',route:'/'},
     {id:'services',label:'Shop',route:'/#shop'},
-    {id:'about_us',label:'About',route:'/about_us/'},
+    {id:'about',label:'Our Story',route:'/about/'},
     {id:'contact',label:'Contact',route:'/contact/'},
   ];
   const themeStyle = getThemeCssProperties(

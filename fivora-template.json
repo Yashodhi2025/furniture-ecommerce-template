@@ -10,6 +10,8 @@
       "services[*].id",
       "products[*].currency",
       "about.collageImages[*].id",
+      "common.navLabels.about_us",
+      "ourStory.imageAlt",
       "contact.whatsapp",
       "home.categories[*].id",
       "home.heroImageAlt",
@@ -63,6 +65,11 @@
       "id": "about_us",
       "label": "About Us",
       "route": "/about_us"
+    },
+    {
+      "id": "about",
+      "label": "Our Story",
+      "route": "/about"
     },
     {
       "id": "services",
@@ -120,6 +127,36 @@
   "editorSchema": {
     "version": 1,
     "sections": [
+      {
+        "id": "our-story",
+        "path": "ourStory",
+        "pageKey": "about",
+        "type": "object",
+        "label": "Our Story page",
+        "fields": [
+          { "key": "eyebrow", "type": "text", "label": "Hero eyebrow" },
+          { "key": "heading", "type": "text", "label": "Hero heading" },
+          { "key": "tagline", "type": "textarea", "label": "Hero tagline" },
+          { "key": "imageUrl", "type": "image", "label": "Lifestyle hero image" },
+          { "key": "imageAlt", "type": "text", "label": "Hero image description" },
+          { "key": "storyHeading", "type": "text", "label": "Story heading" },
+          { "key": "body", "type": "textarea", "label": "Brand introduction" },
+          {
+            "key": "values",
+            "type": "list",
+            "label": "Brand values",
+            "minItems": 0,
+            "maxItems": 3,
+            "fields": [
+              { "key": "title", "type": "text", "label": "Value heading" },
+              { "key": "description", "type": "textarea", "label": "Value description" }
+            ]
+          },
+          { "key": "ctaHeading", "type": "text", "label": "Collection invitation heading" },
+          { "key": "ctaLabel", "type": "text", "label": "Explore collections button label" },
+          { "key": "ctaUrl", "type": "text", "label": "Explore collections link" }
+        ]
+      },
       {
         "id": "wishlist",
         "path": "wishlist",
@@ -214,6 +251,11 @@
                 "type": "text",
                 "label": "About label"
               },
+            {
+              "key": "about",
+              "type": "text",
+              "label": "Our Story footer label"
+            },
               {
                 "key": "services",
                 "type": "text",

@@ -9,6 +9,7 @@ const revealTargets = [
   '.lumi-section-top', '.lumi-category-card', '.lumi-product-card',
   '.lumi-story-image', '.lumi-story-copy > *', '.lumi-value-card',
   '.lumi-newsletter > *',
+  '.lumi-about [data-about-reveal]',
 ].join(',');
 
 /** Animate existing elements without adding wrappers or affecting layout. */
@@ -33,10 +34,11 @@ export default function SiteMotion() {
         const visible = entries.filter(entry => entry.isIntersecting).sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top || a.boundingClientRect.left - b.boundingClientRect.left);
         visible.forEach((entry, order) => {
           observer?.unobserve(entry.target);
+          const subtle = entry.target.hasAttribute('data-about-reveal');
           const animation = entry.target.animate([
-            { opacity: 0, transform: 'translateY(36px) scale(.985)' },
+            { opacity: 0, transform: subtle ? 'translateY(14px)' : 'translateY(36px) scale(.985)' },
             { opacity: 1, transform: 'translateY(0) scale(1)' },
-          ], { duration: 1000, delay: Math.min(order, 5) * 100, easing: 'cubic-bezier(.16,1,.3,1)', fill: 'backwards' });
+          ], { duration: subtle ? 650 : 1000, delay: Math.min(order, subtle ? 2 : 5) * (subtle ? 60 : 100), easing: 'cubic-bezier(.16,1,.3,1)', fill: 'backwards' });
           animations.add(animation);
           animation.onfinish = () => animations.delete(animation);
           animation.oncancel = () => animations.delete(animation);

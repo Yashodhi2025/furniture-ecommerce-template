@@ -90,7 +90,7 @@ export default function HomePage() {
           <EditableText as="p" fieldPath="home.storyEyebrow" defaultValue={text('storyEyebrow')} className="lumi-eyebrow" />
           <EditableText as="h2" fieldPath="home.introTitle" defaultValue={text('introTitle')} className="lumi-heading" />
           <EditableText as="p" fieldPath="home.introBody" defaultValue={text('introBody')} className="lumi-story-description" />
-          <a href={selectedPages.includes('about_us') ? withBasePath(text('storyCtaUrl') || '/about_us/') : undefined} aria-disabled={!selectedPages.includes('about_us')} data-preview-field-path="home.storyCtaUrl" className="lumi-text-link"><EditableText as="span" fieldPath="home.storyCtaLabel" defaultValue={text('storyCtaLabel')} placeholder="Get to know LUMI" /><span aria-hidden="true">↗</span></a>
+          <a href={selectedPages.includes('about') || selectedPages.includes('about_us') ? withBasePath(text('storyCtaUrl') || '/about/') : undefined} aria-disabled={!selectedPages.includes('about') && !selectedPages.includes('about_us')} data-preview-field-path="home.storyCtaUrl" className="lumi-text-link"><EditableText as="span" fieldPath="home.storyCtaLabel" defaultValue={text('storyCtaLabel')} placeholder="Get to know LUMI" /><span aria-hidden="true">↗</span></a>
         </div>
       </EditableSection>
       <EditableSection name="why-lumi" padding="none" className="lumi-section lumi-values lumi-home-values">

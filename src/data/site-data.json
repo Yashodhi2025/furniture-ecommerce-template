@@ -17,6 +17,7 @@
       "pages": [
         "home",
         "about_us",
+        "about",
         "services",
         "contact",
         "living_room",
@@ -81,6 +82,7 @@
     "requiredPages": [
       "home",
       "about_us",
+      "about",
       "services",
       "contact",
       "living_room",
@@ -95,6 +97,23 @@
     "requiredFeatures": []
   },
   "content": {
+    "ourStory": {
+      "eyebrow": "OUR STORY",
+      "heading": "A considered approach to home.",
+      "tagline": "Comfort, thoughtful design, and a little room to be yourself.",
+      "imageUrl": "/images/living-room.jpg",
+      "imageAlt": "A warm, sunlit living room with neutral seating and natural wood furniture",
+      "storyHeading": "Made for the everyday.",
+      "body": "We believe a home comes together slowly. In the chair you always return to. The table that brings everyone closer. The small details that feel just right. LUMI LIVING is a collection of considered pieces for those everyday moments.",
+      "values": [
+        { "title": "Comfort", "description": "A welcoming seat. A softer corner. Space to settle in." },
+        { "title": "Thoughtful Design", "description": "Considered shapes, warm textures, and details that feel at home." },
+        { "title": "Everyday Living", "description": "Pieces for quiet mornings, shared meals, and the moments in between." }
+      ],
+      "ctaHeading": "Find your own feeling of home.",
+      "ctaLabel": "Explore Our Collections",
+      "ctaUrl": "/collections/living-room/"
+    },
     "wishlist": {
       "title": "Your wishlist",
       "description": "Keep the pieces you love close. Make room for them when you are ready.",
@@ -137,6 +156,7 @@
         "home": "Home",
         "services": "Shop",
         "about_us": "About",
+        "about": "Our Story",
         "contact": "Contact"
       },
       "footerHeading": "Make yourself at home.",
@@ -214,7 +234,7 @@
       "storyImage": "/images/story.jpg",
       "storyImageAlt": "Natural materials and thoughtful furniture details in a quiet interior",
       "storyCtaLabel": "Get to know LUMI",
-      "storyCtaUrl": "/about_us/",
+      "storyCtaUrl": "/about/",
       "featuresHeading": "Good living is in the details.",
       "features": [
         {
