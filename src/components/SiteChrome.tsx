@@ -5,6 +5,7 @@ import { useSiteData } from '@/lib/siteDataContext';
 import { Footer, EditableDialog, getThemeCssProperties } from '@deneb-ui/ui';
 
 import LumiNavbar from './LumiNavbar';
+import SiteMotion from './SiteMotion';
 
 export default function SiteChrome({ children }: { children: ReactNode }) {
   const siteData = useSiteData();
@@ -22,6 +23,7 @@ export default function SiteChrome({ children }: { children: ReactNode }) {
 
   return (
     <div className="site-shell lumi-site" style={themeStyle}>
+      <SiteMotion />
       <LumiNavbar onCartClick={() => setCartPreviewOpen(true)} />
       <main>{children}</main>
       <Footer defaultLinks={navigation} showNewsletter={false} />
