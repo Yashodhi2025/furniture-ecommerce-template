@@ -5,10 +5,12 @@ import { usePathname } from 'next/navigation';
 
 const revealTargets = [
   '.lr-heading > .lr-breadcrumbs', '.lr-collection-toolbar', '.lr-product-card',
-  '.lr-detail-info > *', '.lumi-hero-copy > *', '.lumi-hero-media',
+  '.lr-detail-info > *',
   '.lumi-section-top', '.lumi-category-card', '.lumi-product-card',
   '.lumi-story-image', '.lumi-story-copy > *', '.lumi-value-card',
   '.lumi-newsletter > *',
+  '.lumi-home .lumi-look-scene', '.lumi-home .lumi-look-preview',
+  '.lumi-home-values > .lumi-eyebrow', '.lumi-home-values > .lumi-heading',
   '.lumi-about [data-about-reveal]',
 ].join(',');
 
@@ -20,6 +22,8 @@ export default function SiteMotion() {
     const main = shell?.querySelector('main');
     if (!shell || !main) return;
     const preference = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const home = main.querySelector<HTMLElement>('.lumi-home');
+    let editingHome = false;
     let seen = new WeakSet<Element>();
     const animations = new Set<Animation>();
     let observer: IntersectionObserver | undefined;
@@ -35,10 +39,16 @@ export default function SiteMotion() {
         visible.forEach((entry, order) => {
           observer?.unobserve(entry.target);
           const subtle = entry.target.hasAttribute('data-about-reveal');
-          const animation = entry.target.animate([
+          const isHome = Boolean(entry.target.closest('.lumi-home'));
+          if (isHome && editingHome) return;
+          const stagger = Math.min(order, isHome ? 3 : subtle ? 2 : 5) * (isHome ? 90 : subtle ? 60 : 100);
+          const animation = entry.target.animate(isHome ? [
+            { opacity: 0, translate: '0 30px' },
+            { opacity: 1, translate: '0 0' },
+          ] : [
             { opacity: 0, transform: subtle ? 'translateY(14px)' : 'translateY(36px) scale(.985)' },
             { opacity: 1, transform: 'translateY(0) scale(1)' },
-          ], { duration: subtle ? 650 : 1000, delay: Math.min(order, subtle ? 2 : 5) * (subtle ? 60 : 100), easing: 'cubic-bezier(.16,1,.3,1)', fill: 'backwards' });
+          ], { duration: isHome ? 800 : subtle ? 650 : 1000, delay: stagger, easing: 'cubic-bezier(.16,1,.3,1)', fill: 'backwards' });
           animations.add(animation);
           animation.onfinish = () => animations.delete(animation);
           animation.oncancel = () => animations.delete(animation);
@@ -54,6 +64,12 @@ export default function SiteMotion() {
         observer?.observe(element);
       });
     };
+    const editing = (event: MessageEvent) => {
+      if (!home || event.source !== window.parent || !['FIVORA_PREVIEW_EDIT_MODE', 'MARKETPLACE_PREVIEW_EDIT_MODE'].includes(event.data?.type)) return;
+      editingHome = Boolean(event.data.editMode);
+      home.dataset.homeEditing = String(editingHome);
+      if (editingHome) stopAnimations();
+    };
     const updateScroll = () => {
       if (frame) return;
       frame = requestAnimationFrame(() => {
@@ -66,11 +82,14 @@ export default function SiteMotion() {
     mutations.observe(main, { childList: true, subtree: true });
     updateScroll();
     window.addEventListener('scroll', updateScroll, { passive: true });
+    window.addEventListener('message', editing);
     preference.addEventListener('change', configure);
     return () => {
       observer?.disconnect(); mutations.disconnect(); stopAnimations();
       cancelAnimationFrame(frame);
       window.removeEventListener('scroll', updateScroll);
+      window.removeEventListener('message', editing);
+      if (home) delete home.dataset.homeEditing;
       preference.removeEventListener('change', configure);
     };
   }, [pathname]);

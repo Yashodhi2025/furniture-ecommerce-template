@@ -6,6 +6,8 @@ import { withBasePath } from '@/lib/utils';
 import NewsletterSection from '@/components/NewsletterSection';
 import FurnitureProductCard from '@/components/FurnitureProductCard';
 import ShopTheLook from '@/components/ShopTheLook';
+import HomeProductCarousel from '@/components/HomeProductCarousel';
+import HomeHeroMotion, { HomeHeroStartup } from '@/components/HomeHeroMotion';
 import './home-collections.css';
 
 export default function HomePage() {
@@ -22,16 +24,21 @@ export default function HomePage() {
   const text = (key: string) => contentText(home[key]);
   return (
     <div className="lumi-home" data-preview-page-key="home">
+      <HomeHeroStartup />
       <EditableSection name="home-hero" padding="none" className="lumi-hero">
         <div className="lumi-hero-copy">
           <EditableText as="p" fieldPath="home.heroEyebrow" defaultValue={text('heroEyebrow')} className="lumi-eyebrow" />
-          <EditableText as="h1" fieldPath="home.heroTitle" defaultValue={text('heroTitle')} className="lumi-display" />
+          <div className="lumi-hero-heading">
+            <EditableText as="h1" fieldPath="home.heroTitle" defaultValue={text('heroTitle')} className="lumi-display" />
+            <div className="lumi-hero-heading-reveal" aria-hidden="true" data-preview-static="hero-heading-animation" />
+          </div>
           <EditableText as="p" fieldPath="home.heroSummary" defaultValue={text('heroSummary')} className="lumi-hero-description" />
           <div className="lumi-actions">
-            <a href={withBasePath(text('primaryCtaUrl') || '/#shop')} data-preview-field-path="home.primaryCtaUrl" className="lumi-button"><EditableText as="span" fieldPath="home.primaryCtaLabel" defaultValue={text('primaryCtaLabel')} placeholder="Shop the collection" /><span aria-hidden="true">↗</span></a>
+            <a href={withBasePath(text('primaryCtaUrl') || '/#shop')} data-preview-field-path="home.primaryCtaUrl" className="lumi-button"><EditableText as="span" fieldPath="home.primaryCtaLabel" defaultValue={text('primaryCtaLabel')} placeholder="Shop the collection" /><span className="lumi-hero-cta-arrow" aria-hidden="true">↗</span></a>
             <a href={withBasePath(text('secondaryCtaUrl') || '/#our-story')} data-preview-field-path="home.secondaryCtaUrl" className="lumi-text-link"><EditableText as="span" fieldPath="home.secondaryCtaLabel" defaultValue={text('secondaryCtaLabel')} placeholder="Our story" /></a>
           </div>
           <p className="lumi-hero-footnote" data-preview-static="decorative-brand-signature"><span /> CONSIDERED DESIGN, EVERY DAY</p>
+          <HomeHeroMotion title={text('heroTitle')} />
         </div>
         <div className="lumi-hero-media">
           <EditableImage id="home.bannerImageUrl" src={text('bannerImageUrl')} alt={text('heroImageAlt')} className="lumi-hero-image" fetchPriority="high" />
@@ -77,9 +84,9 @@ export default function HomePage() {
           <div><EditableText as="p" fieldPath="home.bestSellersEyebrow" defaultValue={text('bestSellersEyebrow')} className="lumi-eyebrow" /><EditableText as="h2" fieldPath="home.bestSellersHeading" defaultValue={text('bestSellersHeading')} className="lumi-heading" /></div>
           <div className="lumi-collection-intro"><EditableText as="p" fieldPath="home.bestSellersSummary" defaultValue={text('bestSellersSummary')} className="lumi-section-description" /><a href={withBasePath(text('bestSellersLinkUrl') || '/#shop-the-look')} data-preview-field-path="home.bestSellersLinkUrl" className="lumi-collection-link"><EditableText as="span" fieldPath="home.bestSellersLinkLabel" defaultValue={text('bestSellersLinkLabel')} /><span aria-hidden="true">&#8599;</span></a></div>
         </div>
-        <div className="lumi-product-grid" data-preview-list-path="products" data-home-collection="best-sellers">
+        <HomeProductCarousel label={text('bestSellersHeading')}>
           {bestSellers.map(({ product, index }) => <FurnitureProductCard key={product.id ?? index} product={product} index={index} />)}
-        </div>
+        </HomeProductCarousel>
       </EditableSection>
 
       <ShopTheLook />
