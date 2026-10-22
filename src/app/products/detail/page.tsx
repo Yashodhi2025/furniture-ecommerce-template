@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { PlatformProductDetail, isPreviewValidation } from '@deneb-ui/ui';
-import { useProducts, useSiteData } from '@/lib/siteDataContext';
+import { isTemplateValidation, useProducts, useSiteData } from '@/lib/siteDataContext';
 import LivingProductDetail from '@/components/LivingProductDetail';
 import { isCollectionId, productCollection } from '@/lib/collections';
 import { withBasePath } from '@/lib/utils';
@@ -11,7 +11,10 @@ import '@/app/furniture-collection.css';
 export default function ProductDetailPage() {
   const siteData = useSiteData();
   const products = useProducts();
-  const preview = isPreviewValidation(siteData);
+  // Only serialized fixture data may affect SSR. Iframe/location detection
+  // must wait until hydration, so the first client tree matches the export.
+  const [preview, setPreview] = useState(() => isTemplateValidation(siteData));
+  useEffect(() => { setPreview(isPreviewValidation(siteData)); }, [siteData]);
   const [requestedId, setRequestedId] = useState<string | null>(null);
   const [sourceCollection, setSourceCollection] = useState<string | null>(null);
   useEffect(() => {
