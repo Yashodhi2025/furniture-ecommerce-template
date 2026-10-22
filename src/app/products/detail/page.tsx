@@ -7,6 +7,7 @@ import LivingProductDetail from '@/components/LivingProductDetail';
 import { isCollectionId, productCollection } from '@/lib/collections';
 import { withBasePath } from '@/lib/utils';
 import '@/app/furniture-collection.css';
+import '@/components/product-detail.css';
 
 export default function ProductDetailPage() {
   const siteData = useSiteData();

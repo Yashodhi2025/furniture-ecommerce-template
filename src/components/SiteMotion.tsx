@@ -24,6 +24,7 @@ export default function SiteMotion() {
     const preference = window.matchMedia('(prefers-reduced-motion: reduce)');
     const home = main.querySelector<HTMLElement>('.lumi-home');
     let editingHome = false;
+    let editingDetails = false;
     let seen = new WeakSet<Element>();
     const animations = new Set<Animation>();
     let observer: IntersectionObserver | undefined;
@@ -40,7 +41,7 @@ export default function SiteMotion() {
           observer?.unobserve(entry.target);
           const subtle = entry.target.hasAttribute('data-about-reveal');
           const isHome = Boolean(entry.target.closest('.lumi-home'));
-          if (isHome && editingHome) return;
+          if ((isHome && editingHome) || (editingDetails && entry.target.closest('.lr-detail-page'))) return;
           const stagger = Math.min(order, isHome ? 3 : subtle ? 2 : 5) * (isHome ? 90 : subtle ? 60 : 100);
           const animation = entry.target.animate(isHome ? [
             { opacity: 0, translate: '0 30px' },
@@ -65,10 +66,15 @@ export default function SiteMotion() {
       });
     };
     const editing = (event: MessageEvent) => {
-      if (!home || event.source !== window.parent || !['FIVORA_PREVIEW_EDIT_MODE', 'MARKETPLACE_PREVIEW_EDIT_MODE'].includes(event.data?.type)) return;
+      if (event.source !== window.parent || !['FIVORA_PREVIEW_EDIT_MODE', 'MARKETPLACE_PREVIEW_EDIT_MODE'].includes(event.data?.type)) return;
       editingHome = Boolean(event.data.editMode);
-      home.dataset.homeEditing = String(editingHome);
-      if (editingHome) stopAnimations();
+      if (home) home.dataset.homeEditing = String(editingHome);
+      const details = main.querySelector<HTMLElement>('.lr-detail-page');
+      editingDetails = Boolean(event.data.editMode);
+      if (details) details.dataset.detailEditing = String(editingDetails);
+      const enquiry = main.querySelector<HTMLElement>('.lumi-enquiry-page');
+      if (enquiry) enquiry.dataset.enquiryEditing = String(editingDetails);
+      if (editingHome || editingDetails) stopAnimations();
     };
     const updateScroll = () => {
       if (frame) return;

@@ -1,0 +1,36 @@
+.lumi-enquiry-send { width:100%; min-width:0; }
+.lumi-whatsapp-button {
+  display:flex; align-items:center; justify-content:center; gap:12px;
+  width:100%; min-height:51px; padding:14px 20px; border:1px solid #8e7964;
+  border-radius:28px; background:transparent; color:#5b493c; font:inherit;
+  font-size:12px; cursor:pointer; transition:background .25s, transform .25s, box-shadow .25s;
+}
+.lumi-whatsapp-button>span:last-child { margin-left:auto; }
+.lumi-whatsapp-button>svg { flex-shrink:0; }
+.lumi-whatsapp-button:enabled:hover { background:#eee4d7; box-shadow:0 5px 16px #5b493c12; }
+.lumi-whatsapp-button:enabled:active { transform:scale(.98); }
+.lumi-whatsapp-button:disabled { opacity:.45; cursor:not-allowed; }
+.lumi-enquiry-help { margin:12px 0 0; font-size:11px; line-height:1.8; color:#766b60; }
+.lumi-enquiry-help a { text-decoration:underline; text-underline-offset:3px; }
+.lumi-enquiry-contact { display:flex; flex-wrap:wrap; gap:6px 14px; margin-top:18px; font-size:11px; color:#766b60; }
+.lumi-enquiry-contact>span:last-child { overflow-wrap:anywhere; }
+.lumi-enquiry-send :is(button,a):focus-visible { outline:2px solid #a57450; outline-offset:4px; }
+.lumi-enquiry-page .lumi-cart-summary>.lumi-enquiry-send { display:block; }
+.lumi-enquiry-page .lumi-cart-summary .lumi-whatsapp-button { background:#5b493c; color:#fffdfa; border-color:#5b493c; }
+.lumi-enquiry-page .lumi-cart-summary .lumi-whatsapp-button:enabled:hover { background:#3e2e23; }
+.lumi-cart-enquiry-note p { font-size:12px; line-height:1.8; margin:20px 0; }
+.lumi-enquiry-page .lumi-cart-empty .lumi-enquiry-send { max-width:420px; margin:24px auto 0; text-align:left; }
+@media(prefers-reduced-motion:no-preference) {
+  .lumi-enquiry-page .lumi-cart-item { animation:lumi-enquiry-in .5s ease both; }
+  .lumi-enquiry-page .lumi-cart-item:nth-child(2) { animation-delay:.07s; }
+  .lumi-enquiry-page .lumi-cart-item:nth-child(3) { animation-delay:.14s; }
+  .lumi-enquiry-page .lumi-cart-quantity output { animation:lumi-quantity-in .25s ease; }
+  .lumi-enquiry-page .lumi-cart-image img { transition:transform .6s; }
+  .lumi-enquiry-page .lumi-cart-image:hover img { transform:scale(1.045); }
+  .lumi-enquiry-page .lumi-cart-quantity button { transition:background .2s; }
+  .lumi-enquiry-page .lumi-cart-quantity button:enabled:hover { background:#e5d7c5; }
+  @keyframes lumi-enquiry-in { from { opacity:0; translate:0 18px; } to { opacity:1; translate:0 0; } }
+  @keyframes lumi-quantity-in { from { opacity:.4; translate:0 4px; } to { opacity:1; translate:0 0; } }
+}
+@media(prefers-reduced-motion:reduce) { .lumi-whatsapp-button { transition:none; } .lumi-whatsapp-button:active { transform:none; } }
+.lumi-enquiry-page[data-enquiry-editing=true] * { animation:none!important; transition:none!important; }

@@ -1,5 +1,6 @@
 import type { ProductDetailItem } from '@deneb-ui/ui';
 
+export const CART_CHANGE_EVENT = 'lumi-cart-change';
 export const CART_KEY = 'lumi-living-cart';
 export const WISHLIST_KEY = 'lumi-living-wishlist';
 export const WISHLIST_CHANGE_EVENT = 'lumi-wishlist-change';
@@ -42,4 +43,5 @@ export function addProductToCart(item: SavedProduct, amount = 1) {
   if (!Number.isSafeInteger(amount) || amount < 1 || !Number.isSafeInteger(previous + amount)) throw new Error('Invalid quantity');
   const entry = { ...item, quantity: previous + amount };
   localStorage.setItem(CART_KEY, JSON.stringify(existing ? items.map(saved => saved.id === item.id ? entry : saved) : [...items, entry]));
+  window.dispatchEvent(new Event(CART_CHANGE_EVENT));
 }

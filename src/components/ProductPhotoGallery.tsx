@@ -57,6 +57,7 @@ export default function ProductPhotoGallery({ product, index, href, thumbnails =
     const editing = (event: MessageEvent) => {
       if (event.source !== window.parent || !['FIVORA_PREVIEW_EDIT_MODE', 'MARKETPLACE_PREVIEW_EDIT_MODE'].includes(event.data?.type)) return;
       visualEditing.current = Boolean(event.data.editMode);
+      if (visualEditing.current) gallery.current?.getAnimations({ subtree: true }).forEach(animation => animation.cancel());
       resetZoom();
     };
     preference.addEventListener('change', resetZoom);
@@ -77,7 +78,7 @@ export default function ProductPhotoGallery({ product, index, href, thumbnails =
     resetZoom();
     const previous = previousIndex.current;
     previousIndex.current = { card: activeIndex, popup: popupIndex };
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (visualEditing.current || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     const animations: Animation[] = [];
     gallery.current?.querySelectorAll('.lr-image-track').forEach(track => {
       const popup = track.getAttribute('data-gallery-view') === 'popup';

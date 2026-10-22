@@ -4,7 +4,7 @@ import { Children, useEffect, useId, useRef, useState, type KeyboardEvent, type 
 import { DENEB_PREVIEW_FOCUS_MESSAGE, LEGACY_PREVIEW_FOCUS_MESSAGE, PREVIEW_FOCUS_MESSAGE } from '@deneb-ui/ui';
 
 /** Native scrolling keeps the existing editable cards, links and touch gestures intact. */
-export default function HomeProductCarousel({ children, label }: { children: ReactNode; label: string }) {
+export default function HomeProductCarousel({ children, label, related = false }: { children: ReactNode; label: string; related?: boolean }) {
   const track = useRef<HTMLDivElement>(null);
   const id = useId();
   const count = Children.count(children);
@@ -52,7 +52,7 @@ export default function HomeProductCarousel({ children, label }: { children: Rea
   };
 
   return <div className="lumi-home-carousel" role="region" aria-roledescription="carousel" aria-labelledby="lumi-best-sellers-label" data-product-count={count}>
-    <div ref={track} id={id} className="lumi-product-grid lumi-carousel-track" data-preview-list-path="products" data-home-collection="best-sellers" tabIndex={0} aria-describedby={`${id}-help`} onKeyDown={keyboard}>
+    <div ref={track} id={id} className="lumi-product-grid lumi-carousel-track" data-preview-list-path="products" data-home-collection={related ? undefined : 'best-sellers'} tabIndex={0} aria-describedby={`${id}-help`} onKeyDown={keyboard}>
       {children}
     </div>
     <span id={`${id}-help`} className="sr-only" data-preview-static="carousel-keyboard-help">Browse products with the arrow keys</span>
