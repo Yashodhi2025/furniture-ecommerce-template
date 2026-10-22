@@ -16,8 +16,8 @@
 .lumi-enquiry-contact>span:last-child { overflow-wrap:anywhere; }
 .lumi-enquiry-send :is(button,a):focus-visible { outline:2px solid #a57450; outline-offset:4px; }
 .lumi-enquiry-page .lumi-cart-summary>.lumi-enquiry-send { display:block; }
-.lumi-enquiry-page .lumi-cart-summary .lumi-whatsapp-button { background:#5b493c; color:#fffdfa; border-color:#5b493c; }
-.lumi-enquiry-page .lumi-cart-summary .lumi-whatsapp-button:enabled:hover { background:#3e2e23; }
+.lumi-enquiry-page .lumi-cart-summary .lumi-whatsapp-button { background:#25D366; color:#fff; border-color:#25D366; }
+.lumi-enquiry-page .lumi-cart-summary .lumi-whatsapp-button:enabled:hover { background:#20bd5a; border-color:#20bd5a; }
 .lumi-cart-enquiry-note p { font-size:12px; line-height:1.8; margin:20px 0; }
 .lumi-enquiry-page .lumi-cart-empty .lumi-enquiry-send { max-width:420px; margin:24px auto 0; text-align:left; }
 @media(prefers-reduced-motion:no-preference) {

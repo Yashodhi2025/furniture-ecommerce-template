@@ -6,16 +6,15 @@ import { EditableText } from '@deneb-ui/ui';
 import { contentObject, contentText, isTemplateValidation, useSiteData } from '@/lib/siteDataContext';
 import { productHref } from '@/lib/living-room';
 import { withBasePath } from '@/lib/utils';
+import { enquiryWhatsAppContact } from '@/lib/enquiryWhatsApp';
 
 type EnquiryItem = { id: string; name?: string; price?: string | number; quantity?: number; currency?: unknown };
 
-/** Read the dedicated setting only: the contact fixture contains a sample number. */
+/** Share the website's WhatsApp destination across product and list enquiries. */
 export default function EnquiryWhatsApp({ items, disabled = false, direct = false, contact = false }: { items: EnquiryItem[]; disabled?: boolean; direct?: boolean; contact?: boolean }) {
   const siteData = useSiteData();
   const settings = contentObject(contentObject(siteData.content).enquiry);
-  const number = contentText(settings.whatsappNumber);
-  const digits = number.replace(/\D/g, '');
-  const configured = /^[1-9]\d{6,14}$/.test(digits);
+  const { number, digits, configured } = enquiryWhatsAppContact(siteData);
   const [editing, setEditing] = useState(false);
   useEffect(() => {
     const edit = (event: MessageEvent) => {

@@ -7,6 +7,7 @@ import { formatPrice, productHref } from '@/lib/living-room';
 import { withBasePath } from '@/lib/utils';
 import type { SavedProduct } from '@/lib/shoppingStorage';
 import EnquiryWhatsApp from './EnquiryWhatsApp';
+import { enquiryWhatsAppContact } from '@/lib/enquiryWhatsApp';
 import './enquiry-drawer.css';
 
 const numericPrice = (value: unknown) => {
@@ -25,8 +26,7 @@ export default function EnquiryDrawer({ open, onClose, product, productIndex, qu
 }) {
   const siteData = useSiteData();
   const settings = contentObject(contentObject(siteData.content).productDetail);
-  const enquiry = contentObject(contentObject(siteData.content).enquiry);
-  const configured = /^[1-9]\d{6,14}$/.test(contentText(enquiry.whatsappNumber).replace(/\D/g, ''));
+  const { configured } = enquiryWhatsAppContact(siteData);
   const copy = (key: string, fallback: string) => <EditableText as="span" fieldPath={`productDetail.${key}`} defaultValue={key in settings ? contentText(settings[key]) : fallback} />;
   const productPath = productIndex >= 0 ? `products[${productIndex}]` : undefined;
   const dialog = useRef<HTMLDialogElement>(null);
