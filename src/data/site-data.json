@@ -198,7 +198,7 @@
           "description": "Your everyday retreat.",
           "imageUrl": "/images/bed.jpg",
           "linkLabel": "Explore bedroom",
-          "linkUrl": "/#shop"
+          "linkUrl": "/collections/bedroom/"
         },
         {
           "id": "kitchen-dining",
@@ -206,7 +206,7 @@
           "description": "Make room for together.",
           "imageUrl": "/images/navigation/dining.jpg",
           "linkLabel": "Explore dining",
-          "linkUrl": "/#shop"
+          "linkUrl": "/collections/kitchen-dining/"
         },
         {
           "id": "office",
@@ -214,7 +214,7 @@
           "description": "Space for good ideas.",
           "imageUrl": "/images/navigation/office.jpg",
           "linkLabel": "Explore office",
-          "linkUrl": "/#shop"
+          "linkUrl": "/collections/office/"
         },
         {
           "id": "lighting-decor",
@@ -222,7 +222,7 @@
           "description": "The finishing touches.",
           "imageUrl": "/images/navigation/lighting.jpg",
           "linkLabel": "Explore the details",
-          "linkUrl": "/#shop"
+          "linkUrl": "/collections/lighting-decor/"
         }
       ],
       "productsEyebrow": "FRESH PERSPECTIVES",

@@ -51,15 +51,16 @@ export default function HomeProductCarousel({ children, label }: { children: Rea
     move(event.key === 'ArrowLeft' ? -1 : 1, event.key === 'Home' ? 'start' : event.key === 'End' ? 'end' : undefined);
   };
 
-  return <div className="lumi-home-carousel" role="region" aria-roledescription="carousel" aria-label={label || 'Featured products'} data-product-count={count}>
-    <div ref={track} id={id} className="lumi-product-grid lumi-carousel-track" data-preview-list-path="products" data-home-collection="best-sellers" tabIndex={0} aria-label="Browse products with the arrow keys" onKeyDown={keyboard}>
+  return <div className="lumi-home-carousel" role="region" aria-roledescription="carousel" aria-labelledby="lumi-best-sellers-label" data-product-count={count}>
+    <div ref={track} id={id} className="lumi-product-grid lumi-carousel-track" data-preview-list-path="products" data-home-collection="best-sellers" tabIndex={0} aria-describedby={`${id}-help`} onKeyDown={keyboard}>
       {children}
     </div>
-    {count > 2 && <div className="lumi-carousel-controls" data-preview-static="home-carousel-controls">
-      <span role="status" aria-live="polite" aria-atomic="true">{range.start}–{range.end} / {count}</span>
+    <span id={`${id}-help`} className="sr-only" data-preview-static="carousel-keyboard-help">Browse products with the arrow keys</span>
+    {count > 2 && <div className="lumi-carousel-controls">
+      <span role="status" aria-live="polite" aria-atomic="true" data-preview-static="carousel-visible-range">{range.start}–{range.end} / {count}</span>
       <div>
-        <button type="button" aria-label={`Previous ${label || 'products'}`} aria-controls={id} disabled={!range.previous} onClick={() => move(-1)}><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true"><path d="m14 6-6 6 6 6" /></svg></button>
-        <button type="button" aria-label={`Next ${label || 'products'}`} aria-controls={id} disabled={!range.next} onClick={() => move(1)}><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true"><path d="m10 6 6 6-6 6" /></svg></button>
+        <button type="button" data-preview-static="carousel-previous-action" aria-label={`Previous ${label || 'products'}`} aria-controls={id} disabled={!range.previous} onClick={() => move(-1)}><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true"><path d="m14 6-6 6 6 6" /></svg></button>
+        <button type="button" data-preview-static="carousel-next-action" aria-label={`Next ${label || 'products'}`} aria-controls={id} disabled={!range.next} onClick={() => move(1)}><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true"><path d="m10 6 6 6-6 6" /></svg></button>
       </div>
     </div>}
   </div>;

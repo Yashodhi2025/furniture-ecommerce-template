@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, type FormEvent } from 'react';
-import { EditableText, EditableBox, EditableIcon, EditableImage } from '@deneb-ui/ui';
+import { EditableText, EditableBox, EditableIcon, EditableImage, isPreviewValidation } from '@deneb-ui/ui';
 import { contentObject, contentText, useSiteData } from '@/lib/siteDataContext';
 import './contact.css';
 
@@ -150,7 +150,7 @@ export default function ContactPage() {
               </span>
             </a>
           </div>
-          {lifestyleImage && (
+          {(lifestyleImage || isPreviewValidation(siteData)) && (
             <figure className="lumi-contact-lifestyle">
               <EditableImage
                 data-preview-field-path="contact.lifestyleImage"

@@ -24,6 +24,11 @@
       "services[*].showPrice",
       "products[*].details",
       "products[*].originalPrice",
+      "products[*].compareAtPrice",
+      "products[*].category",
+      "products[*].description",
+      "products[*].ctaLabel",
+      "navigation.dropdownBackgroundColor",
       "navigation.categories[*].id",
       "navigation.categories[*].items[*].id",
       "navigation.searchLabel",
@@ -111,6 +116,12 @@
       "id": "sale",
       "label": "Sale",
       "route": "/collections/sale"
+    },
+    {
+      "id": "product_detail",
+      "label": "Product Details",
+      "route": "/products/detail",
+      "required": true
     },
     {
       "id": "cart",

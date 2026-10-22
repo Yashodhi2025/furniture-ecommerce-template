@@ -28,15 +28,15 @@ export default function OurStoryPage() {
       <div data-about-reveal>{copy('body')}</div>
     </EditableSection>
 
-    <EditableSection name="our-story-values" padding="none" className="lumi-about-values" aria-label="Our values">
+    <EditableSection name="our-story-values" padding="none" className="lumi-about-values" aria-labelledby="lumi-values-label">
+      <span id="lumi-values-label" className="sr-only" data-preview-static="values-accessible-label">Our values</span>
       <div className="lumi-about-values-grid" data-preview-list-path="ourStory.values">
         {contentList(story.values).map((raw, index) => {
           const value = contentObject(raw);
-          const path = `ourStory.values[${index}]`;
-          return <article key={index} className="lumi-about-value" data-preview-item-path={path} data-about-reveal>
+          return <article key={index} className="lumi-about-value" data-preview-item-path={`ourStory.values[${index}]`} data-about-reveal>
             <span className="lumi-about-value-index" aria-hidden="true" data-preview-static="brand-value-index">{String(index + 1).padStart(2, '0')}</span>
-            <EditableText as="h3" fieldPath={`${path}.title`} defaultValue={contentText(value.title)} />
-            <EditableText as="p" fieldPath={`${path}.description`} defaultValue={contentText(value.description)} />
+            <EditableText as="h3" data-preview-field-path={`ourStory.values[${index}].title`} defaultValue={contentText(value.title)} />
+            <EditableText as="p" data-preview-field-path={`ourStory.values[${index}].description`} defaultValue={contentText(value.description)} />
           </article>;
         })}
       </div>

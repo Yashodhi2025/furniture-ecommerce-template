@@ -30,7 +30,7 @@ export default function HomePage() {
           <EditableText as="p" fieldPath="home.heroEyebrow" defaultValue={text('heroEyebrow')} className="lumi-eyebrow" />
           <div className="lumi-hero-heading">
             <EditableText as="h1" fieldPath="home.heroTitle" defaultValue={text('heroTitle')} className="lumi-display" />
-            <div className="lumi-hero-heading-reveal" aria-hidden="true" data-preview-static="hero-heading-animation" />
+            <div className="lumi-hero-heading-reveal" aria-hidden="true" />
           </div>
           <EditableText as="p" fieldPath="home.heroSummary" defaultValue={text('heroSummary')} className="lumi-hero-description" />
           <div className="lumi-actions">
@@ -81,7 +81,7 @@ export default function HomePage() {
 
       <EditableSection name="best-sellers" padding="none" className="lumi-section lumi-best-sellers">
         <div className="lumi-section-top">
-          <div><EditableText as="p" fieldPath="home.bestSellersEyebrow" defaultValue={text('bestSellersEyebrow')} className="lumi-eyebrow" /><EditableText as="h2" fieldPath="home.bestSellersHeading" defaultValue={text('bestSellersHeading')} className="lumi-heading" /></div>
+          <div id="lumi-best-sellers-label"><EditableText as="p" fieldPath="home.bestSellersEyebrow" defaultValue={text('bestSellersEyebrow')} className="lumi-eyebrow" /><EditableText as="h2" fieldPath="home.bestSellersHeading" defaultValue={text('bestSellersHeading')} className="lumi-heading" /></div>
           <div className="lumi-collection-intro"><EditableText as="p" fieldPath="home.bestSellersSummary" defaultValue={text('bestSellersSummary')} className="lumi-section-description" /><a href={withBasePath(text('bestSellersLinkUrl') || '/#shop-the-look')} data-preview-field-path="home.bestSellersLinkUrl" className="lumi-collection-link"><EditableText as="span" fieldPath="home.bestSellersLinkLabel" defaultValue={text('bestSellersLinkLabel')} /><span aria-hidden="true">&#8599;</span></a></div>
         </div>
         <HomeProductCarousel label={text('bestSellersHeading')}>

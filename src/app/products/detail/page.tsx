@@ -1,17 +1,30 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { PlatformProductDetail } from '@deneb-ui/ui';
+import { PlatformProductDetail, isPreviewValidation } from '@deneb-ui/ui';
+import { useProducts, useSiteData } from '@/lib/siteDataContext';
 import LivingProductDetail from '@/components/LivingProductDetail';
 import { isCollectionId, productCollection } from '@/lib/collections';
 import { withBasePath } from '@/lib/utils';
 import '@/app/furniture-collection.css';
 
 export default function ProductDetailPage() {
+  const siteData = useSiteData();
+  const products = useProducts();
+  const preview = isPreviewValidation(siteData);
+  const [requestedId, setRequestedId] = useState<string | null>(null);
   const [sourceCollection, setSourceCollection] = useState<string | null>(null);
-  useEffect(() => { setSourceCollection(new URLSearchParams(window.location.search).get('collection')); }, []);
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    setSourceCollection(params.get('collection'));
+    setRequestedId(params.get('id'));
+  }, []);
+  const emptyPreview = preview && !products.length ? <LivingProductDetail index={-1} /> : undefined;
   return (
+    <div data-preview-page-key="product_detail">
     <PlatformProductDetail
+      productId={preview ? requestedId || products[0]?.id : undefined}
+      notFoundFallback={emptyPreview}
       backHref={isCollectionId(sourceCollection) ? withBasePath(`/collections/${sourceCollection}/`) : withBasePath('/')}
       renderProduct={(product, context) => {
         const collectionId = productCollection(product.category, sourceCollection);
@@ -20,7 +33,7 @@ export default function ProductDetailPage() {
         return <LivingProductDetail product={product} index={context.productIndex} collectionId={collectionId} />;
       }}
       loadingFallback={
-        <div
+        emptyPreview ?? <div
           role="status"
           className="mx-auto flex min-h-[40vh] max-w-7xl items-center justify-center px-4 py-16 text-sm text-slate-400"
         >
@@ -28,5 +41,6 @@ export default function ProductDetailPage() {
         </div>
       }
     />
+    </div>
   );
 }

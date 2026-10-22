@@ -1,5 +1,12 @@
 'use client';
 
+import type { SiteData as EditableSiteData } from '@deneb-ui/ui';
+
+/** Deneb's export fixtures, distinct from a shopper's preview or editor iframe. */
+export function isTemplateValidation(siteData: EditableSiteData) {
+  return siteData.project?.id === 'template-validation' || siteData.project?.slug === 'template-validation';
+}
+
 export {
   SiteDataProvider,
   ThemeStyles,

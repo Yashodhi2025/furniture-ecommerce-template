@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { EditableSection, EditableText } from '@deneb-ui/ui';
-import { contentObject, contentText, useSiteData } from '@/lib/siteDataContext';
+import { contentObject, contentText, isTemplateValidation, useProducts, useSiteData } from '@/lib/siteDataContext';
 import { productHref } from '@/lib/living-room';
 import { readSavedProducts, writeWishlist, WISHLIST_CHANGE_EVENT, WISHLIST_KEY, type SavedProduct } from '@/lib/shoppingStorage';
 import { withBasePath } from '@/lib/utils';
@@ -27,6 +27,8 @@ const money = (price: SavedProduct['price']) => {
 
 export default function WishlistPage() {
   const siteData = useSiteData();
+  const preview = isTemplateValidation(siteData);
+  const products = useProducts();
   const settings = contentObject(contentObject(siteData.content).wishlist);
   const text = (key: keyof typeof defaults) => key in settings ? contentText(settings[key]) : defaults[key];
   const copy = (key: keyof typeof defaults, as: 'span' | 'h1' | 'h2' | 'p' = 'span') => <EditableText as={as} fieldPath={`wishlist.${key}`} defaultValue={text(key)} />;
@@ -34,6 +36,9 @@ export default function WishlistPage() {
   const [ready, setReady] = useState(false);
   const [error, setError] = useState('');
   const [notice, setNotice] = useState<'removedMessage' | null>(null);
+  const visibleItems: SavedProduct[] = preview && !items.length
+    ? [{ id: String(products[0]?.id ?? ''), name: products[0]?.name, imageUrl: products[0]?.imageUrl, price: products[0]?.price ?? 0, currency: products[0]?.currency }]
+    : items;
 
   useEffect(() => {
     const load = () => {
@@ -67,22 +72,23 @@ export default function WishlistPage() {
   const continueShopping = <a href={withBasePath(text('continueShoppingUrl'))} data-preview-field-path="wishlist.continueShoppingUrl" className="lumi-cart-continue">{copy('continueShoppingLabel')}<span aria-hidden="true">↗</span></a>;
 
   return <div className="lumi-cart lumi-wishlist" data-preview-page-key="wishlist">
-    <header className="lumi-cart-heading">{copy('title', 'h1')}{copy('description', 'p')}</header>
+    <header id="lumi-wishlist-heading" className="lumi-cart-heading">{copy('title', 'h1')}{copy('description', 'p')}</header>
     {error && <p role="alert" className="lumi-cart-error" data-preview-static="wishlist-storage-error">{error}</p>}
-    <p role="status" className="lumi-wishlist-status">{notice && copy(notice)}</p>
-    {!ready ? <p role="status" data-preview-static="wishlist-loading">Loading your wishlist…</p> : items.length ? <>
-      <section className="lumi-wishlist-grid" aria-label="Saved products">
-        {items.map(item => <article className="lumi-wishlist-card" key={item.id}>
+    <p role="status" className="lumi-wishlist-status">{notice ? copy(notice) : preview ? copy('removedMessage') : null}</p>
+    {!ready && !preview ? <p role="status" data-preview-static="wishlist-loading">Loading your wishlist…</p> : visibleItems.length ? <>
+      <section className="lumi-wishlist-grid" aria-labelledby="lumi-wishlist-heading">
+        {visibleItems.map(item => <article className="lumi-wishlist-card" key={item.id}>
           <Link href={productHref(item.id)} className="lumi-wishlist-image" aria-label={`View ${item.name ?? 'product'}`} data-preview-static="wishlist-product-image"><img src={withBasePath(item.imageUrl || '/placeholder.svg')} alt={item.name ?? 'Product'} loading="lazy" /></Link>
           <div className="lumi-wishlist-info">
             <h2 data-preview-static="wishlist-product-name"><Link href={productHref(item.id)}>{item.name || 'Product'}</Link></h2>
             <p className="lumi-wishlist-price" data-preview-static="wishlist-product-price">{money(item.price)}</p>
-            <button className="lumi-cart-remove" type="button" aria-label={`${text('removeLabel')}: ${item.name ?? 'product'}`} onClick={() => remove(item.id)}>{copy('removeLabel')}</button>
+            <button className="lumi-cart-remove" type="button" data-preview-field-path="wishlist.removeLabel" aria-label={`${text('removeLabel')}: ${item.name ?? 'product'}`} onClick={() => remove(item.id)}>{copy('removeLabel')}</button>
           </div>
         </article>)}
       </section>
       {continueShopping}
-    </> : !error && <EditableSection name="wishlist-empty" padding="none" className="lumi-cart-empty lumi-wishlist-empty">
+    </> : null}
+    {(preview || (ready && !items.length && !error)) && <EditableSection name="wishlist-empty" padding="none" className="lumi-cart-empty lumi-wishlist-empty">
       <svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" aria-hidden="true"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z" /></svg>
       {copy('emptyTitle', 'h2')}{copy('emptyDescription', 'p')}{continueShopping}
     </EditableSection>}

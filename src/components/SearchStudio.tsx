@@ -98,10 +98,9 @@ export default function SearchStudio({ open, onClose, id }: { open: boolean; onC
           {rooms.map(({ room, index }) => {
             const photos = contentList(room.items);
             const photo = contentObject(photos[0]);
-            const path = `navigation.categories[${index}]`;
-            return <Link key={contentText(room.id) || index} href={contentText(room.browseUrl) || '/#shop'} onClick={close} className="lumi-studio-room" data-preview-item-path={path} data-preview-field-path={`${path}.browseUrl`}>
-              {photos.length ? <EditableImage src={contentText(photo.imageUrl) || '/placeholder.svg'} alt="" data-preview-field-path={`${path}.items[0].imageUrl`} loading="lazy" /> : <img src={withBasePath('/placeholder.svg')} alt="" data-preview-static="empty-room-image" />}
-              <EditableText as="span" fieldPath={`${path}.label`} defaultValue={contentText(room.label)} />
+            return <Link key={contentText(room.id) || index} href={contentText(room.browseUrl) || '/#shop'} onClick={close} className="lumi-studio-room" data-preview-item-path={`navigation.categories[${index}]`} data-preview-field-path={`navigation.categories[${index}].browseUrl`}>
+              {photos.length ? <EditableImage src={contentText(photo.imageUrl) || '/placeholder.svg'} alt="" data-preview-field-path={`navigation.categories[${index}].items[0].imageUrl`} loading="lazy" /> : <img src={withBasePath('/placeholder.svg')} alt="" data-preview-static="empty-room-image" />}
+              <EditableText as="span" fieldPath={`navigation.categories[${index}].label`} defaultValue={contentText(room.label)} />
               <span aria-hidden="true">↗</span>
             </Link>;
           })}

@@ -1,7 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useId, useLayoutEffect, useRef, useState, type KeyboardEvent, type PointerEvent, type ReactNode } from 'react';
-import { EditableImage, isPreviewValidation, useSiteData, type ProductItem } from '@deneb-ui/ui';
+import { EditableImage, EditableText, DENEB_PREVIEW_FOCUS_MESSAGE, PREVIEW_FOCUS_MESSAGE, LEGACY_PREVIEW_FOCUS_MESSAGE, isPreviewValidation, useSiteData, type ProductItem } from '@deneb-ui/ui';
 import { productPhotos } from '@/lib/living-room';
 import { withBasePath } from '@/lib/utils';
 
@@ -128,21 +128,46 @@ export default function ProductPhotoGallery({ product, index, href, thumbnails =
     document.body.style.overflow = 'hidden';
     return () => { element.close(); document.body.style.overflow = overflow; opener?.focus(); };
   }, [open]);
+  useEffect(() => {
+    const focusPhoto = (event: MessageEvent) => {
+      if (event.source !== window.parent || ![DENEB_PREVIEW_FOCUS_MESSAGE, PREVIEW_FOCUS_MESSAGE, LEGACY_PREVIEW_FOCUS_MESSAGE].includes(event.data?.type)) return;
+      const position = photos.findIndex(photo => photo.path === event.data.fieldPath);
+      if (position < 0) return;
+      setHovered(false);
+      slideDirection.current = 1;
+      (open ? setPopupSelected : setSelected)(position);
+      resetZoom();
+    };
+    window.addEventListener('message', focusPhoto);
+    return () => window.removeEventListener('message', focusPhoto);
+  }, [photos, open, resetZoom]);
+  const photoImage = (photo: (typeof slides)[number], value: number, popup = false, thumbnail = false) => {
+    const imageProps = { src: withBasePath(photo.src), alt: thumbnail ? '' : `${product.name} — view ${value + 1}`, fit: !thumbnail && (popup || thumbnails) ? 'contain' as const : 'cover' as const, loading: popup && !thumbnail ? 'eager' as const : 'lazy' as const };
+    const galleryIndex = Number(photo.path.match(/\[(\d+)\]$/)?.[1]);
+    if (photo.path === `products[${index}].imageUrl`) return <EditableImage {...imageProps} data-preview-field-path={`products[${index}].imageUrl`} />;
+    if (photo.path.includes('.gallery[')) return <EditableImage {...imageProps} data-preview-field-path={`products[${index}].gallery[${galleryIndex}]`} />;
+    return <EditableImage {...imageProps} data-preview-field-path={photo.path} />;
+  };
   const images = (popup = false) => <div className="lr-image-stack"><div className="lr-image-track" data-gallery-view={popup ? 'popup' : 'card'}>
-    {slides.length ? slides.map((photo, value) => <div key={photo.path} data-preview-item-path={photo.path.startsWith(`products[${index}].gallery[`) ? photo.path : undefined} className={`lr-image-layer${value === (popup ? popupIndex : activeIndex) ? ' is-active' : ''}`} aria-hidden={value !== (popup ? popupIndex : activeIndex)}>
-      <EditableImage src={withBasePath(photo.src)} alt={`${product.name} — view ${value + 1}`} data-preview-field-path={photo.path} fit={popup || thumbnails ? 'contain' : 'cover'} loading={popup ? 'eager' : 'lazy'} />
-    </div>) : <EditableImage src={withBasePath('/placeholder.svg')} data-preview-field-path={`products[${index}].imageUrl`} alt="Product image not yet available" />}
+    {slides.length ? slides.map((photo, value) => {
+      const galleryIndex = Number(photo.path.match(/\[(\d+)\]$/)?.[1]);
+      const className = `lr-image-layer${value === (popup ? popupIndex : activeIndex) ? ' is-active' : ''}`;
+      return photo.path.includes('.gallery[')
+        ? <div key={photo.path} data-preview-item-path={`products[${index}].gallery[${galleryIndex}]`} className={className}>{photoImage(photo, value, popup)}</div>
+        : <div key={photo.path} className={className}>{photoImage(photo, value, popup)}</div>;
+    }) : <EditableImage src={withBasePath('/placeholder.svg')} data-preview-field-path={`products[${index}].imageUrl`} alt="Product image not yet available" />}
   </div></div>;
   const swatches = (popup = false) => colors.length > 0 && <div className="lr-color-options" role="group" aria-label={`Color of ${product.name}`}>
     {colors.map((color, value) => <button type="button" key={color.path} style={{ backgroundColor: color.hex }} title={color.name} aria-label={color.name} aria-pressed={(popup ? popupIndex : activeIndex) === photos.length + value} onClick={() => choosePhoto(photos.length + value)} />)}
     <span>{(popup ? popupIndex : activeIndex) >= photos.length ? colors[(popup ? popupIndex : activeIndex) - photos.length]?.name : 'Choose color'}</span>
   </div>;
-  const previews = (popup = false) => <div className={popup || thumbnails ? 'lr-thumbnails' : 'lr-photo-dots'} aria-label={`Photos of ${product.name}`}>
-    {photos.map((photo, value) => <button type="button" key={photo.path} data-preview-item-path={photo.path.startsWith(`products[${index}].gallery[`) ? photo.path : undefined} onClick={() => choosePhoto(value)} aria-label={`Show photo ${value + 1} of ${product.name}`} aria-pressed={(popup ? popupIndex : activeIndex) === value} aria-controls={popup ? undefined : photoId}>
-      <EditableImage src={withBasePath(photo.src)} data-preview-field-path={photo.path} alt="" loading="lazy" />
+  const previews = (popup = false) => <div className={popup || thumbnails ? 'lr-thumbnails' : 'lr-photo-dots'}>
+    {photos.map((photo, value) => <button type="button" key={photo.path} data-preview-item-path={photo.path.startsWith(`products[${index}].gallery[`) ? photo.path : undefined} onClick={() => choosePhoto(value)} aria-labelledby={`${photoId}-${popup ? 'popup' : 'card'}-${value}`} aria-pressed={(popup ? popupIndex : activeIndex) === value} aria-controls={popup ? undefined : photoId}>
+      <small id={`${photoId}-${popup ? 'popup' : 'card'}-${value}`} className="sr-only" data-preview-static="gallery-thumbnail-action">Show photo {value + 1} of {product.name}</small>
+      {photoImage(photo, value, popup, true)}
     </button>)}
   </div>;
-  const arrows = <><button className="lr-photo-arrow lr-photo-prev" type="button" aria-label={`Previous photo of ${product.name}`} onClick={() => move(-1)}>‹</button><button className="lr-photo-arrow lr-photo-next" type="button" aria-label={`Next photo of ${product.name}`} onClick={() => move(1)}>›</button></>;
+  const arrows = <><button className="lr-photo-arrow lr-photo-prev" type="button" data-preview-static="gallery-previous-photo" aria-label={`Previous photo of ${product.name}`} onClick={() => move(-1)}>‹</button><button className="lr-photo-arrow lr-photo-next" type="button" data-preview-static="gallery-next-photo" aria-label={`Next photo of ${product.name}`} onClick={() => move(1)}>›</button></>;
   const keyboard = (event: KeyboardEvent) => { if (event.key === 'ArrowRight' || event.key === 'ArrowLeft') { event.preventDefault(); move(event.key === 'ArrowRight' ? 1 : -1); } };
   return <div ref={gallery} className={`lr-gallery${thumbnails ? ' lr-gallery-detail' : ''}${imageAction ? ' lr-gallery-has-action' : ''}`} data-preview-list-path={`products[${index}].gallery`}>
     <div className="lr-gallery-stage" id={photoId} onPointerEnter={event => {
@@ -150,11 +175,11 @@ export default function ProductPhotoGallery({ product, index, href, thumbnails =
       move(1);
       setHovered(true);
     }} onPointerLeave={() => setHovered(false)} onFocusCapture={() => setHovered(false)} onKeyDown={keyboard}>
-      {href ? <button ref={trigger} type="button" className="lr-photo-link" aria-label={`View images of ${product.name}`} aria-haspopup="dialog" onClick={() => { setHovered(false); setPopupSelected(activeIndex); previousIndex.current.popup = activeIndex; setOpen(true); }}>{images()}<span className="lr-view-product">View piece ↗</span></button> : <div ref={zoomSurface} className="lr-photo-main" onPointerEnter={followCursor} onPointerMove={followCursor} onPointerLeave={resetZoom} onPointerCancel={resetZoom} onPointerDown={resetZoom} onFocusCapture={resetZoom}>{images()}</div>}
+      {href ? <button ref={trigger} type="button" className="lr-photo-link" aria-labelledby={`${photoId}-view-label`} aria-haspopup="dialog" onClick={() => { setHovered(false); setPopupSelected(activeIndex); previousIndex.current.popup = activeIndex; setOpen(true); }}>{images()}<span id={`${photoId}-view-label`} className="lr-view-product" data-preview-static="gallery-view-action">View piece ↗</span></button> : <div ref={zoomSurface} className="lr-photo-main" onPointerEnter={followCursor} onPointerMove={followCursor} onPointerLeave={resetZoom} onPointerCancel={resetZoom} onPointerDown={resetZoom} onFocusCapture={resetZoom}>{images()}</div>}
       {imageAction}
       {photos.length > 1 && arrows}
       {/* Select the gallery list independently of the cover's scalar imageUrl field. */}
-      <span className="lr-photo-counter" data-preview-list-path={`products[${index}].gallery`}>{photos.length === 0 ? '0 / 0' : activeIndex < photos.length ? `${activeIndex + 1} / ${photos.length}` : colors[activeIndex - photos.length]?.name}</span>
+      <span className="lr-photo-counter" data-preview-list-path={`products[${index}].gallery`}><span data-preview-static="gallery-photo-count">{photos.length === 0 ? '0 / 0' : activeIndex < photos.length ? `${activeIndex + 1} / ${photos.length}` : colors[activeIndex - photos.length]?.name}</span></span>
     </div>
     {photos.length > 1 && previews()}
     {swatches()}
@@ -163,8 +188,8 @@ export default function ProductPhotoGallery({ product, index, href, thumbnails =
       const rect = event.currentTarget.getBoundingClientRect();
       if (event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom) close();
     }}>
-      <header><h2 id={titleId}>{product.name}</h2><button type="button" aria-label="Close image gallery" autoFocus onClick={close}>×</button></header>
-      {open && <><div className="lr-popup-stage">{images(true)}{photos.length > 1 && arrows}</div><div className="lr-popup-footer"><span aria-live="polite" data-preview-list-path={`products[${index}].gallery`}>{photos.length === 0 ? '0 / 0' : popupIndex < photos.length ? `${popupIndex + 1} / ${photos.length}` : colors[popupIndex - photos.length]?.name}</span>{previews(true)}{swatches(true)}</div></>}
+      <header><h2 id={titleId}><EditableText as="span" data-preview-field-path={`products[${index}].name`} defaultValue={product.name} /></h2><button type="button" aria-label="Close image gallery" data-preview-static="gallery-close-action" autoFocus onClick={close}>×</button></header>
+      {open && <><div className="lr-popup-stage">{images(true)}{photos.length > 1 && arrows}</div><div className="lr-popup-footer"><span aria-live="polite" data-preview-list-path={`products[${index}].gallery`}><span data-preview-static="gallery-popup-photo-count">{photos.length === 0 ? '0 / 0' : popupIndex < photos.length ? `${popupIndex + 1} / ${photos.length}` : colors[popupIndex - photos.length]?.name}</span></span>{previews(true)}{swatches(true)}</div></>}
     </dialog>
   </div>;
 }

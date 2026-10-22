@@ -131,7 +131,7 @@ export default function LumiNavbar() {
   };
 
   return <>
-    <header className={`lumi-navbar${mobileOpen ? ' is-mobile-menu-open' : ''}`} ref={header} onKeyDown={handleKeys} data-preview-field-path="navigation.dropdownBackgroundColor" style={{ '--lumi-dropdown-background': text('dropdownBackgroundColor', '#eee7dd') } as CSSProperties}>
+    <header className={`lumi-navbar${mobileOpen ? ' is-mobile-menu-open' : ''}`} ref={header} onKeyDown={handleKeys} style={{ '--lumi-dropdown-background': text('dropdownBackgroundColor', '#eee7dd') } as CSSProperties}>
       <div className="lumi-navbar-top">
         <button ref={hamburger} className="lumi-nav-icon lumi-hamburger" type="button" aria-label={mobileOpen ? 'Close navigation' : 'Open navigation'} aria-expanded={mobileOpen} aria-controls={menuId} onClick={() => { cancelClose(); setMobileOpen(!mobileOpen); setOpenCategory(null); }} data-preview-static="navigation-disclosure">
           <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">{mobileOpen ? <path d="m6 6 12 12M6 18 18 6" /> : <path d="M3 6h18M3 12h18M3 18h18" />}</svg>
@@ -181,9 +181,9 @@ export default function LumiNavbar() {
                 <EditableText as="span" data-preview-field-path={`navigation.categories[${categoryIndex}].label`} defaultValue={contentText(category.label)} placeholder="Collection" />
                 <svg className="lumi-nav-chevron" viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" aria-hidden="true"><path d="m4 6 4 4 4-4" /></svg>
               </Link>
-              <button type="button" className="lumi-category-toggle" aria-label={`Show ${contentText(category.label)} subcategories`} aria-expanded={isOpen} aria-controls={panelId} onClick={() => { cancelClose(); setOpenCategory(isOpen ? null : categoryIndex); }}><svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" aria-hidden="true"><path d="m4 6 4 4 4-4" /></svg></button>
+              <button type="button" className="lumi-category-toggle" data-preview-static="navigation-category-disclosure" aria-label={`Show ${contentText(category.label)} subcategories`} aria-expanded={isOpen} aria-controls={panelId} onClick={() => { cancelClose(); setOpenCategory(isOpen ? null : categoryIndex); }}><svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" aria-hidden="true"><path d="m4 6 4 4 4-4" /></svg></button>
               <EditableSection as="div" name={`navigation-dropdown-${categoryIndex}`} padding="none" className="lumi-mega-panel" id={panelId} inert={!isOpen} aria-labelledby={`${panelId}-trigger`}>
-                <div className="lumi-mega-surface" data-preview-field-path="navigation.dropdownBackgroundColor">
+                <div className="lumi-mega-surface">
                 <div className="lumi-mega-copy">
                   <EditableText as="p" className="lumi-mega-description" data-preview-field-path={`navigation.categories[${categoryIndex}].description`} defaultValue={contentText(category.description)} />
                   <ul className="lumi-mega-items" data-preview-list-path={`navigation.categories[${categoryIndex}].items`}>
