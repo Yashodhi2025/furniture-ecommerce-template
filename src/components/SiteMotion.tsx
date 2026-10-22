@@ -68,6 +68,7 @@ export default function SiteMotion() {
     const editing = (event: MessageEvent) => {
       if (event.source !== window.parent || !['FIVORA_PREVIEW_EDIT_MODE', 'MARKETPLACE_PREVIEW_EDIT_MODE'].includes(event.data?.type)) return;
       editingHome = Boolean(event.data.editMode);
+      shell.dataset.cardEditing = String(Boolean(event.data.editMode));
       if (home) home.dataset.homeEditing = String(editingHome);
       const details = main.querySelector<HTMLElement>('.lr-detail-page');
       editingDetails = Boolean(event.data.editMode);

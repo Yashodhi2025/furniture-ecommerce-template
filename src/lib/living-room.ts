@@ -5,12 +5,16 @@ export const livingCategories = ['Sofas', 'Chairs', 'Storage', 'Lighting'];
 export function isLivingProduct(product: ProductItem) {
   return livingCategories.some(category => category.toLowerCase() === String(product.category ?? '').toLowerCase()) || ['armchairs', 'coffee tables', 'side tables', 'tv units', 'shelving'].includes(String(product.category ?? '').toLowerCase());
 }
-export function productPhotos(product: Pick<ProductItem, 'imageUrl' | 'gallery'>, index: number) {
+export function productPhotos(product: Pick<ProductItem, 'imageUrl' | 'gallery'>, index: number, editorSlots = false) {
+  const gallery = Array.isArray(product.gallery) ? product.gallery : [];
   return [
-    ...(product.imageUrl ? [{ src: product.imageUrl, path: `products[${index}].imageUrl` }] : []),
-    // Keep every string slot, including empty uploads and duplicate URLs, bound
-    // to its original array index so the editor can replace or remove it.
-    ...(Array.isArray(product.gallery) ? product.gallery.flatMap((src, photoIndex) => typeof src === 'string' ? [{ src, path: `products[${index}].gallery[${photoIndex}]` }] : []) : []),
+    ...(product.imageUrl || editorSlots ? [{ src: product.imageUrl || '', path: `products[${index}].imageUrl` }] : []),
+    // Cover + two additional slots. Filter empty uploads only for shoppers,
+    // without renumbering real array indices or copying image URLs.
+    ...Array.from({ length: editorSlots ? Math.max(2, gallery.length) : gallery.length }, (_, photoIndex) => {
+      const src = typeof gallery[photoIndex] === 'string' ? gallery[photoIndex] : '';
+      return { src, path: `products[${index}].gallery[${photoIndex}]` };
+    }).filter(photo => editorSlots || photo.src.trim()),
   ];
 }
 export const productHref = (id: ProductItem['id'], collectionId?: CollectionId) => `/products/detail/?id=${encodeURIComponent(String(id ?? ''))}${collectionId ? `&collection=${encodeURIComponent(collectionId)}` : ''}`;

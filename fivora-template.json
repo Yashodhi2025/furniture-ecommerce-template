@@ -221,7 +221,21 @@
           { "key": "addToCartLabel", "type": "text", "label": "Add to Cart button label" },
           { "key": "unavailableLabel", "type": "text", "label": "Unavailable button label" },
           { "key": "wishlistLabel", "type": "text", "label": "Wishlist button label" },
-          { "key": "wishlistSavedLabel", "type": "text", "label": "Saved Wishlist button label" }
+          { "key": "wishlistSavedLabel", "type": "text", "label": "Saved Wishlist button label" },
+          {"key": "drawerEyebrow", "type": "text", "label": "Drawer eyebrow"},
+          {"key": "drawerHeading", "type": "text", "label": "Drawer heading"},
+          {"key": "drawerIntro", "type": "text", "label": "Drawer intro"},
+          {"key": "drawerJustAdded", "type": "text", "label": "Drawer just added"},
+          {"key": "drawerQuantityLabel", "type": "text", "label": "Drawer quantity label"},
+          {"key": "drawerEachLabel", "type": "text", "label": "Drawer each label"},
+          {"key": "drawerSelectionHeading", "type": "text", "label": "Drawer selection heading"},
+          {"key": "drawerPiecesLabel", "type": "text", "label": "Drawer pieces label"},
+          {"key": "drawerQuantityShort", "type": "text", "label": "Drawer quantity short"},
+          {"key": "drawerTotalLabel", "type": "text", "label": "Drawer total label"},
+          {"key": "drawerConfirmPrice", "type": "text", "label": "Drawer confirm price"},
+          {"key": "drawerTotalNote", "type": "text", "label": "Drawer total note"},
+          {"key": "drawerViewLabel", "type": "text", "label": "Drawer view label"},
+          {"key": "drawerContinueLabel", "type": "text", "label": "Drawer continue label"}
         ]
       },
       {
@@ -973,7 +987,7 @@
             "key": "gallery",
             "type": "list",
             "label": "Additional product photos",
-            "minItems": 0,
+            "minItems": 2,
             "itemField": {
               "type": "image",
               "label": "Product photo"

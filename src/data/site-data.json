@@ -172,7 +172,21 @@
       "addToCartLabel": "Add to Enquiry List",
       "unavailableLabel": "Unavailable",
       "wishlistLabel": "Wishlist",
-      "wishlistSavedLabel": "Saved to Wishlist"
+      "wishlistSavedLabel": "Saved to Wishlist",
+      "drawerEyebrow": "YOUR FURNITURE EDIT",
+      "drawerHeading": "Added to your enquiry list",
+      "drawerIntro": "A little closer to your perfect space.",
+      "drawerJustAdded": "JUST ADDED",
+      "drawerQuantityLabel": "Quantity added",
+      "drawerEachLabel": "each",
+      "drawerSelectionHeading": "In your enquiry list",
+      "drawerPiecesLabel": "pieces",
+      "drawerQuantityShort": "Qty",
+      "drawerTotalLabel": "Estimated total",
+      "drawerConfirmPrice": "Price on enquiry",
+      "drawerTotalNote": "Availability and delivery confirmed with your quotation.",
+      "drawerViewLabel": "View Enquiry List",
+      "drawerContinueLabel": "Continue Shopping"
     },
     "common": {
       "websiteTitle": "LUMI LIVING",
@@ -449,7 +463,7 @@
         "details": "A simple workspace with warm wood tones and room for your ideas.",
         "originalPrice": 49000,
         "homeCollection": "new-arrivals",
-        "gallery": []
+        "gallery": ["", ""]
       },
       {
         "id": "mira-storage",
@@ -488,7 +502,7 @@
         "details": "A restful bedroom story in layered neutrals and soft textures.",
         "originalPrice": 165000,
         "homeCollection": "best-sellers",
-        "gallery": []
+        "gallery": ["", ""]
       },
       {
         "id": "forma-dining",
@@ -506,7 +520,7 @@
         "details": "A gathering space with rich tones, generous seating, and room to linger.",
         "originalPrice": 142000,
         "homeCollection": "best-sellers",
-        "gallery": []
+        "gallery": ["", ""]
       },
       {
         "id": "arc-lamp",
@@ -545,7 +559,7 @@
         "details": "A light-filled workspace for focus, movement, and everyday ideas.",
         "originalPrice": 96000,
         "homeCollection": "best-sellers",
-        "gallery": []
+        "gallery": ["", ""]
       },
       {
         "id": "aven-modular-sofa",
@@ -563,7 +577,7 @@
         "homeCollection": "collection-only",
         "compareAtPrice": 249000,
         "originalPrice": 249000,
-        "gallery": []
+        "gallery": ["", ""]
       },
       {
         "id": "selva-two-seater",
@@ -579,7 +593,7 @@
         "ctaUrl": "/products/detail/?id=selva-two-seater",
         "details": "A compact two-seater with gently rounded arms and deep cushions for smaller living spaces.",
         "homeCollection": "collection-only",
-        "gallery": []
+        "gallery": ["", ""]
       },
       {
         "id": "runa-accent-chair",
@@ -597,7 +611,7 @@
         "homeCollection": "collection-only",
         "compareAtPrice": 68000,
         "originalPrice": 68000,
-        "gallery": []
+        "gallery": ["", ""]
       },
       {
         "id": "cove-coffee-table",
@@ -613,7 +627,7 @@
         "ctaUrl": "/products/detail/?id=cove-coffee-table",
         "details": "A round coffee table with a warm wood finish, softened edges, and a low shelf for everyday essentials.",
         "homeCollection": "collection-only",
-        "gallery": []
+        "gallery": ["", ""]
       },
       {
         "id": "linden-side-tables",
@@ -629,7 +643,7 @@
         "ctaUrl": "/products/detail/?id=linden-side-tables",
         "details": "A pair of compact nesting tables with slim timber legs that tuck together when extra floor space matters.",
         "homeCollection": "collection-only",
-        "gallery": []
+        "gallery": ["", ""]
       },
       {
         "id": "orin-media-console",
@@ -645,7 +659,7 @@
         "ctaUrl": "/products/detail/?id=orin-media-console",
         "details": "A low media console with sliding doors, open equipment storage, and discreet rear cable openings.",
         "homeCollection": "collection-only",
-        "gallery": []
+        "gallery": ["", ""]
       },
       {
         "id": "tala-bookshelf",
@@ -661,7 +675,7 @@
         "ctaUrl": "/products/detail/?id=tala-bookshelf",
         "details": "A five-tier open bookshelf with a slender frame and generous shelves for books, ceramics, and plants.",
         "homeCollection": "collection-only",
-        "gallery": []
+        "gallery": ["", ""]
       },
       {
         "id": "neri-sideboard",
@@ -677,7 +691,7 @@
         "ctaUrl": "/products/detail/?id=neri-sideboard",
         "details": "A three-door sideboard with adjustable internal shelves and understated recessed handles.",
         "homeCollection": "collection-only",
-        "gallery": []
+        "gallery": ["", ""]
       },
       {
         "id": "elara-queen-bed",
@@ -695,7 +709,7 @@
         "homeCollection": "collection-only",
         "compareAtPrice": 194000,
         "originalPrice": 194000,
-        "gallery": []
+        "gallery": ["", ""]
       },
       {
         "id": "arden-king-bed",
@@ -711,7 +725,7 @@
         "ctaUrl": "/products/detail/?id=arden-king-bed",
         "details": "A king-size timber bed frame with a gently angled headboard and a warm natural finish. Mattress sold separately.",
         "homeCollection": "collection-only",
-        "gallery": []
+        "gallery": ["", ""]
       },
       {
         "id": "uma-nightstand",
@@ -727,7 +741,7 @@
         "ctaUrl": "/products/detail/?id=uma-nightstand",
         "details": "A slim bedside table with one smooth-glide drawer and an open shelf for books or a small basket.",
         "homeCollection": "collection-only",
-        "gallery": []
+        "gallery": ["", ""]
       },
       {
         "id": "lena-nightstand",
@@ -743,7 +757,7 @@
         "ctaUrl": "/products/detail/?id=lena-nightstand",
         "details": "A two-drawer bedside table with rounded corners and room for a lamp, books, and evening essentials.",
         "homeCollection": "collection-only",
-        "gallery": []
+        "gallery": ["", ""]
       },
       {
         "id": "serein-wardrobe",
@@ -759,7 +773,7 @@
         "ctaUrl": "/products/detail/?id=serein-wardrobe",
         "details": "A three-door wardrobe with hanging space, adjustable shelving, and full-length doors in a soft wood finish.",
         "homeCollection": "collection-only",
-        "gallery": []
+        "gallery": ["", ""]
       },
       {
         "id": "maren-dresser",
@@ -775,7 +789,7 @@
         "ctaUrl": "/products/detail/?id=maren-dresser",
         "details": "A wide six-drawer dresser with a generous top surface and a balanced arrangement of deep storage drawers.",
         "homeCollection": "collection-only",
-        "gallery": []
+        "gallery": ["", ""]
       },
       {
         "id": "isla-reading-chair",
@@ -791,7 +805,7 @@
         "ctaUrl": "/products/detail/?id=isla-reading-chair",
         "details": "A compact upholstered reading chair with a softly curved back for a quiet bedroom corner.",
         "homeCollection": "collection-only",
-        "gallery": []
+        "gallery": ["", ""]
       },
       {
         "id": "bela-dining-table",
@@ -809,7 +823,7 @@
         "homeCollection": "collection-only",
         "compareAtPrice": 208000,
         "originalPrice": 208000,
-        "gallery": []
+        "gallery": ["", ""]
       },
       {
         "id": "marlo-dining-table",
@@ -825,7 +839,7 @@
         "ctaUrl": "/products/detail/?id=marlo-dining-table",
         "details": "A four-seat round dining table with a central pedestal base that keeps the seating area open.",
         "homeCollection": "collection-only",
-        "gallery": []
+        "gallery": ["", ""]
       },
       {
         "id": "iva-dining-chair",
@@ -841,7 +855,7 @@
         "ctaUrl": "/products/detail/?id=iva-dining-chair",
         "details": "An upholstered dining chair with a cushioned seat and gently shaped back. Priced per chair.",
         "homeCollection": "collection-only",
-        "gallery": []
+        "gallery": ["", ""]
       },
       {
         "id": "koru-dining-chair",
@@ -857,7 +871,7 @@
         "ctaUrl": "/products/detail/?id=koru-dining-chair",
         "details": "A timber dining chair with a curved back rail and an easy-care shaped seat. Priced per chair.",
         "homeCollection": "collection-only",
-        "gallery": []
+        "gallery": ["", ""]
       },
       {
         "id": "veda-sideboard",
@@ -873,7 +887,7 @@
         "ctaUrl": "/products/detail/?id=veda-sideboard",
         "details": "A dining sideboard with cane-front doors and adjustable shelves for crockery, serving pieces, and linens.",
         "homeCollection": "collection-only",
-        "gallery": []
+        "gallery": ["", ""]
       },
       {
         "id": "liora-pendant",
@@ -889,7 +903,7 @@
         "ctaUrl": "/products/detail/?id=liora-pendant",
         "details": "A slim linear pendant designed to spread warm ambient light over a dining table. Installation not included.",
         "homeCollection": "collection-only",
-        "gallery": []
+        "gallery": ["", ""]
       },
       {
         "id": "numa-kitchen-island",
@@ -905,7 +919,7 @@
         "ctaUrl": "/products/detail/?id=numa-kitchen-island",
         "details": "A compact freestanding kitchen island with a preparation surface, two drawers, and open storage below.",
         "homeCollection": "collection-only",
-        "gallery": []
+        "gallery": ["", ""]
       },
       {
         "id": "keva-writing-desk",
@@ -923,7 +937,7 @@
         "homeCollection": "collection-only",
         "compareAtPrice": 65000,
         "originalPrice": 65000,
-        "gallery": []
+        "gallery": ["", ""]
       },
       {
         "id": "vireo-standing-desk",
@@ -939,7 +953,7 @@
         "ctaUrl": "/products/detail/?id=vireo-standing-desk",
         "details": "A height-adjustable desk with an electric lift frame, a spacious worktop, and a cable-management tray.",
         "homeCollection": "collection-only",
-        "gallery": []
+        "gallery": ["", ""]
       },
       {
         "id": "ergoa-task-chair",
@@ -957,7 +971,7 @@
         "homeCollection": "collection-only",
         "compareAtPrice": 54500,
         "originalPrice": 54500,
-        "gallery": []
+        "gallery": ["", ""]
       },
       {
         "id": "modo-desk-chair",
@@ -973,7 +987,7 @@
         "ctaUrl": "/products/detail/?id=modo-desk-chair",
         "details": "An upholstered swivel chair with adjustable height and padded armrests for a comfortable home workspace.",
         "homeCollection": "collection-only",
-        "gallery": []
+        "gallery": ["", ""]
       },
       {
         "id": "folio-pedestal",
@@ -989,7 +1003,7 @@
         "ctaUrl": "/products/detail/?id=folio-pedestal",
         "details": "A compact three-drawer office pedestal with castors and a deeper bottom drawer for files.",
         "homeCollection": "collection-only",
-        "gallery": []
+        "gallery": ["", ""]
       },
       {
         "id": "lucen-desk-lamp",
@@ -1005,7 +1019,7 @@
         "ctaUrl": "/products/detail/?id=lucen-desk-lamp",
         "details": "A metal task lamp with an adjustable shade and arm to direct light over reading or detailed work.",
         "homeCollection": "collection-only",
-        "gallery": []
+        "gallery": ["", ""]
       },
       {
         "id": "auri-table-lamp",
@@ -1021,7 +1035,7 @@
         "ctaUrl": "/products/detail/?id=auri-table-lamp",
         "details": "A ceramic table lamp with a textured base and a fabric shade for soft bedside or console lighting.",
         "homeCollection": "collection-only",
-        "gallery": []
+        "gallery": ["", ""]
       },
       {
         "id": "noor-table-lamp",
@@ -1039,7 +1053,7 @@
         "homeCollection": "collection-only",
         "compareAtPrice": 35500,
         "originalPrice": 35500,
-        "gallery": []
+        "gallery": ["", ""]
       },
       {
         "id": "contour-botanical-print",
@@ -1055,7 +1069,7 @@
         "ctaUrl": "/products/detail/?id=contour-botanical-print",
         "details": "A framed botanical art print in muted earth tones with a simple profile for a quiet wall arrangement.",
         "homeCollection": "collection-only",
-        "gallery": []
+        "gallery": ["", ""]
       },
       {
         "id": "stillwater-wall-canvas",
@@ -1071,7 +1085,7 @@
         "ctaUrl": "/products/detail/?id=stillwater-wall-canvas",
         "details": "An abstract canvas in warm neutral tones, designed to add a soft focal point above a console or sofa.",
         "homeCollection": "collection-only",
-        "gallery": []
+        "gallery": ["", ""]
       },
       {
         "id": "terra-vase-set",
@@ -1087,7 +1101,7 @@
         "ctaUrl": "/products/detail/?id=terra-vase-set",
         "details": "A set of three ribbed decorative ceramic vases in complementary heights for a shelf or dining table.",
         "homeCollection": "collection-only",
-        "gallery": []
+        "gallery": ["", ""]
       },
       {
         "id": "sevi-storage-baskets",
@@ -1105,7 +1119,7 @@
         "homeCollection": "collection-only",
         "compareAtPrice": 16500,
         "originalPrice": 16500,
-        "gallery": []
+        "gallery": ["", ""]
       },
       {
         "id": "dune-trinket-box",
@@ -1121,7 +1135,7 @@
         "ctaUrl": "/products/detail/?id=dune-trinket-box",
         "details": "A small lidded decorative box with a textured finish for jewellery, keys, and keepsakes.",
         "homeCollection": "collection-only",
-        "gallery": []
+        "gallery": ["", ""]
       }
     ],
     "navigation": {

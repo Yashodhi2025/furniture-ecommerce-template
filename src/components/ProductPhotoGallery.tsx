@@ -2,12 +2,17 @@
 
 import { useCallback, useEffect, useId, useLayoutEffect, useRef, useState, type KeyboardEvent, type PointerEvent, type ReactNode } from 'react';
 import { EditableImage, EditableText, DENEB_PREVIEW_FOCUS_MESSAGE, PREVIEW_FOCUS_MESSAGE, LEGACY_PREVIEW_FOCUS_MESSAGE, isPreviewValidation, useSiteData, type ProductItem } from '@deneb-ui/ui';
+import { useFivoraEditMode } from '@/lib/useFivoraEditMode';
+import { isTemplateValidation } from '@/lib/siteDataContext';
 import { productPhotos } from '@/lib/living-room';
 import { withBasePath } from '@/lib/utils';
+import '@/app/furniture-collection.css';
 
-export default function ProductPhotoGallery({ product, index, href, thumbnails = false, imageAction }: { product: Pick<ProductItem, 'name' | 'imageUrl' | 'gallery' | 'colors'>; index: number; href?: string; thumbnails?: boolean; imageAction?: ReactNode }) {
+export default function ProductPhotoGallery({ product, index, href, thumbnails = false, imageAction, mediaClassName = '' }: { product: Pick<ProductItem, 'name' | 'imageUrl' | 'gallery' | 'colors'>; index: number; href?: string; thumbnails?: boolean; imageAction?: ReactNode; mediaClassName?: string }) {
   const siteData = useSiteData();
-  const photos = productPhotos(product, index);
+  const editing = useFivoraEditMode();
+  const editorSlots = editing || isTemplateValidation(siteData);
+  const photos = productPhotos(product, index, editorSlots);
   const colors = Array.isArray(product.colors) ? product.colors.flatMap((color, i) => typeof color === 'object' && color.hex && color.image ? [{ ...color, path: `products[${index}].colors[${i}].image` }] : []) : [];
   const slides = [...photos, ...colors.map(color => ({ src: color.image!, path: color.path }))];
   const [selected, setSelected] = useState(0);
@@ -68,6 +73,14 @@ export default function ProductPhotoGallery({ product, index, href, thumbnails =
       resetZoom();
     };
   }, [thumbnails, resetZoom]);
+  useEffect(() => {
+    visualEditing.current = editing;
+    if (editing) {
+      setHovered(false);
+      gallery.current?.getAnimations({ subtree: true }).forEach(animation => animation.cancel());
+    }
+    resetZoom();
+  }, [editing, resetZoom]);
   const move = (direction: number) => {
     slideDirection.current = direction;
     const update = open ? setPopupSelected : setSelected;
@@ -78,7 +91,7 @@ export default function ProductPhotoGallery({ product, index, href, thumbnails =
     resetZoom();
     const previous = previousIndex.current;
     previousIndex.current = { card: activeIndex, popup: popupIndex };
-    if (visualEditing.current || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (editing || visualEditing.current || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     const animations: Animation[] = [];
     gallery.current?.querySelectorAll('.lr-image-track').forEach(track => {
       const popup = track.getAttribute('data-gallery-view') === 'popup';
@@ -99,7 +112,7 @@ export default function ProductPhotoGallery({ product, index, href, thumbnails =
       ], options));
     });
     return () => animations.forEach(animation => animation.cancel());
-  }, [activeIndex, popupIndex, open, resetZoom]);
+  }, [activeIndex, popupIndex, open, editing, resetZoom]);
   const close = () => {
     if (closing) return;
     setClosing(true);
@@ -107,19 +120,19 @@ export default function ProductPhotoGallery({ product, index, href, thumbnails =
   };
   useEffect(() => () => { if (closeTimer.current) clearTimeout(closeTimer.current); }, []);
   useEffect(() => {
-    if (!hovered || open || thumbnails || photos.length < 2 || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (editing || !hovered || open || thumbnails || photos.length < 2 || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     const timer = setInterval(() => { slideDirection.current = 1; setSelected(value => (value + 1) % photos.length); }, 1500);
     return () => clearInterval(timer);
-  }, [hovered, open, thumbnails, photos.length]);
+  }, [hovered, open, thumbnails, photos.length, editing]);
   useEffect(() => {
-    if (!open || closing || photos.length < 2 || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (editing || !open || closing || photos.length < 2 || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     // Restart the countdown after an arrow or thumbnail selection as well.
     const timer = setTimeout(() => {
       slideDirection.current = 1;
       setPopupSelected(value => (value + 1) % photos.length);
     }, 3000);
     return () => clearTimeout(timer);
-  }, [open, closing, photos.length, popupSelected]);
+  }, [open, closing, photos.length, popupSelected, editing]);
   useEffect(() => {
     if (!open || !dialog.current) return;
     const element = dialog.current;
@@ -132,7 +145,7 @@ export default function ProductPhotoGallery({ product, index, href, thumbnails =
   useEffect(() => {
     const focusPhoto = (event: MessageEvent) => {
       if (event.source !== window.parent || ![DENEB_PREVIEW_FOCUS_MESSAGE, PREVIEW_FOCUS_MESSAGE, LEGACY_PREVIEW_FOCUS_MESSAGE].includes(event.data?.type)) return;
-      const position = photos.findIndex(photo => photo.path === event.data.fieldPath);
+      const position = photos.findIndex(photo => photo.path === String(event.data.fieldPath || '').replace(/^content\./, ''));
       if (position < 0) return;
       setHovered(false);
       slideDirection.current = 1;
@@ -144,6 +157,7 @@ export default function ProductPhotoGallery({ product, index, href, thumbnails =
   }, [photos, open, resetZoom]);
   const photoImage = (photo: (typeof slides)[number], value: number, popup = false, thumbnail = false) => {
     const imageProps = { src: withBasePath(photo.src), alt: thumbnail ? '' : `${product.name} — view ${value + 1}`, fit: !thumbnail && (popup || thumbnails) ? 'contain' as const : 'cover' as const, loading: popup && !thumbnail ? 'eager' as const : 'lazy' as const };
+    if (!photo.src) return <div className="lr-editor-photo-slot"><EditableImage {...imageProps} src={withBasePath('/placeholder.svg')} data-preview-field-path={photo.path} alt={`Upload photo ${value + 1} of ${product.name}`} /><span aria-hidden="true">Add photo {value + 1}</span></div>;
     const galleryIndex = Number(photo.path.match(/\[(\d+)\]$/)?.[1]);
     if (photo.path === `products[${index}].imageUrl`) return <EditableImage {...imageProps} data-preview-field-path={`products[${index}].imageUrl`} />;
     if (photo.path.includes('.gallery[')) return <EditableImage {...imageProps} data-preview-field-path={`products[${index}].gallery[${galleryIndex}]`} />;
@@ -171,18 +185,18 @@ export default function ProductPhotoGallery({ product, index, href, thumbnails =
   const arrows = <><button className="lr-photo-arrow lr-photo-prev" type="button" data-preview-static="gallery-previous-photo" aria-label={`Previous photo of ${product.name}`} onClick={() => move(-1)}>‹</button><button className="lr-photo-arrow lr-photo-next" type="button" data-preview-static="gallery-next-photo" aria-label={`Next photo of ${product.name}`} onClick={() => move(1)}>›</button></>;
   const keyboard = (event: KeyboardEvent) => { if (event.key === 'ArrowRight' || event.key === 'ArrowLeft') { event.preventDefault(); move(event.key === 'ArrowRight' ? 1 : -1); } };
   return <div ref={gallery} className={`lr-gallery${thumbnails ? ' lr-gallery-detail' : ''}${imageAction ? ' lr-gallery-has-action' : ''}`} data-preview-list-path={`products[${index}].gallery`}>
-    <div className="lr-gallery-stage" id={photoId} onPointerEnter={event => {
-      if (event.pointerType !== 'mouse' || thumbnails || open || photos.length < 2) return;
+    <div className={`lr-gallery-stage${mediaClassName ? ` ${mediaClassName}` : ''}`} id={photoId} onPointerEnter={event => {
+      if (editing || event.pointerType !== 'mouse' || thumbnails || open || photos.length < 2) return;
       move(1);
       setHovered(true);
     }} onPointerLeave={() => setHovered(false)} onFocusCapture={() => setHovered(false)} onKeyDown={keyboard}>
-      {href ? <button ref={trigger} type="button" className="lr-photo-link" aria-labelledby={`${photoId}-view-label`} aria-haspopup="dialog" onClick={() => { setHovered(false); setPopupSelected(activeIndex); previousIndex.current.popup = activeIndex; setOpen(true); }}>{images()}<span id={`${photoId}-view-label`} className="lr-view-product" data-preview-static="gallery-view-action">View piece ↗</span></button> : <div ref={zoomSurface} className="lr-photo-main" onPointerEnter={followCursor} onPointerMove={followCursor} onPointerLeave={resetZoom} onPointerCancel={resetZoom} onPointerDown={resetZoom} onFocusCapture={resetZoom}>{images()}</div>}
+      {href ? <button ref={trigger} type="button" className="lr-photo-link" aria-labelledby={`${photoId}-view-label`} aria-haspopup="dialog" onClick={() => { if (editing) return; setHovered(false); setPopupSelected(activeIndex); previousIndex.current.popup = activeIndex; setOpen(true); }}>{images()}<span id={`${photoId}-view-label`} className="lr-view-product" data-preview-static="gallery-view-action">View piece ↗</span></button> : <div ref={zoomSurface} className="lr-photo-main" onPointerEnter={followCursor} onPointerMove={followCursor} onPointerLeave={resetZoom} onPointerCancel={resetZoom} onPointerDown={resetZoom} onFocusCapture={resetZoom}>{images()}</div>}
       {imageAction}
       {photos.length > 1 && arrows}
       {/* Select the gallery list independently of the cover's scalar imageUrl field. */}
       <span className="lr-photo-counter" data-preview-list-path={`products[${index}].gallery`}><span data-preview-static="gallery-photo-count">{photos.length === 0 ? '0 / 0' : activeIndex < photos.length ? `${activeIndex + 1} / ${photos.length}` : colors[activeIndex - photos.length]?.name}</span></span>
     </div>
-    {photos.length > 1 && previews()}
+    {thumbnails ? (photos.length > 1 && previews()) : <div className="lr-card-thumbnail-row">{previews()}</div>}
     {swatches()}
     <dialog ref={dialog} className={`lr-image-dialog${closing ? ' is-closing' : ''}`} aria-labelledby={titleId} onKeyDown={keyboard} onCancel={event => { event.preventDefault(); close(); }} onClick={event => {
       if (event.target !== event.currentTarget) return;

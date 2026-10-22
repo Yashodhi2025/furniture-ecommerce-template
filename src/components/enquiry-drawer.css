@@ -6,6 +6,10 @@
 }
 .lumi-enquiry-drawer[open] { display:flex; flex-direction:column; animation:lumi-drawer-in .48s cubic-bezier(.22,1,.36,1) both; }
 .lumi-drawer-content { display:flex; flex-direction:column; flex:1; min-height:0; }
+.lumi-enquiry-drawer[open][data-drawer-editing=true] { z-index:96; }
+.lumi-drawer-editor-backdrop { position:fixed; inset:0; z-index:95; background:#2d241e65; }
+.lumi-drawer-editor-note { margin:0; padding:10px 28px; flex-shrink:0; background:#e8ebdf; color:#68734e; }
+.lr-editor-drawer-toggle { margin-bottom:14px; }
 .lumi-enquiry-drawer::backdrop { background:#2d241e65; backdrop-filter:blur(4px); animation:lumi-drawer-backdrop-in .35s ease both; }
 .lumi-enquiry-drawer.is-closing { pointer-events:none; animation:lumi-drawer-out .28s ease-in both; }
 .lumi-enquiry-drawer.is-closing::backdrop { animation:lumi-drawer-backdrop-out .28s ease both; }
