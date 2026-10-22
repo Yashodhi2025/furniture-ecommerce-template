@@ -7,7 +7,7 @@ import EnquiryDrawer from './EnquiryDrawer';
 import { withBasePath } from '@/lib/utils';
 import { formatPrice } from '@/lib/living-room';
 import { EditableText, DENEB_PREVIEW_FOCUS_MESSAGE, PREVIEW_FOCUS_MESSAGE, LEGACY_PREVIEW_FOCUS_MESSAGE, type ProductDetailItem } from '@deneb-ui/ui';
-import { useFivoraEditMode } from '@/lib/useFivoraEditMode';
+import { readFivoraEditMode, useFivoraEditMode } from '@/lib/useFivoraEditMode';
 import { contentObject, contentText, isTemplateValidation, useSiteData } from '@/lib/siteDataContext';
 import { addProductToCart, CART_KEY, CART_CHANGE_EVENT, readSavedProducts, toggleProductWishlist, WISHLIST_CHANGE_EVENT, WISHLIST_KEY, type SavedProduct } from '@/lib/shoppingStorage';
 
@@ -60,12 +60,6 @@ export default function ProductPurchaseActions({ product, productIndex = -1 }: {
       try { setItems(readSavedProducts(CART_KEY)); setListError(false); }
       catch { setListError(true); }
     };
-    const edit = (event: MessageEvent) => {
-      if (event.source === window.parent && ['FIVORA_PREVIEW_EDIT_MODE', 'MARKETPLACE_PREVIEW_EDIT_MODE'].includes(event.data?.type)) {
-        if (event.data.editMode) setDrawerOpen(false);
-        else setEditorDrawerOpen(false);
-      }
-    };
     const observer = new IntersectionObserver(([entry]) => setSticky(!entry.isIntersecting && entry.boundingClientRect.top < 0), { threshold: 0 });
     const footerObserver = new IntersectionObserver(([entry]) => setFooterVisible(entry.isIntersecting));
     if (actions.current) observer.observe(actions.current);
@@ -76,7 +70,6 @@ export default function ProductPurchaseActions({ product, productIndex = -1 }: {
     window.addEventListener('storage', sync);
     window.addEventListener('pageshow', sync);
     window.addEventListener('focus', sync);
-    window.addEventListener('message', edit);
     return () => {
       observer.disconnect();
       footerObserver.disconnect();
@@ -84,11 +77,11 @@ export default function ProductPurchaseActions({ product, productIndex = -1 }: {
       window.removeEventListener('storage', sync);
       window.removeEventListener('pageshow', sync);
       window.removeEventListener('focus', sync);
-      window.removeEventListener('message', edit);
     };
   }, []);
   useEffect(() => {
-    if (editing) setDrawerOpen(false);
+    // Expose Inspector targets without requiring an editor-intercepted shopping click.
+    if (editing) { setDrawerOpen(false); setEditorDrawerOpen(true); }
     else setEditorDrawerOpen(false);
     const focusDrawer = (event: MessageEvent) => {
       if (!editing || event.source !== window.parent || ![DENEB_PREVIEW_FOCUS_MESSAGE, PREVIEW_FOCUS_MESSAGE, LEGACY_PREVIEW_FOCUS_MESSAGE].includes(event.data?.type)) return;
@@ -100,13 +93,13 @@ export default function ProductPurchaseActions({ product, productIndex = -1 }: {
   }, [editing]);
   const count = items.reduce((sum, entry) => sum + (Number.isSafeInteger(entry.quantity) && Number(entry.quantity) > 0 ? Number(entry.quantity) : 1), 0);
   const addToCart = () => {
-    if (editing) { setEditorDrawerOpen(true); return; }
+    if (readFivoraEditMode()) { setEditorDrawerOpen(true); return; }
     try {
       addProductToCart(item, amount);
       setQuantity(String(amount));
       setAdded(value => value + 1);
       setAddedQuantity(amount);
-      if (!editing && !preview && !document.querySelector('[data-fivora-edit-badge], [data-fivora-local-selected-target], [data-marketplace-local-selected-target]')) setDrawerOpen(true);
+      setDrawerOpen(true);
       setMessage('');
     } catch { setMessage('Could not save your enquiry list. Please allow browser storage and try again.'); }
   };
@@ -140,7 +133,7 @@ export default function ProductPurchaseActions({ product, productIndex = -1 }: {
     <a href={withBasePath('/cart/')} className="lr-review-list"><EditableText as="span" fieldPath="productDetail.reviewListLabel" defaultValue={text('reviewListLabel', 'Review your enquiry list')} /><span>{count} {count === 1 ? 'piece' : 'pieces'} ↗</span></a>
     {listError && <p role="alert">Your saved list could not be loaded. Please allow browser storage and try again.</p>}
     <p className={`lr-purchase-status${message ? ' has-message' : ''}`} role="status" data-preview-static="product-purchase-status">{message}</p>
-    {mounted && ((drawerOpen && !editing && !preview) || (editorDrawerOpen && editing)) && createPortal(<EnquiryDrawer open onClose={closeDrawer} product={product} productIndex={productIndex} quantity={editing ? 1 : addedQuantity} items={editing ? [{ ...item, quantity: 1 }] : items} listError={editing ? false : listError} editing={editing} />, document.body)}
+    {mounted && ((drawerOpen && !editing) || (editorDrawerOpen && editing)) && createPortal(<EnquiryDrawer key={editing ? 'editor' : 'shopper'} open onClose={closeDrawer} product={product} productIndex={productIndex} quantity={editing ? 1 : addedQuantity} items={editing ? [{ ...item, quantity: 1 }] : items} listError={editing ? false : listError} editing={editing} />, document.body)}
     {mounted && !preview && createPortal(<aside className={`lr-sticky-enquiry${sticky && !editing && !footerVisible ? ' is-visible' : ''}`} aria-label="Enquiry shortcuts" aria-hidden={!sticky || editing || footerVisible} inert={!sticky || editing || footerVisible}>
       <div className="lr-sticky-piece"><strong>{product.name}</strong><span>{product.price !== undefined && formatPrice(product.price)} &#183; Qty {amount}</span></div>
       <button className="lr-sticky-add" type="button" disabled={product.isAvailable === false || !id} onClick={addToCart}><EditableText as="span" fieldPath={`productDetail.${added ? 'addAnotherLabel' : 'addToCartLabel'}`} defaultValue={added ? text('addAnotherLabel', 'Add another') : text('addToCartLabel', 'Add to Enquiry List')} /> <span aria-hidden="true">+</span></button>
