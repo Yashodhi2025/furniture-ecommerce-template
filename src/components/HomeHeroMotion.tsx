@@ -30,7 +30,7 @@ export function HomeHeroStartup() {
 }
 
 /** One hero controller owns entrances and composited image movement. */
-export default function HomeHeroMotion({ title }: { title: string }) {
+export default function HomeHeroMotion({ title, brandName, imageSrc }: { title: string; brandName: string; imageSrc: string }) {
   const cue = useRef<HTMLAnchorElement>(null);
   const editing = useRef(false);
 
@@ -41,23 +41,25 @@ export default function HomeHeroMotion({ title }: { title: string }) {
     const reveal = hero?.querySelector<HTMLElement>('.lumi-hero-heading-reveal');
     const media = hero?.querySelector<HTMLElement>('.lumi-hero-media');
     const image = media?.querySelector<HTMLImageElement>('.lumi-hero-image');
+    const brand = media?.querySelector<HTMLElement>('.lumi-hero-brand-text');
+    const brandRule = media?.querySelector<HTMLElement>('.lumi-hero-brand-rule');
+    const light = media?.querySelector<HTMLElement>('.lumi-hero-film-light');
     if (!hero || !heading || !reveal || !media || !image || !('animate' in Element.prototype) || !('IntersectionObserver' in window) || !('ResizeObserver' in window)) {
       root.dataset.lumiHeroEntrance = 'skipped';
       return;
     }
     const preference = window.matchMedia('(prefers-reduced-motion: reduce)');
-    const desktop = window.matchMedia('(min-width: 1025px) and (hover: hover) and (pointer: fine)');
+    const compact = window.matchMedia('(max-width: 767px)');
     editing.current = root.dataset.lumiHeroEditing === 'true' || hero.closest<HTMLElement>('.lumi-home')?.dataset.homeEditing === 'true';
     const animations = new Set<Animation>();
     const titleAnimations = new Set<Animation>();
     const originalOpacity = heading.style.opacity;
-    const entrance = root.dataset.lumiHeroEntrance === 'pending';
-    let mounted = true, fontsReady = document.fonts.status === 'loaded', copyPlayed = !entrance, imagePlayed = !entrance;
+    const entrance = ['pending', 'running'].includes(root.dataset.lumiHeroEntrance || '');
+    let mounted = true, fontsReady = document.fonts.status === 'loaded', imageReady = image.complete && image.naturalWidth > 0, copyPlayed = !entrance, imagePlayed = !entrance;
     const visible = (element: HTMLElement) => { const rect = element.getBoundingClientRect(); return rect.bottom > 0 && rect.top < window.innerHeight; };
-    let heroVisible = visible(hero), mediaVisible = visible(media), dirty = true, frame = 0;
-    let bounds = media.getBoundingClientRect();
-    let pointerX = 0, pointerY = 0, currentX = 0, currentY = 0;
+    let heroVisible = visible(hero), mediaVisible = visible(media);
     let headingWidth = heading.offsetWidth;
+    let mediaWidth = media.offsetWidth, mediaHeight = media.offsetHeight;
     const allowed = () => !preference.matches && !editing.current;
     const animate = (element: Element, keyframes: Keyframe[], options: KeyframeAnimationOptions) => {
       const animation = element.animate(keyframes, { easing: 'cubic-bezier(.16,1,.3,1)', fill: 'backwards', ...options });
@@ -107,10 +109,10 @@ export default function HomeHeroMotion({ title }: { title: string }) {
       const lines = revealTitle();
       const targets: [string, number][] = [
         ['.lumi-hero-copy > .lumi-eyebrow', 0],
-        ['.lumi-hero-description', 220 + lines * 80],
-        ['.lumi-actions', 330 + lines * 80],
-        ['.lumi-hero-footnote', 440 + lines * 80],
-        ['.lumi-hero-scroll', 520 + lines * 80],
+        ['.lumi-hero-description', 420 + lines * 90],
+        ['.lumi-actions', 650 + lines * 90],
+        ['.lumi-hero-footnote', 800 + lines * 90],
+        ['.lumi-hero-scroll', 900 + lines * 90],
       ];
       targets.forEach(([selector, delay]) => {
         const element = hero.querySelector(selector);
@@ -120,34 +122,34 @@ export default function HomeHeroMotion({ title }: { title: string }) {
       root.dataset.lumiHeroEntrance = 'running';
     };
     const playImage = () => {
-      if (imagePlayed || !mediaVisible || !allowed()) return;
+      if (imagePlayed || !mediaVisible || !fontsReady || !imageReady || !allowed()) return;
       imagePlayed = true;
-      animate(image, [{ scale: '1.14' }, { scale: '1.06' }], { duration: 1800 });
+      const mobile = compact.matches;
+      // Every camera position remains inside the overscan of this single flat photo.
+      const camera = animate(image, mobile ? [
+        { scale: '1.14', translate: '-3% 1.5%', offset: 0 },
+        { scale: '1.19', translate: '1.5% -2%', offset: .42 },
+        { scale: '1.10', translate: '-.5% .5%', offset: .8 },
+        { scale: '1.04', translate: '0 0', offset: 1 },
+      ] : [
+        { scale: '1.18', translate: '-4.5% 2%', offset: 0 },
+        { scale: '1.24', translate: '2.2% -2.8%', offset: .42 },
+        { scale: '1.14', translate: '-.9% .6%', offset: .8 },
+        { scale: '1.08', translate: '0 0', offset: 1 },
+      ], { duration: mobile ? 3800 : 4600, easing: 'cubic-bezier(.45,0,.2,1)' });
+      if (brand) animate(brand, [
+        { clipPath: 'inset(0 100% 0 0)', opacity: 0, translate: '0 12px' },
+        { clipPath: 'inset(0 0% 0 0)', opacity: 1, translate: '0 0' },
+      ], { duration: 1500, delay: 300, easing: 'cubic-bezier(.22,1,.36,1)' });
+      if (brandRule) animate(brandRule, [{ scale: '0 1' }, { scale: '1 1' }], { duration: 1400, delay: 500 });
+      if (light) animate(light, [
+        { opacity: 0, translate: '-35% 0' },
+        { opacity: .22, translate: '0 0', offset: .45 },
+        { opacity: 0, translate: '35% 0' },
+      ], { duration: mobile ? 3000 : 3800 });
       delete hero.dataset.heroImageIntro;
+      camera.finished.then(() => { if (mounted) root.dataset.lumiHeroEntrance = 'complete'; }).catch(() => {});
     };
-    const tick = () => {
-      frame = 0;
-      if (!allowed() || !mediaVisible) return;
-      if (dirty) { bounds = media.getBoundingClientRect(); dirty = false; }
-      const limit = bounds.height * .018;
-      const parallax = Math.max(-limit, Math.min(limit, (window.innerHeight * .25 - bounds.top) * .04));
-      const targetX = desktop.matches ? pointerX : 0;
-      const targetY = parallax + (desktop.matches ? pointerY : 0);
-      currentX += (targetX - currentX) * .14;
-      currentY += (targetY - currentY) * .14;
-      image.style.setProperty('--hero-pan-x', `${currentX.toFixed(2)}px`);
-      image.style.setProperty('--hero-pan-y', `${currentY.toFixed(2)}px`);
-      if (Math.abs(targetX - currentX) + Math.abs(targetY - currentY) > .03) frame = requestAnimationFrame(tick);
-    };
-    const schedule = () => { if (!frame && allowed() && mediaVisible) frame = requestAnimationFrame(tick); };
-    const scrolled = () => { dirty = true; schedule(); };
-    const pointer = (event: PointerEvent) => {
-      if (!allowed() || !desktop.matches || event.pointerType !== 'mouse') return;
-      pointerX = ((event.clientX - bounds.left) / bounds.width - .5) * 12;
-      pointerY = ((event.clientY - bounds.top) / bounds.height - .5) * 8;
-      schedule();
-    };
-    const resetPointer = () => { pointerX = pointerY = 0; schedule(); };
     const syncMotion = () => {
       hero.dataset.heroMotion = allowed() ? 'enabled' : 'disabled';
       if (!allowed()) {
@@ -157,10 +159,7 @@ export default function HomeHeroMotion({ title }: { title: string }) {
         clearTitle();
         animations.forEach(animation => animation.cancel());
         animations.clear();
-        cancelAnimationFrame(frame); frame = 0;
-        currentX = currentY = pointerX = pointerY = 0;
-        image.style.removeProperty('--hero-pan-x'); image.style.removeProperty('--hero-pan-y');
-      } else { dirty = true; schedule(); }
+      }
     };
     const editMode = (event: MessageEvent) => {
       if (event.source !== window.parent || !['FIVORA_PREVIEW_EDIT_MODE', 'MARKETPLACE_PREVIEW_EDIT_MODE'].includes(event.data?.type)) return;
@@ -174,45 +173,62 @@ export default function HomeHeroMotion({ title }: { title: string }) {
         if (entry.target === hero) {
           heroVisible = entry.isIntersecting;
           hero.dataset.heroInView = String(heroVisible);
+          if (!heroVisible && allowed()) {
+            // Re-arm only after leaving the whole hero; never loop in place.
+            clearTitle();
+            animations.forEach(animation => animation.cancel());
+            animations.clear();
+            copyPlayed = imagePlayed = false;
+            delete hero.dataset.heroImageIntro;
+            root.dataset.lumiHeroEntrance = 'complete';
+            return;
+          }
           playCopy();
+          if (heroVisible) playImage();
         } else {
           mediaVisible = entry.isIntersecting;
           if (mediaVisible && allowed()) {
             playImage();
-            dirty = true; schedule();
-          } else { cancelAnimationFrame(frame); frame = 0; }
+          }
         }
       });
     }, { threshold: 0 });
     const resize = new ResizeObserver(() => {
       if (heading.offsetWidth !== headingWidth) { clearTitle(); headingWidth = heading.offsetWidth; }
-      scrolled();
+      if (media.offsetWidth !== mediaWidth || media.offsetHeight !== mediaHeight) {
+        mediaWidth = media.offsetWidth; mediaHeight = media.offsetHeight;
+        if (imagePlayed) { animations.forEach(animation => animation.cancel()); clearTitle(); }
+      }
     });
     if (entrance) hero.dataset.heroImageIntro = 'pending';
     syncMotion();
     hero.dataset.heroInView = String(heroVisible);
     playImage(); playCopy();
     observer.observe(hero); observer.observe(media); resize.observe(heading); resize.observe(media);
-    document.fonts.ready.then(() => { if (mounted) { fontsReady = true; playCopy(); } });
-    window.addEventListener('scroll', scrolled, { passive: true });
-    window.addEventListener('resize', scrolled, { passive: true });
+    document.fonts.ready.then(() => { if (mounted) { fontsReady = true; playCopy(); playImage(); } });
+    const loaded = () => { if (mounted) { imageReady = true; playImage(); } };
+    const failedImage = () => {
+      if (!mounted) return;
+      imagePlayed = true;
+      delete hero.dataset.heroImageIntro;
+    };
+    if (imageReady) playImage();
+    else if (typeof image.decode === 'function') image.decode().then(loaded).catch(() => { if (image.complete) failedImage(); });
+    image.addEventListener('load', loaded);
+    image.addEventListener('error', failedImage);
     window.addEventListener('message', editMode);
     window.dispatchEvent(new Event('lumi-hero-ready'));
-    media.addEventListener('pointermove', pointer, { passive: true });
-    media.addEventListener('pointerleave', resetPointer);
-    media.addEventListener('pointercancel', resetPointer);
     preference.addEventListener('change', syncMotion);
-    desktop.addEventListener('change', resetPointer);
+
     return () => {
       mounted = false; clearTitle(); observer.disconnect(); resize.disconnect();
-      animations.forEach(animation => animation.cancel()); cancelAnimationFrame(frame);
-      window.removeEventListener('scroll', scrolled); window.removeEventListener('resize', scrolled); window.removeEventListener('message', editMode);
-      media.removeEventListener('pointermove', pointer); media.removeEventListener('pointerleave', resetPointer); media.removeEventListener('pointercancel', resetPointer);
-      preference.removeEventListener('change', syncMotion); desktop.removeEventListener('change', resetPointer);
-      image.style.removeProperty('--hero-pan-x'); image.style.removeProperty('--hero-pan-y');
+      animations.forEach(animation => animation.cancel());
+      window.removeEventListener('message', editMode);
+      image.removeEventListener('load', loaded); image.removeEventListener('error', failedImage);
+      preference.removeEventListener('change', syncMotion);
       delete hero.dataset.heroMotion; delete hero.dataset.heroInView; delete hero.dataset.heroImageIntro;
     };
-  }, [title]);
+  }, [title, brandName, imageSrc]);
 
   return <a ref={cue} className="lumi-hero-scroll" href={withBasePath('/#categories')} data-preview-static="hero-scroll-indicator" onClick={event => {
     const target = document.getElementById('categories');

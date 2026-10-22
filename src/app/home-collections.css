@@ -61,6 +61,7 @@
 .lumi-home .lumi-home-story { margin:0 5% 24px; background:var(--deneb-section-bg,#eee7dd); }
 .lumi-home .lumi-home-story .lumi-story-image,.lumi-home .lumi-home-story .lumi-story-image img { min-height:540px; }
 .lumi-home .lumi-home-story .lumi-story-copy { padding:55px 12%; }
+.lumi-home .lumi-home-story .lumi-story-image { overflow:hidden; }
 .lumi-home .lumi-home-values > .lumi-eyebrow { text-align:center; margin-bottom:16px; }
 .lumi-home .lumi-home-values .lumi-value-number { display:none; }
 .lumi-home .lumi-value-symbol { display:inline-flex; color:#8a6b50; margin-bottom:20px; }

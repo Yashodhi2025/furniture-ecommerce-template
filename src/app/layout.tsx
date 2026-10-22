@@ -8,6 +8,7 @@ import '../fonts/deneb-fonts.css';
 import './lumi.css';
 import './typography.css';
 import './product-card-refinements.css';
+import './storefront-motion.css';
 
 export async function generateMetadata(): Promise<Metadata> {
   const sd = siteData as any;

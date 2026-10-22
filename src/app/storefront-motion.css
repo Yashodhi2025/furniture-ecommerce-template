@@ -1,0 +1,36 @@
+/* Interaction polish only. Content is always visible without JavaScript. */
+@media(prefers-reduced-motion:no-preference) {
+  .lumi-site:not([data-card-editing=true]) main :is(.lumi-button,.lr-primary-button,.lumi-whatsapp-button,.lumi-cart-continue,.lumi-about-cta) {
+    transition:translate .3s cubic-bezier(.22,1,.36,1),box-shadow .3s,background-color .25s,border-color .25s;
+  }
+  .lumi-site:not([data-card-editing=true]) main :is(.lumi-button,.lr-primary-button,.lumi-whatsapp-button,.lumi-cart-continue,.lumi-about-cta):not(:disabled):active {
+    translate:0 1px; box-shadow:0 1px 4px #49352015;
+  }
+  .lumi-site:not([data-card-editing=true]) main :is(.lumi-product-link,.lumi-text-link,.lumi-collection-link,.lr-review-list,.lr-back-link,.lumi-cart-remove) {
+    transition:color .25s,border-color .3s,text-decoration-color .3s;
+  }
+  .lumi-site:not([data-card-editing=true]) main :is(.lumi-cart-image,.lumi-wishlist-image) img {
+    transition:transform .7s cubic-bezier(.22,1,.36,1);
+  }
+  .lumi-site:not([data-card-editing=true]) main :is(.lumi-carousel-controls button,.lr-photo-arrow,.lr-quantity-selector button,.lumi-cart-quantity button) {
+    transition:background-color .25s,border-color .25s,scale .25s,opacity .25s;
+  }
+  .lumi-site:not([data-card-editing=true]) main :is(.lumi-carousel-controls button,.lr-photo-arrow,.lr-quantity-selector button,.lumi-cart-quantity button):enabled:active { scale:.93; }
+}
+@media(hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference) {
+  .lumi-site:not([data-card-editing=true]) main :is(.lumi-button,.lr-primary-button,.lumi-whatsapp-button,.lumi-cart-continue,.lumi-about-cta):not(:disabled):hover {
+    translate:0 -2px; box-shadow:0 7px 18px #49352018;
+  }
+  .lumi-site:not([data-card-editing=true]) main .lumi-cart-image:hover img { transform:scale(1.04); }
+  .lumi-site:not([data-card-editing=true]) main .lumi-cart-item { transition:box-shadow .35s,border-color .35s; }
+  .lumi-site:not([data-card-editing=true]) main .lumi-cart-item:hover { border-color:#c6b59e; box-shadow:0 5px 18px #49352008; }
+}
+.lumi-site[data-card-editing=true] main :is(.lumi-product-card,.lr-product-card,.lumi-wishlist-card,.lumi-button,.lr-primary-button,.lumi-whatsapp-button,.lumi-cart-continue,.lumi-about-cta,.lumi-cart-image img,.lumi-wishlist-image img) {
+  transition:none!important; animation:none!important; translate:none!important;
+}
+.lumi-site[data-card-editing=true] main :is(.lumi-product-heart,.lr-wishlist-button) svg { animation:none!important; }
+@media(prefers-reduced-motion:reduce) {
+  .lumi-site main :is(.lumi-button,.lr-primary-button,.lumi-whatsapp-button,.lumi-cart-continue,.lumi-about-cta,.lumi-cart-item,.lumi-cart-image img,.lumi-wishlist-image img,.lumi-carousel-controls button) {
+    animation:none!important; transition:none!important; translate:none!important;
+  }
+}

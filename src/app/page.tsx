@@ -1,7 +1,7 @@
 'use client';
 
 import { EditableText, EditableImage, EditableSection, EditableCard, EditableIcon } from '@deneb-ui/ui';
-import { contentList, contentObject, contentText, useSiteData, useProducts } from '@/lib/siteDataContext';
+import { contentList, contentObject, contentText, useSiteData, useProducts, useSyncedBranding } from '@/lib/siteDataContext';
 import { withBasePath } from '@/lib/utils';
 import NewsletterSection from '@/components/NewsletterSection';
 import FurnitureProductCard from '@/components/FurnitureProductCard';
@@ -12,6 +12,7 @@ import './home-collections.css';
 
 export default function HomePage() {
   const data = useSiteData();
+  const branding = useSyncedBranding();
   const home = contentObject(contentObject(data.content).home);
   const categories = contentList(home.categories);
   const features = contentList(home.features);
@@ -38,15 +39,13 @@ export default function HomePage() {
             <a href={withBasePath(text('secondaryCtaUrl') || '/#our-story')} data-preview-field-path="home.secondaryCtaUrl" className="lumi-text-link"><EditableText as="span" fieldPath="home.secondaryCtaLabel" defaultValue={text('secondaryCtaLabel')} placeholder="Our story" /></a>
           </div>
           <p className="lumi-hero-footnote" data-preview-static="decorative-brand-signature"><span /> CONSIDERED DESIGN, EVERY DAY</p>
-          <HomeHeroMotion title={text('heroTitle')} />
+          <HomeHeroMotion title={text('heroTitle')} brandName={branding.websiteTitle} imageSrc={text('bannerImageUrl')} />
         </div>
         <div className="lumi-hero-media">
+          <div className="lumi-hero-brand"><EditableText as="span" fieldPath="common.websiteTitle" defaultValue={branding.websiteTitle} className="lumi-hero-brand-text" /><span className="lumi-hero-brand-rule" aria-hidden="true" /></div>
+          <div className="lumi-hero-film-light" aria-hidden="true" />
           <EditableImage id="home.bannerImageUrl" src={text('bannerImageUrl')} alt={text('heroImageAlt')} className="lumi-hero-image" fetchPriority="high" />
-          <div className="lumi-image-caption">
-            <span className="lumi-caption-number" data-preview-static="image-index">01 /</span>
-            <div><EditableText as="p" fieldPath="home.heroCaption" defaultValue={text('heroCaption')} /><EditableText as="p" fieldPath="home.heroCaptionDetail" defaultValue={text('heroCaptionDetail')} /></div>
-            <span aria-hidden="true">↗</span>
-          </div>
+
         </div>
       </EditableSection>
 

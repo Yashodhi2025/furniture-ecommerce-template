@@ -36,11 +36,13 @@
 .lr-detail-page .lr-add-enquiry.is-added { background:#686c51; }
 .lr-detail-page .lr-add-enquiry.is-added:after { content:'\2713'; }
 .lr-detail-page .lr-wishlist-button { grid-column:auto; display:grid; place-items:center; width:52px; min-height:52px; padding:0; border-radius:7px; border-color:#c9b9a7; background:transparent; }
-.lr-detail-page .lr-wishlist-button[aria-pressed=true] { color:#69724e; border-color:#919a7e; background:#e8ebdf; }
+.lr-detail-page .lr-wishlist-button[aria-pressed=true] { color:#8B4A3C; border-color:#c9a395; background:#f5eae5; }
 .lr-detail-page .lr-wishlist-button svg { width:20px; height:20px; }
 .lr-detail-page .lr-purchase-row>.lr-primary-button:not(.lr-add-enquiry) { grid-column:1/-1; }
 .lr-detail-page .lr-purchase-actions>.lumi-enquiry-send { margin-top:12px; }
-.lr-detail-page .lr-purchase-actions .lumi-whatsapp-button { min-height:48px; border-radius:7px; border-color:#c9b9a7; }
+.lr-detail-page .lr-purchase-actions .lumi-whatsapp-button { width:fit-content; max-width:100%; min-height:48px; padding:12px 22px; border-radius:7px; background:#25D366; border-color:#25D366; color:#fff; }
+.lr-detail-page .lr-purchase-actions .lumi-whatsapp-button:enabled:hover { background:#20bd5a; border-color:#20bd5a; }
+.lr-detail-page .lr-purchase-actions .lumi-whatsapp-button>span:last-child { margin-left:8px; }
 .lr-detail-page .lr-purchase-status { min-height:0; margin:0; }
 .lr-detail-page .lr-purchase-status.has-message { margin-top:10px; }
 .lr-review-list { display:flex; justify-content:space-between; gap:12px; padding:13px 0 0; font-size:11px; color:#766b60; text-decoration:none; }
