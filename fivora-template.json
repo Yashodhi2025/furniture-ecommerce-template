@@ -16,6 +16,10 @@
       "contact.lifestyleImageAlt",
       "home.categories[*].id",
       "home.heroImageAlt",
+      "home.bannerImageUrl",
+      "home.heroShowcaseEnabled",
+      "home.heroSlides[*].imageAlt",
+      "home.heroSlides[*].color",
       "home.storyImageAlt",
       "home.newsletterPreviewMessage",
       "home.cartTitle",
@@ -146,13 +150,41 @@
         "type": "object",
         "label": "Our Story page",
         "fields": [
-          { "key": "eyebrow", "type": "text", "label": "Hero eyebrow" },
-          { "key": "heading", "type": "text", "label": "Hero heading" },
-          { "key": "tagline", "type": "textarea", "label": "Hero tagline" },
-          { "key": "imageUrl", "type": "image", "label": "Lifestyle hero image" },
-          { "key": "imageAlt", "type": "text", "label": "Hero image description" },
-          { "key": "storyHeading", "type": "text", "label": "Story heading" },
-          { "key": "body", "type": "textarea", "label": "Brand introduction" },
+          {
+            "key": "eyebrow",
+            "type": "text",
+            "label": "Hero eyebrow"
+          },
+          {
+            "key": "heading",
+            "type": "text",
+            "label": "Hero heading"
+          },
+          {
+            "key": "tagline",
+            "type": "textarea",
+            "label": "Hero tagline"
+          },
+          {
+            "key": "imageUrl",
+            "type": "image",
+            "label": "Lifestyle hero image"
+          },
+          {
+            "key": "imageAlt",
+            "type": "text",
+            "label": "Hero image description"
+          },
+          {
+            "key": "storyHeading",
+            "type": "text",
+            "label": "Story heading"
+          },
+          {
+            "key": "body",
+            "type": "textarea",
+            "label": "Brand introduction"
+          },
           {
             "key": "values",
             "type": "list",
@@ -160,13 +192,33 @@
             "minItems": 0,
             "maxItems": 3,
             "fields": [
-              { "key": "title", "type": "text", "label": "Value heading" },
-              { "key": "description", "type": "textarea", "label": "Value description" }
+              {
+                "key": "title",
+                "type": "text",
+                "label": "Value heading"
+              },
+              {
+                "key": "description",
+                "type": "textarea",
+                "label": "Value description"
+              }
             ]
           },
-          { "key": "ctaHeading", "type": "text", "label": "Collection invitation heading" },
-          { "key": "ctaLabel", "type": "text", "label": "Explore collections button label" },
-          { "key": "ctaUrl", "type": "text", "label": "Explore collections link" }
+          {
+            "key": "ctaHeading",
+            "type": "text",
+            "label": "Collection invitation heading"
+          },
+          {
+            "key": "ctaLabel",
+            "type": "text",
+            "label": "Explore collections button label"
+          },
+          {
+            "key": "ctaUrl",
+            "type": "text",
+            "label": "Explore collections link"
+          }
         ]
       },
       {
@@ -176,14 +228,46 @@
         "type": "object",
         "label": "Wishlist page",
         "fields": [
-          { "key": "title", "type": "text", "label": "Title" },
-          { "key": "description", "type": "textarea", "label": "Description" },
-          { "key": "emptyTitle", "type": "text", "label": "Empty wishlist heading" },
-          { "key": "emptyDescription", "type": "textarea", "label": "Empty wishlist description" },
-          { "key": "continueShoppingLabel", "type": "text", "label": "Continue Shopping label" },
-          { "key": "continueShoppingUrl", "type": "text", "label": "Continue Shopping link" },
-          { "key": "removeLabel", "type": "text", "label": "Remove from Wishlist label" },
-          { "key": "removedMessage", "type": "text", "label": "Removed from wishlist confirmation" }
+          {
+            "key": "title",
+            "type": "text",
+            "label": "Title"
+          },
+          {
+            "key": "description",
+            "type": "textarea",
+            "label": "Description"
+          },
+          {
+            "key": "emptyTitle",
+            "type": "text",
+            "label": "Empty wishlist heading"
+          },
+          {
+            "key": "emptyDescription",
+            "type": "textarea",
+            "label": "Empty wishlist description"
+          },
+          {
+            "key": "continueShoppingLabel",
+            "type": "text",
+            "label": "Continue Shopping label"
+          },
+          {
+            "key": "continueShoppingUrl",
+            "type": "text",
+            "label": "Continue Shopping link"
+          },
+          {
+            "key": "removeLabel",
+            "type": "text",
+            "label": "Remove from Wishlist label"
+          },
+          {
+            "key": "removedMessage",
+            "type": "text",
+            "label": "Removed from wishlist confirmation"
+          }
         ]
       },
       {
@@ -193,17 +277,61 @@
         "type": "object",
         "label": "Cart page",
         "fields": [
-          { "key": "title", "type": "text", "label": "Title" },
-          { "key": "description", "type": "textarea", "label": "Description" },
-          { "key": "emptyTitle", "type": "text", "label": "Empty cart heading" },
-          { "key": "emptyDescription", "type": "textarea", "label": "Empty cart description" },
-          { "key": "continueShoppingLabel", "type": "text", "label": "Continue Shopping label" },
-          { "key": "continueShoppingUrl", "type": "text", "label": "Continue Shopping link" },
-          { "key": "summaryTitle", "type": "text", "label": "Summary heading" },
-          { "key": "unitPriceLabel", "type": "text", "label": "Unit price label" },
-          { "key": "removeLabel", "type": "text", "label": "Remove button label" },
-          { "key": "subtotalLabel", "type": "text", "label": "Subtotal label" },
-          { "key": "totalLabel", "type": "text", "label": "Total label" }
+          {
+            "key": "title",
+            "type": "text",
+            "label": "Title"
+          },
+          {
+            "key": "description",
+            "type": "textarea",
+            "label": "Description"
+          },
+          {
+            "key": "emptyTitle",
+            "type": "text",
+            "label": "Empty cart heading"
+          },
+          {
+            "key": "emptyDescription",
+            "type": "textarea",
+            "label": "Empty cart description"
+          },
+          {
+            "key": "continueShoppingLabel",
+            "type": "text",
+            "label": "Continue Shopping label"
+          },
+          {
+            "key": "continueShoppingUrl",
+            "type": "text",
+            "label": "Continue Shopping link"
+          },
+          {
+            "key": "summaryTitle",
+            "type": "text",
+            "label": "Summary heading"
+          },
+          {
+            "key": "unitPriceLabel",
+            "type": "text",
+            "label": "Unit price label"
+          },
+          {
+            "key": "removeLabel",
+            "type": "text",
+            "label": "Remove button label"
+          },
+          {
+            "key": "subtotalLabel",
+            "type": "text",
+            "label": "Subtotal label"
+          },
+          {
+            "key": "totalLabel",
+            "type": "text",
+            "label": "Total label"
+          }
         ]
       },
       {
@@ -213,29 +341,121 @@
         "label": "Product detail content",
         "description": "Shared text and enquiry link for all product detail pages.",
         "fields": [
-          { "key": "brand", "type": "text", "label": "Brand" },
-          { "key": "enquiryHeading", "type": "text", "label": "Enquiry heading" },
-          { "key": "enquiryText", "type": "textarea", "label": "Enquiry text" },
-          { "key": "enquiryButtonLabel", "type": "text", "label": "Enquiry button label" },
-          { "key": "enquiryButtonUrl", "type": "text", "label": "Enquiry button link" },
-          { "key": "addToCartLabel", "type": "text", "label": "Add to Cart button label" },
-          { "key": "unavailableLabel", "type": "text", "label": "Unavailable button label" },
-          { "key": "wishlistLabel", "type": "text", "label": "Wishlist button label" },
-          { "key": "wishlistSavedLabel", "type": "text", "label": "Saved Wishlist button label" },
-          {"key": "drawerEyebrow", "type": "text", "label": "Drawer eyebrow"},
-          {"key": "drawerHeading", "type": "text", "label": "Drawer heading"},
-          {"key": "drawerIntro", "type": "text", "label": "Drawer intro"},
-          {"key": "drawerJustAdded", "type": "text", "label": "Drawer just added"},
-          {"key": "drawerQuantityLabel", "type": "text", "label": "Drawer quantity label"},
-          {"key": "drawerEachLabel", "type": "text", "label": "Drawer each label"},
-          {"key": "drawerSelectionHeading", "type": "text", "label": "Drawer selection heading"},
-          {"key": "drawerPiecesLabel", "type": "text", "label": "Drawer pieces label"},
-          {"key": "drawerQuantityShort", "type": "text", "label": "Drawer quantity short"},
-          {"key": "drawerTotalLabel", "type": "text", "label": "Drawer total label"},
-          {"key": "drawerConfirmPrice", "type": "text", "label": "Drawer confirm price"},
-          {"key": "drawerTotalNote", "type": "text", "label": "Drawer total note"},
-          {"key": "drawerViewLabel", "type": "text", "label": "Drawer view label"},
-          {"key": "drawerContinueLabel", "type": "text", "label": "Drawer continue label"}
+          {
+            "key": "brand",
+            "type": "text",
+            "label": "Brand"
+          },
+          {
+            "key": "enquiryHeading",
+            "type": "text",
+            "label": "Enquiry heading"
+          },
+          {
+            "key": "enquiryText",
+            "type": "textarea",
+            "label": "Enquiry text"
+          },
+          {
+            "key": "enquiryButtonLabel",
+            "type": "text",
+            "label": "Enquiry button label"
+          },
+          {
+            "key": "enquiryButtonUrl",
+            "type": "text",
+            "label": "Enquiry button link"
+          },
+          {
+            "key": "addToCartLabel",
+            "type": "text",
+            "label": "Add to Cart button label"
+          },
+          {
+            "key": "unavailableLabel",
+            "type": "text",
+            "label": "Unavailable button label"
+          },
+          {
+            "key": "wishlistLabel",
+            "type": "text",
+            "label": "Wishlist button label"
+          },
+          {
+            "key": "wishlistSavedLabel",
+            "type": "text",
+            "label": "Saved Wishlist button label"
+          },
+          {
+            "key": "drawerEyebrow",
+            "type": "text",
+            "label": "Drawer eyebrow"
+          },
+          {
+            "key": "drawerHeading",
+            "type": "text",
+            "label": "Drawer heading"
+          },
+          {
+            "key": "drawerIntro",
+            "type": "text",
+            "label": "Drawer intro"
+          },
+          {
+            "key": "drawerJustAdded",
+            "type": "text",
+            "label": "Drawer just added"
+          },
+          {
+            "key": "drawerQuantityLabel",
+            "type": "text",
+            "label": "Drawer quantity label"
+          },
+          {
+            "key": "drawerEachLabel",
+            "type": "text",
+            "label": "Drawer each label"
+          },
+          {
+            "key": "drawerSelectionHeading",
+            "type": "text",
+            "label": "Drawer selection heading"
+          },
+          {
+            "key": "drawerPiecesLabel",
+            "type": "text",
+            "label": "Drawer pieces label"
+          },
+          {
+            "key": "drawerQuantityShort",
+            "type": "text",
+            "label": "Drawer quantity short"
+          },
+          {
+            "key": "drawerTotalLabel",
+            "type": "text",
+            "label": "Drawer total label"
+          },
+          {
+            "key": "drawerConfirmPrice",
+            "type": "text",
+            "label": "Drawer confirm price"
+          },
+          {
+            "key": "drawerTotalNote",
+            "type": "text",
+            "label": "Drawer total note"
+          },
+          {
+            "key": "drawerViewLabel",
+            "type": "text",
+            "label": "Drawer view label"
+          },
+          {
+            "key": "drawerContinueLabel",
+            "type": "text",
+            "label": "Drawer continue label"
+          }
         ]
       },
       {
@@ -277,11 +497,11 @@
                 "type": "text",
                 "label": "About label"
               },
-            {
-              "key": "about",
-              "type": "text",
-              "label": "Our Story footer label"
-            },
+              {
+                "key": "about",
+                "type": "text",
+                "label": "Our Story footer label"
+              },
               {
                 "key": "services",
                 "type": "text",
@@ -337,6 +557,54 @@
             "key": "heroImageAlt",
             "type": "text",
             "label": "heroImageAlt"
+          },
+          {
+            "key": "heroShowcaseEnabled",
+            "type": "boolean",
+            "label": "Animated furniture hero (off shows room photo)"
+          },
+          {
+            "key": "heroSlides",
+            "type": "list",
+            "label": "Animated hero slides (transparent images)",
+            "minItems": 0,
+            "fields": [
+              {
+                "key": "eyebrow",
+                "type": "text",
+                "label": "Small heading"
+              },
+              {
+                "key": "headline",
+                "type": "textarea",
+                "label": "Slide headline"
+              },
+              {
+                "key": "label",
+                "type": "text",
+                "label": "Collection link label"
+              },
+              {
+                "key": "imageUrl",
+                "type": "image",
+                "label": "Transparent furniture cutout"
+              },
+              {
+                "key": "imageAlt",
+                "type": "text",
+                "label": "Image description"
+              },
+              {
+                "key": "linkUrl",
+                "type": "text",
+                "label": "Collection link"
+              },
+              {
+                "key": "color",
+                "type": "text",
+                "label": "Shape colour (hex)"
+              }
+            ]
           },
           {
             "key": "primaryCtaLabel",
@@ -1046,12 +1314,36 @@
             "label": "search Empty",
             "type": "text"
           },
-          { "key": "searchDescription", "label": "Search Studio introduction", "type": "textarea" },
-          { "key": "searchRoomsTitle", "label": "Explore by Room heading", "type": "text" },
-          { "key": "searchSuggestionsTitle", "label": "Suggested products heading", "type": "text" },
-          { "key": "searchResultsTitle", "label": "Search results heading", "type": "text" },
-          { "key": "searchEmptyTitle", "label": "No results heading", "type": "text" },
-          { "key": "searchResetLabel", "label": "Reset search button label", "type": "text" },
+          {
+            "key": "searchDescription",
+            "label": "Search Studio introduction",
+            "type": "textarea"
+          },
+          {
+            "key": "searchRoomsTitle",
+            "label": "Explore by Room heading",
+            "type": "text"
+          },
+          {
+            "key": "searchSuggestionsTitle",
+            "label": "Suggested products heading",
+            "type": "text"
+          },
+          {
+            "key": "searchResultsTitle",
+            "label": "Search results heading",
+            "type": "text"
+          },
+          {
+            "key": "searchEmptyTitle",
+            "label": "No results heading",
+            "type": "text"
+          },
+          {
+            "key": "searchResetLabel",
+            "label": "Reset search button label",
+            "type": "text"
+          },
           {
             "key": "wishlistTitle",
             "label": "wishlist Title",

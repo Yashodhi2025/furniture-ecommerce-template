@@ -214,6 +214,54 @@
       "heroSummary": "Thoughtfully chosen furniture, natural textures, and timeless silhouettes. Find the pieces that make your space feel like you.",
       "bannerImageUrl": "/images/living-room.jpg",
       "heroImageAlt": "A warm, sunlit living room with neutral seating and natural wood furniture",
+      "heroShowcaseEnabled": true,
+      "heroSlides": [
+        {
+          "eyebrow": "LIVING ROOM",
+          "headline": "Soft curves.\nSofter landings.",
+          "label": "Living Room",
+          "imageUrl": "/images/hero/sofa.webp",
+          "imageAlt": "Rounded terracotta sofa",
+          "linkUrl": "/collections/living-room/",
+          "color": "#d6ad8f"
+        },
+        {
+          "eyebrow": "BEDROOM",
+          "headline": "Rest easy.\nWake slowly.",
+          "label": "Bedroom",
+          "imageUrl": "/images/hero/bedroom.webp",
+          "imageAlt": "Oatmeal upholstered bed with ivory bedding",
+          "linkUrl": "/collections/bedroom/",
+          "color": "#d6cbbb"
+        },
+        {
+          "eyebrow": "KITCHEN & DINING",
+          "headline": "Good food.\nBetter company.",
+          "label": "Kitchen & Dining",
+          "imageUrl": "/images/hero/dining.webp",
+          "imageAlt": "Round oak dining table with two chairs",
+          "linkUrl": "/collections/kitchen-dining/",
+          "color": "#cbd1b5"
+        },
+        {
+          "eyebrow": "OFFICE FURNITURE",
+          "headline": "Work well.\nFeel at home.",
+          "label": "Office Furniture",
+          "imageUrl": "/images/hero/office.webp",
+          "imageAlt": "Tan leather and walnut office swivel chair",
+          "linkUrl": "/collections/office/",
+          "color": "#c5cdc4"
+        },
+        {
+          "eyebrow": "LIGHTING & DECOR",
+          "headline": "A softer glow.\nA warmer home.",
+          "label": "Lighting & Decor",
+          "imageUrl": "/images/hero/lighting.webp",
+          "imageAlt": "Travertine table lamp with ivory pleated shade",
+          "linkUrl": "/collections/lighting-decor/",
+          "color": "#ddd0af"
+        }
+      ],
       "primaryCtaLabel": "Shop the collection",
       "primaryCtaUrl": "/#shop",
       "secondaryCtaLabel": "Our story",

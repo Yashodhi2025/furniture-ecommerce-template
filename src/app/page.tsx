@@ -8,6 +8,7 @@ import FurnitureProductCard from '@/components/FurnitureProductCard';
 import ShopTheLook from '@/components/ShopTheLook';
 import HomeProductCarousel from '@/components/HomeProductCarousel';
 import HomeHeroMotion, { HomeHeroStartup } from '@/components/HomeHeroMotion';
+import HomeHeroShowcase from '@/components/HomeHeroShowcase';
 import './home-collections.css';
 
 export default function HomePage() {
@@ -23,6 +24,7 @@ export default function HomePage() {
   const bestSellers = indexedProducts.filter(({ product }) => contentText(product.homeCollection) === 'best-sellers');
   const selectedPages = data.requirements?.requiredPages ?? data.template?.structure?.pages ?? [];
   const text = (key: string) => contentText(home[key]);
+  const showcaseEnabled = home.heroShowcaseEnabled !== false && contentList(home.heroSlides).length > 0;
   return (
     <div className="lumi-home" data-preview-page-key="home">
       <HomeHeroStartup />
@@ -39,12 +41,14 @@ export default function HomePage() {
             <a href={withBasePath(text('secondaryCtaUrl') || '/#our-story')} data-preview-field-path="home.secondaryCtaUrl" className="lumi-text-link"><EditableText as="span" fieldPath="home.secondaryCtaLabel" defaultValue={text('secondaryCtaLabel')} placeholder="Our story" /></a>
           </div>
           <p className="lumi-hero-footnote" data-preview-static="decorative-brand-signature"><span /> CONSIDERED DESIGN, EVERY DAY</p>
-          <HomeHeroMotion title={text('heroTitle')} brandName={branding.websiteTitle} imageSrc={text('bannerImageUrl')} />
+          <HomeHeroMotion title={text('heroTitle')} brandName={branding.websiteTitle} imageSrc={showcaseEnabled ? 'showcase' : text('bannerImageUrl')} />
         </div>
-        <div className="lumi-hero-media">
+        <div className="lumi-hero-media" data-hero-showcase={showcaseEnabled}>
           <div className="lumi-hero-brand"><EditableText as="span" fieldPath="common.websiteTitle" defaultValue={branding.websiteTitle} className="lumi-hero-brand-text" /><span className="lumi-hero-brand-rule" aria-hidden="true" /></div>
-          <div className="lumi-hero-film-light" aria-hidden="true" />
-          <EditableImage id="home.bannerImageUrl" src={text('bannerImageUrl')} alt={text('heroImageAlt')} className="lumi-hero-image" fetchPriority="high" />
+          {showcaseEnabled ? <HomeHeroShowcase slides={home.heroSlides} /> : <>
+            <div className="lumi-hero-film-light" aria-hidden="true" />
+            <EditableImage id="home.bannerImageUrl" src={text('bannerImageUrl')} alt={text('heroImageAlt')} className="lumi-hero-image" fetchPriority="high" />
+          </>}
 
         </div>
       </EditableSection>

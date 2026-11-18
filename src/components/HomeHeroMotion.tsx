@@ -44,7 +44,7 @@ export default function HomeHeroMotion({ title, brandName, imageSrc }: { title: 
     const brand = media?.querySelector<HTMLElement>('.lumi-hero-brand-text');
     const brandRule = media?.querySelector<HTMLElement>('.lumi-hero-brand-rule');
     const light = media?.querySelector<HTMLElement>('.lumi-hero-film-light');
-    if (!hero || !heading || !reveal || !media || !image || !('animate' in Element.prototype) || !('IntersectionObserver' in window) || !('ResizeObserver' in window)) {
+    if (!hero || !heading || !reveal || !media || !('animate' in Element.prototype) || !('IntersectionObserver' in window) || !('ResizeObserver' in window)) {
       root.dataset.lumiHeroEntrance = 'skipped';
       return;
     }
@@ -55,7 +55,7 @@ export default function HomeHeroMotion({ title, brandName, imageSrc }: { title: 
     const titleAnimations = new Set<Animation>();
     const originalOpacity = heading.style.opacity;
     const entrance = ['pending', 'running'].includes(root.dataset.lumiHeroEntrance || '');
-    let mounted = true, fontsReady = document.fonts.status === 'loaded', imageReady = image.complete && image.naturalWidth > 0, copyPlayed = !entrance, imagePlayed = !entrance;
+    let mounted = true, fontsReady = document.fonts.status === 'loaded', imageReady = !image || (image.complete && image.naturalWidth > 0), copyPlayed = !entrance, imagePlayed = !entrance;
     const visible = (element: HTMLElement) => { const rect = element.getBoundingClientRect(); return rect.bottom > 0 && rect.top < window.innerHeight; };
     let heroVisible = visible(hero), mediaVisible = visible(media);
     let headingWidth = heading.offsetWidth;
@@ -126,7 +126,7 @@ export default function HomeHeroMotion({ title, brandName, imageSrc }: { title: 
       imagePlayed = true;
       const mobile = compact.matches;
       // Every camera position remains inside the overscan of this single flat photo.
-      const camera = animate(image, mobile ? [
+      const camera = image && animate(image, mobile ? [
         { scale: '1.14', translate: '-3% 1.5%', offset: 0 },
         { scale: '1.19', translate: '1.5% -2%', offset: .42 },
         { scale: '1.10', translate: '-.5% .5%', offset: .8 },
@@ -148,7 +148,7 @@ export default function HomeHeroMotion({ title, brandName, imageSrc }: { title: 
         { opacity: 0, translate: '35% 0' },
       ], { duration: mobile ? 3000 : 3800 });
       delete hero.dataset.heroImageIntro;
-      camera.finished.then(() => { if (mounted) root.dataset.lumiHeroEntrance = 'complete'; }).catch(() => {});
+      camera?.finished.then(() => { if (mounted) root.dataset.lumiHeroEntrance = 'complete'; }).catch(() => {});
     };
     const syncMotion = () => {
       hero.dataset.heroMotion = allowed() ? 'enabled' : 'disabled';
@@ -213,9 +213,9 @@ export default function HomeHeroMotion({ title, brandName, imageSrc }: { title: 
       delete hero.dataset.heroImageIntro;
     };
     if (imageReady) playImage();
-    else if (typeof image.decode === 'function') image.decode().then(loaded).catch(() => { if (image.complete) failedImage(); });
-    image.addEventListener('load', loaded);
-    image.addEventListener('error', failedImage);
+    else if (image && typeof image.decode === 'function') image.decode().then(loaded).catch(() => { if (image.complete) failedImage(); });
+    image?.addEventListener('load', loaded);
+    image?.addEventListener('error', failedImage);
     window.addEventListener('message', editMode);
     window.dispatchEvent(new Event('lumi-hero-ready'));
     preference.addEventListener('change', syncMotion);
@@ -224,7 +224,7 @@ export default function HomeHeroMotion({ title, brandName, imageSrc }: { title: 
       mounted = false; clearTitle(); observer.disconnect(); resize.disconnect();
       animations.forEach(animation => animation.cancel());
       window.removeEventListener('message', editMode);
-      image.removeEventListener('load', loaded); image.removeEventListener('error', failedImage);
+      image?.removeEventListener('load', loaded); image?.removeEventListener('error', failedImage);
       preference.removeEventListener('change', syncMotion);
       delete hero.dataset.heroMotion; delete hero.dataset.heroInView; delete hero.dataset.heroImageIntro;
     };
