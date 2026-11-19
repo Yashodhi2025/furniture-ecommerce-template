@@ -8,7 +8,7 @@ import { productPhotos } from '@/lib/living-room';
 import { withBasePath } from '@/lib/utils';
 import '@/app/furniture-collection.css';
 
-export default function ProductPhotoGallery({ product, index, href, thumbnails = false, imageAction, mediaClassName = '' }: { product: Pick<ProductItem, 'name' | 'imageUrl' | 'gallery' | 'colors'>; index: number; href?: string; thumbnails?: boolean; imageAction?: ReactNode; mediaClassName?: string }) {
+export default function ProductPhotoGallery({ product, index, href, thumbnails = false, catalogue = false, minimalControls = false, imageAction, mediaClassName = '' }: { product: Pick<ProductItem, 'name' | 'imageUrl' | 'gallery' | 'colors'>; index: number; href?: string; thumbnails?: boolean; catalogue?: boolean; minimalControls?: boolean; imageAction?: ReactNode; mediaClassName?: string }) {
   const siteData = useSiteData();
   const editing = useFivoraEditMode();
   const editorSlots = editing || isTemplateValidation(siteData);
@@ -156,7 +156,7 @@ export default function ProductPhotoGallery({ product, index, href, thumbnails =
     return () => window.removeEventListener('message', focusPhoto);
   }, [photos, open, resetZoom]);
   const photoImage = (photo: (typeof slides)[number], value: number, popup = false, thumbnail = false) => {
-    const imageProps = { src: withBasePath(photo.src), alt: thumbnail ? '' : `${product.name} — view ${value + 1}`, fit: !thumbnail && (popup || thumbnails) ? 'contain' as const : 'cover' as const, loading: popup && !thumbnail ? 'eager' as const : 'lazy' as const };
+    const imageProps = { src: withBasePath(photo.src), alt: thumbnail ? '' : `${product.name} — view ${value + 1}`, fit: !thumbnail && (popup || thumbnails || catalogue) ? 'contain' as const : 'cover' as const, loading: popup && !thumbnail ? 'eager' as const : 'lazy' as const };
     if (!photo.src) return <div className="lr-editor-photo-slot"><EditableImage {...imageProps} src={withBasePath('/placeholder.svg')} data-preview-field-path={photo.path} alt={`Upload photo ${value + 1} of ${product.name}`} /><span aria-hidden="true">Add photo {value + 1}</span></div>;
     const galleryIndex = Number(photo.path.match(/\[(\d+)\]$/)?.[1]);
     if (photo.path === `products[${index}].imageUrl`) return <EditableImage {...imageProps} data-preview-field-path={`products[${index}].imageUrl`} />;
@@ -190,13 +190,13 @@ export default function ProductPhotoGallery({ product, index, href, thumbnails =
       move(1);
       setHovered(true);
     }} onPointerLeave={() => setHovered(false)} onFocusCapture={() => setHovered(false)} onKeyDown={keyboard}>
-      {href ? <button ref={trigger} type="button" className="lr-photo-link" aria-labelledby={`${photoId}-view-label`} aria-haspopup="dialog" onClick={() => { if (editing) return; setHovered(false); setPopupSelected(activeIndex); previousIndex.current.popup = activeIndex; setOpen(true); }}>{images()}<span id={`${photoId}-view-label`} className="lr-view-product" data-preview-static="gallery-view-action">View piece ↗</span></button> : <div ref={zoomSurface} className="lr-photo-main" onPointerEnter={followCursor} onPointerMove={followCursor} onPointerLeave={resetZoom} onPointerCancel={resetZoom} onPointerDown={resetZoom} onFocusCapture={resetZoom}>{images()}</div>}
+      {href ? <button ref={trigger} type="button" className="lr-photo-link" aria-labelledby={`${photoId}-view-label`} aria-haspopup="dialog" onClick={() => { if (editing) return; setHovered(false); setPopupSelected(activeIndex); previousIndex.current.popup = activeIndex; setOpen(true); }}>{images()}<span id={`${photoId}-view-label`} className={minimalControls ? 'sr-only' : 'lr-view-product'} data-preview-static="gallery-view-action">View piece ↗</span></button> : <div ref={zoomSurface} className="lr-photo-main" onPointerEnter={followCursor} onPointerMove={followCursor} onPointerLeave={resetZoom} onPointerCancel={resetZoom} onPointerDown={resetZoom} onFocusCapture={resetZoom}>{images()}</div>}
       {imageAction}
       {photos.length > 1 && arrows}
       {/* Select the gallery list independently of the cover's scalar imageUrl field. */}
-      <span className="lr-photo-counter" data-preview-list-path={`products[${index}].gallery`}><span data-preview-static="gallery-photo-count">{photos.length === 0 ? '0 / 0' : activeIndex < photos.length ? `${activeIndex + 1} / ${photos.length}` : colors[activeIndex - photos.length]?.name}</span></span>
+      <span className={minimalControls ? 'sr-only' : 'lr-photo-counter'} data-preview-list-path={`products[${index}].gallery`}><span data-preview-static="gallery-photo-count">{photos.length === 0 ? '0 / 0' : activeIndex < photos.length ? `${activeIndex + 1} / ${photos.length}` : colors[activeIndex - photos.length]?.name}</span></span>
     </div>
-    {thumbnails ? (photos.length > 1 && previews()) : <div className="lr-card-thumbnail-row">{previews()}</div>}
+    {thumbnails ? (photos.length > 1 && previews()) : <div className="lr-card-thumbnail-row">{(!minimalControls || photos.length > 1) && previews()}</div>}
     {swatches()}
     <dialog ref={dialog} className={`lr-image-dialog${closing ? ' is-closing' : ''}`} aria-labelledby={titleId} onKeyDown={keyboard} onCancel={event => { event.preventDefault(); close(); }} onClick={event => {
       if (event.target !== event.currentTarget) return;

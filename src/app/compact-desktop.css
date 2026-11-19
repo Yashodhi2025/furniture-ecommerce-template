@@ -1,6 +1,6 @@
 /* Desktop density only. Keep the original mobile rules, palette and motion. */
 @media (min-width:1025px) {
-  .lumi-site { --section-padding:4.35rem; font-size:14.5px; }
+  .lumi-site { --section-padding:4.35rem; font-size:var(--ui-font-body); }
 
   .lumi-site .lumi-navbar-top { min-height:77px; padding-block:16px; gap:16px; }
   .lumi-site .lumi-nav-brand { gap:10px; }
@@ -22,7 +22,7 @@
   .lumi-site .lumi-mega-items { gap:2px 22px; }
   .lumi-site .lumi-mega-link { min-height:48px; padding-block:11px; }
   .lumi-site .lumi-mega-link span { font-size:var(--deneb-font-size,15px)!important; }
-  .lumi-site .lumi-mega-browse { min-height:44px; margin-top:13px; padding:9px 16px; border-radius:999px!important; gap:16px; }
+  .lumi-site .lumi-mega-browse { min-height:var(--ui-control-height); margin-top:13px; padding:9px 16px; border-radius:var(--ui-pill-radius)!important; gap:16px; }
   .lumi-site .lumi-mega-browse span { font-size:var(--deneb-font-size,13px)!important; }
   .lumi-site .lumi-mega-imagery { min-height:212px; height:212px; }
 
@@ -44,9 +44,9 @@
   .lumi-site .lumi-home .lumi-showcase-footer { bottom:23px; right:26px; }
   .lumi-site .lumi-home .lumi-showcase-slide-link { bottom:23px; left:31px; }
 
-  .lumi-site .lumi-section { padding-top:var(--deneb-section-pt,76px)!important; padding-bottom:var(--deneb-section-pb,76px)!important; }
+  .lumi-site .lumi-section { padding-top:var(--deneb-section-pt,var(--ui-space-section))!important; padding-bottom:var(--deneb-section-pb,var(--ui-space-section))!important; }
   .lumi-site .lumi-section-top { gap:36px; margin-bottom:33px; }
-  .lumi-site .lumi-heading { font-size:var(--deneb-font-size,clamp(27px,2.7vw,40px))!important; }
+  .lumi-site .lumi-heading { font-size:var(--deneb-font-size,var(--ui-font-section))!important; }
   .lumi-site :is(.lumi-section-description,.lumi-category-card p,.lumi-value-card p) { font-size:var(--deneb-font-size,13px)!important; }
   .lumi-site .lumi-home .lumi-product-card [data-preview-field-path$=".description"] { font-size:var(--deneb-font-size,13px)!important; }
   .lumi-site .lumi-home .lumi-rooms .lumi-category-grid { gap:24px 19px; }
@@ -61,11 +61,10 @@
   .lumi-site :is(.lumi-text-link,.lumi-category-link,.lumi-product-link,.lumi-collection-link span) { font-size:var(--deneb-font-size,12px)!important; }
   .lumi-site .lumi-home .lumi-product-link span { font-size:var(--deneb-font-size,12px)!important; }
 
-  .lumi-site :is(.lr-collection,.lr-detail-page) { padding-top:52px; padding-bottom:65px; }
-  .lumi-site .lr-heading { padding-bottom:56px; }
+  .lumi-site :is(.lr-collection,.lr-detail-page) { padding-top:var(--ui-space-page); padding-bottom:65px; }
   .lumi-site .lr-collection-toolbar { gap:28px; margin-bottom:30px; }
   .lumi-site .lr-product-grid { gap:42px 21px; }
-  .lumi-site :is(.lr-heading h1,.lr-detail-info h1,.lumi-cart-heading h1,.lumi-wishlist-heading h1) { font-size:var(--deneb-font-size,clamp(29px,2.8vw,44px))!important; }
+  .lumi-site :is(.lr-heading>h1,.lr-detail-info h1,.lumi-cart-heading h1,.lumi-wishlist-heading h1) { font-size:var(--deneb-font-size,var(--ui-font-page))!important; }
   .lumi-site .lr-detail-page { padding-bottom:122px; }
   .lumi-site .lr-detail-page .lr-detail-layout { gap:5.2%; margin-top:33px; }
   .lumi-site .lr-detail-page .lr-gallery-detail { top:96px; }
@@ -85,7 +84,7 @@
   .lumi-site .lumi-contact .contact-grid { gap:23px; padding-bottom:var(--deneb-section-pb,49px); }
   .lumi-site .lumi-contact .contact-grid>.card { padding:24px; }
   .lumi-site :is(.page-heading,.split-copy) h1 { font-size:var(--deneb-font-size,clamp(32px,3.65vw,52px))!important; }
-  .lumi-site .page-section { padding-block:4.35rem; }
+  .lumi-site .page-section { padding-block:var(--ui-space-content); }
   .lumi-site .deneb-footer { padding:57px 5% 26px!important; }
   .lumi-site .deneb-footer-grid { gap:26px!important; margin-bottom:48px!important; }
   .lumi-site .deneb-footer :is(p,a,li,[data-preview-field-path^="contact."]) { font-size:var(--deneb-font-size,13px)!important; }
@@ -121,7 +120,7 @@
 
 /* Liquid caramel control geometry (compact override). */
 .lumi-site :is(.lumi-button,.lr-primary-button,.lumi-mega-browse,.lumi-drawer-primary,.lr-filter-button) {
-  border-radius:999px!important;
+  border-radius:var(--ui-pill-radius)!important;
 }
 
 /* Liquid caramel hero and product surfaces. */

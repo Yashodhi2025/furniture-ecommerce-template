@@ -1,12 +1,12 @@
 'use client';
 
 import { useEffect, useMemo, useRef, useState, type KeyboardEvent } from 'react';
-import { EditableCard, EditableSection, EditableText } from '@deneb-ui/ui';
+import { EditableText } from '@deneb-ui/ui';
 import { contentObject, contentText, useProducts, useSiteData } from '@/lib/siteDataContext';
 import { formatPrice, isLivingProduct, productHref } from '@/lib/living-room';
 import { withBasePath } from '@/lib/utils';
-import ProductPhotoGallery from './ProductPhotoGallery';
-import ProductWishlistButton from './ProductWishlistButton';
+import FurnitureProductCard from './FurnitureProductCard';
+import CollectionHero from './CollectionHero';
 import { collections, matchesCollectionFilter, saleOriginalPrice, type CollectionId } from '@/lib/collections';
 
 const sortOptions = <><option value="featured">Featured</option><option value="price-low">Price: low to high</option><option value="price-high">Price: high to low</option><option value="name">Name: A–Z</option></>;
@@ -75,14 +75,19 @@ export default function LivingRoomProducts({ collectionId = 'living-room' }: { c
   };
   const clear = () => { setCategory(''); setMaxPrice(null); setDraftCategory(''); setDraftPrice(null); };
   return <div className="lr-collection" data-preview-page-key={collection.pageId}>
-    <header className="lr-heading"><nav className="lr-breadcrumbs" aria-labelledby={`${collectionId}-breadcrumbs-label`}><span id={`${collectionId}-breadcrumbs-label`} className="sr-only" data-preview-static="breadcrumb-accessible-label">Breadcrumb</span><a href={withBasePath('/')} aria-label="Home" data-preview-static="collection-home-link">⌂</a><span>/</span><a href={withBasePath('/#categories')} data-preview-static="collection-index-link">Collections</a><span>/</span><span aria-current="page" data-preview-static="collection-route-label">{collection.label}</span></nav><EditableSection as="div" name={`${collectionId}-heading`} padding="none" bg="var(--deneb-section-bg, #EADBC8)" className="lr-title-band"><h1 id={`${collectionId}-title`}><EditableText as="span" fieldPath={`${headingPath}.title`} defaultValue={contentText(heading.title) || collection.title} /></h1><EditableText as="p" fieldPath={`${headingPath}.description`} defaultValue={contentText(heading.description) || collection.description} /></EditableSection></header>
-    <section aria-labelledby={`${collectionId}-title`}>
+    <header className="lr-heading">
+      <nav className="lr-breadcrumbs" aria-labelledby={`${collectionId}-breadcrumbs-label`}>
+        <span id={`${collectionId}-breadcrumbs-label`} className="sr-only" data-preview-static="breadcrumb-accessible-label">Breadcrumb</span>
+        <a href={withBasePath('/')} aria-label="Home" data-preview-static="collection-home-link">⌂</a><span>/</span>
+        <a href={withBasePath('/#categories')} data-preview-static="collection-index-link">Collections</a><span>/</span>
+        <span aria-current="page" data-preview-static="collection-route-label">{collection.label}</span>
+      </nav>
+      <CollectionHero key={collectionId} collectionId={collectionId} heading={heading} headingPath={headingPath} />
+    </header>
+    <section id={`${collectionId}-products`} aria-labelledby={`${collectionId}-title`}>
       <div className="lr-collection-toolbar"><button type="button" className="lr-filter-button" ref={trigger} aria-haspopup="dialog" data-preview-static="collection-open-filters" onClick={() => { setDraftCategory(category); setDraftPrice(maxPrice); setOpen(true); }}><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18M8 3v6M16 9v6M10 15v6" /></svg>Show filters{(category || maxPrice !== null) && <span className="lr-filter-indicator" />}</button><span className="lr-product-count" role="status" aria-live="polite" data-preview-static="collection-result-count">{filtered.length} {filtered.length === 1 ? 'product' : 'products'}</span><label className="lr-sort"><span data-preview-static="collection-sort-label">Sort by:</span><select aria-label="Sort products" data-preview-static="collection-sort-options" value={sort} onChange={event => setSort(event.target.value)}>{sortOptions}</select></label></div>
       {(category || maxPrice !== null) && <div className="lr-active-filters">{category && <button type="button" onClick={() => setCategory('')}>{category} ×</button>}{maxPrice !== null && <button type="button" onClick={() => setMaxPrice(null)}>Up to {formatPrice(maxPrice)} ×</button>}<button type="button" onClick={clear}>Clear filters</button></div>}
-      <div className="lr-product-grid" data-preview-list-path="products">{filtered.map(({ product, index }) => <EditableCard key={String(product.id)} item={{}} itemPath={`products[${index}]`} data-preview-item-path={`products[${index}]`} as="article" className="lr-product-card">
-        <ProductPhotoGallery product={product} index={index} href={productHref(product.id, collectionId)} imageAction={<ProductWishlistButton product={product} />} />
-        <div className="lr-product-caption"><span className="lr-brand" data-preview-field-path="productDetail.brand">{contentText(contentObject(contentObject(siteData.content).productDetail).brand) || 'LUMI LIVING'}</span><a data-preview-field-path={`products[${index}].ctaUrl`} href={withBasePath(product.ctaUrl ? String(product.ctaUrl) + (String(product.ctaUrl).startsWith('/products/detail/') ? `${String(product.ctaUrl).includes('?') ? '&' : '?'}collection=${collectionId}` : '') : productHref(product.id, collectionId))}><EditableText as="h2" data-preview-field-path={`products[${index}].name`} defaultValue={product.name} /></a>{String(product.badge ?? '').includes('photo pending') && <EditableText as="p" className="lr-photo-pending" data-preview-field-path={`products[${index}].badge`} defaultValue={product.badge} />}<EditableText as="p" data-preview-field-path={`products[${index}].price`} defaultValue={formatPrice(product.price)} />{collectionId === 'sale' && saleOriginalPrice(product) !== undefined && (product.compareAtPrice != null ? <EditableText as="s" className="lr-sale-original" data-preview-field-path={`products[${index}].compareAtPrice`} defaultValue={formatPrice(saleOriginalPrice(product))} /> : <EditableText as="s" className="lr-sale-original" data-preview-field-path={`products[${index}].originalPrice`} defaultValue={formatPrice(saleOriginalPrice(product))} />)}</div>
-      </EditableCard>)}</div>
+      <div className="lr-product-grid" data-preview-list-path="products">{filtered.map(({ product, index }) => <FurnitureProductCard key={String(product.id)} product={product} index={index} collectionId={collectionId} />)}</div>
       {!filtered.length && <div className="lr-empty"><h2 data-preview-static="collection-empty-heading">A little more room to explore.</h2><p data-preview-static="collection-empty-message">No products match these filters.</p><button type="button" className="lr-filter-button" data-preview-static="collection-reset-action" onClick={clear}>View all products</button></div>}
       <p className="lr-sample-note" data-preview-static="sample-collection-disclosure">A sample collection for LUMI LIVING. Additional product views are AI-generated illustrations.</p>
     </section>

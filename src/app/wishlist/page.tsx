@@ -1,14 +1,13 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import Link from 'next/link';
 import { EditableSection, EditableText } from '@deneb-ui/ui';
 import { contentObject, contentText, isTemplateValidation, useProducts, useSiteData } from '@/lib/siteDataContext';
-import { productHref } from '@/lib/living-room';
-import { readSavedProducts, writeWishlist, WISHLIST_CHANGE_EVENT, WISHLIST_KEY, type SavedProduct } from '@/lib/shoppingStorage';
+import { readSavedProducts, WISHLIST_CHANGE_EVENT, WISHLIST_KEY, type SavedProduct } from '@/lib/shoppingStorage';
 import { withBasePath } from '@/lib/utils';
 import '../cart/cart.css';
 import './wishlist.css';
+import FurnitureProductCard from '@/components/FurnitureProductCard';
 
 const defaults = {
   title: 'Your wishlist',
@@ -19,10 +18,6 @@ const defaults = {
   continueShoppingUrl: '/#shop',
   removeLabel: 'Remove from Wishlist',
   removedMessage: 'Removed from your wishlist.',
-};
-const money = (price: SavedProduct['price']) => {
-  const value = typeof price === 'number' ? price : Number(String(price ?? 0).replace(/[^0-9.-]/g, ''));
-  return Number.isFinite(value) ? `LKR ${new Intl.NumberFormat('en-LK', { maximumFractionDigits: 2 }).format(value)}` : '';
 };
 
 export default function WishlistPage() {
@@ -60,15 +55,6 @@ export default function WishlistPage() {
     };
   }, []);
 
-  const remove = (id: string) => {
-    try {
-      const next = readSavedProducts(WISHLIST_KEY).filter(item => item.id !== id);
-      writeWishlist(next);
-      setItems(next);
-      setError('');
-      setNotice('removedMessage');
-    } catch { setNotice(null); setError('Your wishlist could not be updated. Please allow browser storage and try again.'); }
-  };
   const continueShopping = <a href={withBasePath(text('continueShoppingUrl'))} data-preview-field-path="wishlist.continueShoppingUrl" className="lumi-cart-continue">{copy('continueShoppingLabel')}<span aria-hidden="true">↗</span></a>;
 
   return <div className="lumi-cart lumi-wishlist" data-preview-page-key="wishlist">
@@ -77,14 +63,11 @@ export default function WishlistPage() {
     <p role="status" className="lumi-wishlist-status">{notice ? copy(notice) : preview ? copy('removedMessage') : null}</p>
     {!ready && !preview ? <p role="status" data-preview-static="wishlist-loading">Loading your wishlist…</p> : visibleItems.length ? <>
       <section className="lumi-wishlist-grid" aria-labelledby="lumi-wishlist-heading">
-        {visibleItems.map(item => <article className="lumi-wishlist-card" key={item.id}>
-          <Link href={productHref(item.id)} className="lumi-wishlist-image" aria-label={`View ${item.name ?? 'product'}`} data-preview-static="wishlist-product-image"><img src={withBasePath(item.imageUrl || '/placeholder.svg')} alt={item.name ?? 'Product'} loading="lazy" /></Link>
-          <div className="lumi-wishlist-info">
-            <h2 data-preview-static="wishlist-product-name"><Link href={productHref(item.id)}>{item.name || 'Product'}</Link></h2>
-            <p className="lumi-wishlist-price" data-preview-static="wishlist-product-price">{money(item.price)}</p>
-            <button className="lumi-cart-remove" type="button" data-preview-field-path="wishlist.removeLabel" aria-label={`${text('removeLabel')}: ${item.name ?? 'product'}`} onClick={() => remove(item.id)}>{copy('removeLabel')}</button>
-          </div>
-        </article>)}
+        {visibleItems.map(item => {
+          const index = products.findIndex(product => String(product.id) === item.id);
+          const product = index >= 0 ? products[index] : { ...item, name: item.name || 'Product', currency: String(item.currency || 'LKR'), category: 'Saved piece' };
+          return <FurnitureProductCard key={item.id} product={product} index={index} onWishlistToggle={saved => { if (!saved) setNotice('removedMessage'); }} />;
+        })}
       </section>
       {continueShopping}
     </> : null}

@@ -55,7 +55,7 @@
 .lumi-home .lumi-hotspot.is-selected .lumi-hotspot-label,.lumi-home .lumi-hotspot-button:hover .lumi-hotspot-label,.lumi-home .lumi-hotspot-button:focus-visible .lumi-hotspot-label { visibility:visible; opacity:1; }
 .lumi-home .lumi-look-preview { background:var(--page-background,#F7F0E6); padding:27px; min-width:0; }
 .lumi-home .lumi-look-preview > .lumi-eyebrow { margin-bottom:18px; }
-.lumi-home .lumi-look-product .lumi-product-card { animation:lumi-look-in .25s ease-out; }
+.lumi-home .lumi-look-product .product-card { animation:lumi-look-in .25s ease-out; }
 .lumi-home .lumi-product-compact .deneb-product-card-media,.lumi-home .lumi-product-compact .deneb-product-card-media img { aspect-ratio:4/3 !important; }
 .lumi-home .lumi-look-status { position:absolute; width:1px; height:1px; padding:0; border:0; overflow:hidden; clip-path:inset(50%); white-space:nowrap; }
 .lumi-home .lumi-home-story { margin:0 5% 24px; background:var(--deneb-section-bg,#E8D6BE); }
@@ -100,7 +100,7 @@
   .lumi-home .lumi-look-preview .editable-card-body { grid-template-columns:1fr; gap:20px; }
   .lumi-home .lumi-look-scene figcaption { flex-direction:column; gap:6px; }
 }
-@media(prefers-reduced-motion:reduce) { .lumi-home .lumi-look-product .lumi-product-card { animation:none; } .lumi-home .lumi-product-card img,.lumi-home .lumi-hotspot-button,.lumi-home .lumi-hotspot-label { transition:none; } }
+@media(prefers-reduced-motion:reduce) { .lumi-home .lumi-look-product .product-card { animation:none; } .lumi-home .lumi-product-card img,.lumi-home .lumi-hotspot-button,.lumi-home .lumi-hotspot-label { transition:none; } }
 
 /* Home motion is composited: card dimensions and editable content stay in place. */
 .lumi-home .lumi-hero-media{overflow:hidden}
@@ -108,7 +108,7 @@
 .lumi-home .lumi-room-number,.lumi-home .lumi-product-badge{z-index:2}
 .lumi-home .lumi-home-carousel{min-width:0}
 .lumi-home .lumi-carousel-track{--carousel-columns:4;--carousel-gap:24px;grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:calc((100% - (var(--carousel-columns) - 1)*var(--carousel-gap))/var(--carousel-columns));gap:0 var(--carousel-gap);overflow-x:auto;overflow-y:hidden;overscroll-behavior-x:contain;scroll-snap-type:x mandatory;scrollbar-width:thin;scrollbar-color:#b7a38f transparent;padding:8px 0 14px;margin-top:-8px}
-.lumi-home .lumi-carousel-track>.lumi-product-card{scroll-snap-align:start}
+.lumi-home .lumi-carousel-track>.product-card{scroll-snap-align:start}
 .lumi-home .lumi-carousel-track:focus-visible{outline-offset:3px}
 .lumi-home .lumi-carousel-controls{display:flex;align-items:center;justify-content:space-between;gap:18px;margin-top:16px;min-height:44px;color:#715238;font-size:12px;letter-spacing:.06em}
 .lumi-home .lumi-carousel-controls>div{display:flex;gap:9px}

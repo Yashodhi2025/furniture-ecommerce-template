@@ -5,6 +5,7 @@ import { SiteDataProvider, ThemeStyles } from "@/lib/siteDataContext";
 import SiteChrome from "@/components/SiteChrome";
 import './globals.css';
 import '../fonts/deneb-fonts.css';
+import './design-tokens.css';
 import './lumi.css';
 import './typography.css';
 import './product-card-refinements.css';

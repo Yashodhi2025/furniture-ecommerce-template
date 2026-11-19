@@ -1,0 +1,33 @@
+/* Shared compact scale; heroes and navigation keep their existing geometry. */
+:root {
+  --ui-walnut:#54331f; --ui-walnut-hover:#704626; --ui-caramel:#c38a51;
+  --ui-sand:#e8d6be; --ui-ivory:#f7f0e6; --ui-ink:#3d2b20; --ui-muted:#715238;
+  --ui-card:#eee2d3; --ui-card-line:rgba(137,86,56,.14); --ui-shadow:0 6px 18px rgba(61,37,25,.10);
+  --ui-space-1:4px; --ui-space-2:8px; --ui-space-3:12px; --ui-space-4:16px;
+  --ui-space-5:24px; --ui-space-6:32px; --ui-space-page:52px; --ui-space-section:76px;
+  --ui-font-body:14.5px; --ui-font-input:14.5px; --ui-font-small:13px; --ui-font-control:12px;
+  --ui-space-content:4.35rem;
+  --ui-font-section:clamp(27px,2.7vw,40px); --ui-font-page:clamp(29px,2.8vw,44px);
+  --ui-control-height:44px; --ui-card-title:15px; --ui-card-price:13px;
+  --ui-card-padding:6px; --ui-card-gap:20px; --ui-card-row-gap:24px; --ui-card-radius:16px;
+  --ui-media-radius:11px; --ui-pill-radius:999px; --ui-card-image-ratio:1.32;
+  --ui-motion:260ms cubic-bezier(.22,1,.36,1);
+}
+@media(max-width:750px) {
+  :root {
+    --ui-font-body:15px; --ui-font-input:16px; --ui-card-title:13px; --ui-card-price:11.5px;
+    --ui-card-padding:5px; --ui-card-gap:12px; --ui-card-radius:13px;
+    --ui-media-radius:9px; --ui-card-image-ratio:1.2;
+    --ui-space-page:32px; --ui-space-section:56px;
+  }
+}
+
+.lumi-site main :is(.lumi-cart-continue,.lumi-about-cta,.lr-primary-button,.lr-wishlist-button,.lumi-whatsapp-button) {
+  min-height:var(--ui-control-height);
+  border-radius:var(--ui-pill-radius);
+  font-size:var(--ui-font-small);
+}
+.lumi-site :is(.contact-form input,.contact-form textarea,.lumi-email-row input) { font-size:var(--ui-font-input); }
+.lumi-search-studio,.lumi-enquiry-drawer,.lr-filter-drawer,.lr-image-dialog { font-size:var(--ui-font-body); }
+.lumi-site main :is(.lr-product-grid,.lumi-product-grid:not(.lumi-carousel-track),.lumi-wishlist-grid) { gap:var(--ui-card-row-gap) var(--ui-card-gap); }
+.lumi-site .lumi-carousel-track { column-gap:var(--ui-card-gap); }

@@ -152,3 +152,236 @@
 }
 .lr-detail-page[data-detail-editing=true] * { animation:none!important; transition:none!important; }
 .lr-detail-page[data-detail-editing=true] .lr-gallery-detail { position:relative; top:auto; }
+
+/* Compact premium product-detail presentation. */
+@media(min-width:751px) {
+  .lr-detail-page {
+    max-width:1500px;
+    padding:28px 4% 110px;
+  }
+
+  .lr-detail-page>.lr-breadcrumbs {
+    margin:0 0 22px;
+  }
+
+  .lr-detail-page .lr-detail-layout {
+    grid-template-columns:minmax(0,1.12fr) minmax(340px,.88fr);
+    gap:5%;
+    margin-top:24px;
+  }
+
+  .lr-detail-page .lr-gallery-detail {
+    top:96px;
+  }
+
+  .lr-detail-page .lr-gallery-stage {
+    max-height:560px;
+  }
+
+  .lr-detail-page .lr-detail-info {
+    max-width:560px;
+    padding-top:2px;
+  }
+
+  .lr-detail-page .lr-brand {
+    font-size:9px;
+  }
+
+  .lumi-site .lr-detail-page .lr-detail-info h1 {
+    font-size:clamp(34px,3vw,44px)!important;
+    margin:8px 0 8px;
+  }
+
+  .lumi-site .lr-detail-page .lr-detail-category {
+    font-size:11px!important;
+  }
+
+  .lr-detail-page .lr-detail-prices {
+    padding:14px 0;
+    margin-bottom:12px;
+  }
+
+  .lumi-site .lr-detail-page .lr-detail-prices p {
+    font-size:22px!important;
+  }
+
+  .lumi-site .lr-detail-page .lr-detail-description {
+    font-size:12.5px!important;
+    line-height:1.75!important;
+  }
+
+  .lr-detail-page .lr-availability {
+    margin:12px 0;
+  }
+
+  .lr-detail-page .lr-purchase-actions {
+    margin-top:12px;
+  }
+
+  .lr-detail-page .lr-purchase-actions>label {
+    margin-bottom:6px;
+  }
+
+  .lr-detail-page .lr-purchase-row {
+    grid-template-columns:98px minmax(0,1fr) 46px;
+  }
+
+  .lr-detail-page .lr-quantity-selector,
+  .lr-detail-page .lr-quantity-selector button,
+  .lr-detail-page .lr-quantity-selector input,
+  .lr-detail-page .lr-add-enquiry,
+  .lr-detail-page .lr-wishlist-button {
+    min-height:46px;
+  }
+
+  .lr-detail-page .lr-add-enquiry {
+    border-radius:999px;
+  }
+
+  .lr-detail-page .lr-wishlist-button {
+    width:46px;
+  }
+
+  .lr-detail-page .lr-purchase-actions>.lumi-enquiry-send {
+    margin-top:8px;
+  }
+
+  .lr-detail-page .lr-purchase-actions .lumi-whatsapp-button {
+    min-height:42px;
+    width:fit-content;
+    padding:8px 16px;
+    border-radius:999px;
+  }
+
+  .lr-detail-page .lr-review-list {
+    padding:9px 0 0;
+  }
+
+  .lr-detail-page .lr-detail-services {
+    margin-top:14px;
+    padding:14px 0;
+  }
+
+  .lr-detail-page .lr-detail-accordion>button {
+    padding:15px 0;
+  }
+
+  .lr-detail-page .lr-enquiry {
+    display:flex;
+    align-items:center;
+    gap:12px;
+    min-height:94px;
+    margin:18px 0 12px;
+    padding:14px 16px;
+    border:1px solid #d9c5af;
+    border-radius:16px;
+  }
+
+  .lr-detail-page .lr-enquiry-icon {
+    font-size:24px;
+  }
+
+  .lr-detail-page .lr-enquiry>div {
+    display:grid;
+    grid-template-columns:minmax(0,1fr) auto;
+    align-items:center;
+    column-gap:14px;
+    width:100%;
+  }
+
+  .lr-detail-page .lr-enquiry h2 {
+    grid-column:1;
+    margin:0 0 3px;
+    font-size:14px;
+  }
+
+  .lr-detail-page .lr-enquiry p {
+    grid-column:1;
+    margin:0;
+    font-size:11.5px;
+    line-height:1.5;
+  }
+
+  .lr-detail-page .lr-enquiry .lr-primary-button {
+    grid-column:2;
+    grid-row:1 / span 2;
+    width:auto;
+    min-height:38px;
+    padding:8px 14px;
+    border:1px solid #895638;
+    border-radius:999px;
+    background:transparent;
+    color:#3D2519;
+    white-space:nowrap;
+    font-size:11.5px;
+  }
+
+  .lr-detail-page .lr-enquiry .lr-primary-button:hover {
+    background:#895638;
+    color:#FFF8F0;
+  }
+}
+
+@media(max-width:750px) {
+  .lr-detail-page .lr-detail-info h1 {
+    font-size:30px!important;
+  }
+
+  .lr-detail-page .lr-detail-prices p {
+    font-size:19px!important;
+  }
+
+  .lr-detail-page .lr-detail-description {
+    font-size:12.5px!important;
+    line-height:1.7!important;
+  }
+
+  .lr-detail-page .lr-purchase-row {
+    grid-template-columns:92px minmax(0,1fr) 46px;
+  }
+
+  .lr-detail-page .lr-quantity-selector,
+  .lr-detail-page .lr-quantity-selector button,
+  .lr-detail-page .lr-quantity-selector input,
+  .lr-detail-page .lr-add-enquiry,
+  .lr-detail-page .lr-wishlist-button {
+    min-height:44px;
+  }
+
+  .lr-detail-page .lr-add-enquiry {
+    border-radius:999px;
+  }
+
+  .lr-detail-page .lr-enquiry {
+    display:flex;
+    align-items:flex-start;
+    gap:10px;
+    padding:14px;
+    border-radius:14px;
+  }
+
+  .lr-detail-page .lr-enquiry>div {
+    display:flex;
+    flex-direction:column;
+    align-items:flex-start;
+  }
+
+  .lr-detail-page .lr-enquiry h2 {
+    font-size:14px;
+  }
+
+  .lr-detail-page .lr-enquiry p {
+    font-size:11.5px;
+  }
+
+  .lr-detail-page .lr-enquiry .lr-primary-button {
+    min-height:36px;
+    margin-top:8px;
+    padding:8px 12px;
+    border:1px solid #895638;
+    border-radius:999px;
+    background:transparent;
+    color:#3D2519;
+    font-size:11.5px;
+  }
+}

@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import type { ProductItem } from '@deneb-ui/ui';
 import { readSavedProducts, toggleProductWishlist, WISHLIST_CHANGE_EVENT, WISHLIST_KEY } from '@/lib/shoppingStorage';
 
-export default function ProductWishlistButton({ product }: { product: ProductItem }) {
+export default function ProductWishlistButton({ product, onToggle }: { product: ProductItem; onToggle?: (saved: boolean) => void }) {
   const id = product.id == null ? '' : String(product.id);
   const [saved, setSaved] = useState(false);
   const [error, setError] = useState('');
@@ -33,7 +33,9 @@ export default function ProductWishlistButton({ product }: { product: ProductIte
       event.preventDefault();
       event.stopPropagation();
       try {
-        setSaved(toggleProductWishlist({ id, name: product.name, price: product.price, currency: product.currency, imageUrl: product.imageUrl }));
+        const next = toggleProductWishlist({ id, name: product.name, price: product.price, currency: product.currency, imageUrl: product.imageUrl });
+        setSaved(next);
+        onToggle?.(next);
         setError('');
       } catch { setError('Could not update your wishlist. Please allow browser storage and try again.'); }
     }}>

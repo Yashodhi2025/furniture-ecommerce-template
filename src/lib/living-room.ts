@@ -7,7 +7,7 @@ export function isLivingProduct(product: ProductItem) {
 }
 export function productPhotos(product: Pick<ProductItem, 'imageUrl' | 'gallery'>, index: number, editorSlots = false) {
   const gallery = Array.isArray(product.gallery) ? product.gallery : [];
-  return [
+  const photos = [
     ...(product.imageUrl || editorSlots ? [{ src: product.imageUrl || '', path: `products[${index}].imageUrl` }] : []),
     // Cover + two additional slots. Filter empty uploads only for shoppers,
     // without renumbering real array indices or copying image URLs.
@@ -16,6 +16,16 @@ export function productPhotos(product: Pick<ProductItem, 'imageUrl' | 'gallery'>
       return { src, path: `products[${index}].gallery[${photoIndex}]` };
     }).filter(photo => editorSlots || photo.src.trim()),
   ];
+  // Shopper galleries must not repeat the cover or another uploaded view.
+  // Inspector slots retain their original field paths, including empty uploads.
+  if (editorSlots) return photos;
+  const seen = new Set<string>();
+  return photos.filter(photo => {
+    const source = photo.src.trim();
+    if (!source || seen.has(source)) return false;
+    seen.add(source);
+    return true;
+  });
 }
 export const productHref = (id: ProductItem['id'], collectionId?: CollectionId) => `/products/detail/?id=${encodeURIComponent(String(id ?? ''))}${collectionId ? `&collection=${encodeURIComponent(collectionId)}` : ''}`;
 export const formatPrice = (value: unknown) => Number.isFinite(Number(value)) ? `LKR ${new Intl.NumberFormat('en-LK', { maximumFractionDigits: 0 }).format(Number(value))}` : '';

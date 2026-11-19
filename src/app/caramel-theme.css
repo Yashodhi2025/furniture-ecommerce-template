@@ -35,7 +35,6 @@ body { background:#F7F0E6; }
   background:var(--deneb-section-bg,linear-gradient(125deg,#E8D6BE,#EEDDCA));
 }
 .lumi-site main .lumi-home :is(.lumi-categories,.lumi-best-sellers,.lumi-values) { background:var(--deneb-section-bg,#F7F0E6); }
-.lumi-site .lr-title-band { background:var(--deneb-section-bg,linear-gradient(120deg,#E8D6BE,#EDDDC8))!important; color:#3D2B20; }
 .lumi-site main :is(.lr-product-card,.lumi-product-card,.lumi-wishlist-card) {
   --lumi-price-ink:#644126;
   --lumi-card-divider:#D7BFA3;
@@ -45,7 +44,7 @@ body { background:#F7F0E6; }
   border-color:#D7BFA3!important;
   box-shadow:var(--deneb-card-shadow,0 6px 22px #946d4510)!important;
 }
-.lumi-site main :is(.lr-product-card .lr-product-caption,.lumi-wishlist-card .lumi-wishlist-info) {
+.lumi-site main .lumi-wishlist-card .lumi-wishlist-info {
   background:linear-gradient(145deg,#F7F0E6,#F2E6D7);
   border-color:#D7BFA3;
 }

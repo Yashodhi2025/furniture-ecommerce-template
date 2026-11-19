@@ -1,29 +1,57 @@
 'use client';
 
+import type { PointerEvent } from 'react';
 import { EditableCard, EditableText, type ProductItem } from '@deneb-ui/ui';
 import { withBasePath } from '@/lib/utils';
+import { productHref } from '@/lib/living-room';
+import { saleOriginalPrice, type CollectionId } from '@/lib/collections';
+import { useFivoraEditMode } from '@/lib/useFivoraEditMode';
 import ProductWishlistButton from './ProductWishlistButton';
 import ProductPhotoGallery from './ProductPhotoGallery';
+import CardCartAction from './CardCartAction';
+import './FurnitureProductCard.css';
 
-/** Furniture presentation only; catalog state remains in SiteDataProvider. */
-export default function FurnitureProductCard({ product, index, compact = false }: {product: ProductItem; index: number; compact?: boolean}) {
-  const money = (value: unknown) => typeof value === 'number' ? new Intl.NumberFormat('en-LK', {maximumFractionDigits:0}).format(value) : String(value ?? '');
-  const url = String(product.ctaUrl ?? `/products/detail/?id=${encodeURIComponent(String(product.id))}`);
-  return <EditableCard item={{}} itemPath={`products[${index}]`} data-preview-item-path={`products[${index}]`} className={`lumi-product-card${compact ? ' lumi-product-compact' : ''}`} as="article">
-    <ProductPhotoGallery product={product} index={index} href={url} mediaClassName="deneb-product-card-media" imageAction={<>
-      <EditableText as="span" data-preview-field-path={`products[${index}].badge`} defaultValue={product.badge} className="lumi-product-badge" />
-      <ProductWishlistButton product={product} />
-    </>} />
-    <div className="lumi-product-info">
-      <EditableText as="p" data-preview-field-path={`products[${index}].category`} defaultValue={product.category} />
-      <EditableText as="h3" data-preview-field-path={`products[${index}].name`} defaultValue={product.name} />
-      <EditableText as="p" data-preview-field-path={`products[${index}].description`} defaultValue={product.description} placeholder="Add a product description" />
-      <div className="lumi-product-prices">
-        <span data-preview-static="product-currency">{product.currency}</span>
-        <EditableText as="span" data-preview-field-path={`products[${index}].price`} defaultValue={money(product.price)} />
-        <EditableText as="s" data-preview-field-path={`products[${index}].compareAtPrice`} defaultValue={money(product.compareAtPrice)} />
+/** One card for home, collections, related pieces and saved products. */
+export default function FurnitureProductCard({ product, index, compact = false, collectionId, onWishlistToggle }: {
+  product: ProductItem; index: number; compact?: boolean; collectionId?: CollectionId; onWishlistToggle?: (saved: boolean) => void;
+}) {
+  const editing = useFivoraEditMode();
+  const field = (key: string) => index >= 0 ? 'products[' + index + '].' + key : undefined;
+  const url = product.ctaUrl ? String(product.ctaUrl) : productHref(product.id, collectionId);
+  const contextualUrl = collectionId && url.startsWith('/products/detail/') && !/[?&]collection=/.test(url)
+    ? url + (url.includes('?') ? '&' : '?') + 'collection=' + collectionId : url;
+  const numericPrice = Number(product.price);
+  const price = Number.isFinite(numericPrice) ? new Intl.NumberFormat('en-LK', { maximumFractionDigits: 0 }).format(numericPrice) : String(product.price ?? '');
+  const original = saleOriginalPrice(product);
+  const touch = (event: PointerEvent<HTMLElement>) => { if (event.pointerType === 'touch') event.currentTarget.focus({ preventScroll: true }); };
+  const content = <>
+    <>{index >= 0 ? <ProductPhotoGallery catalogue minimalControls product={product} index={index} href={contextualUrl}
+      imageAction={<ProductWishlistButton product={product} onToggle={onWishlistToggle} />} /> : <div className="lr-gallery">
+        <div className="lr-gallery-stage"><a href={withBasePath(contextualUrl)} className="lr-photo-link"><img className="product-card-snapshot" src={withBasePath(String(product.imageUrl || '/placeholder.svg'))} alt={String(product.name || 'Saved product')} /></a><ProductWishlistButton product={product} onToggle={onWishlistToggle} /></div>
+        <div className="lr-card-thumbnail-row" />
+      </div>}</>
+    <div className="product-card-information">
+      <div className="product-card-heading">
+        <a href={withBasePath(contextualUrl)} data-preview-field-path={field('ctaUrl')} title={String(product.name ?? 'Product')} className="product-card-name-link">
+          <EditableText as="h3" className="product-card-name" data-preview-field-path={field('name')} defaultValue={product.name} />
+        </a>
+        <div className="product-card-price">
+          <div><span className="product-card-currency">{String(product.currency || 'LKR')} </span><EditableText as="span" data-preview-field-path={field('price')} defaultValue={price} /></div>
+          {original !== undefined && <EditableText as="s" className="product-card-original" data-preview-field-path={field(product.compareAtPrice != null ? 'compareAtPrice' : 'originalPrice')} defaultValue={new Intl.NumberFormat('en-LK').format(original)} />}
+        </div>
       </div>
-      <a href={withBasePath(url)} data-preview-field-path={`products[${index}].ctaUrl`} className="lumi-product-link"><EditableText as="span" data-preview-field-path={`products[${index}].ctaLabel`} defaultValue={String(product.ctaLabel ?? 'View piece')} /><span aria-hidden="true">↗</span></a>
+      <div className="product-card-footer">
+        <EditableText as="span" className="product-card-category" data-preview-field-path={field('category')} defaultValue={product.category || 'Furniture'} title={String(product.badge || '')} />
+        <CardCartAction product={product} index={index} />
+      </div>
+      {editing && <div className="product-card-editor-fields">
+        <EditableText as="p" data-preview-field-path={field('description')} defaultValue={product.description} />
+        <EditableText as="span" data-preview-field-path={field('badge')} defaultValue={product.badge} />
+        <EditableText as="span" data-preview-field-path={field('ctaLabel')} defaultValue={String(product.ctaLabel || '')} />
+      </div>}
     </div>
-  </EditableCard>;
+  </>;
+  return index >= 0 ? <EditableCard item={{}} itemPath={'products[' + index + ']'} data-preview-item-path={'products[' + index + ']'}
+    className="product-card" as="article" tabIndex={0} data-compact={compact || undefined} onPointerDown={touch}>{content}</EditableCard>
+    : <article className="product-card" tabIndex={0} onPointerDown={touch}><div className="editable-card-body">{content}</div></article>;
 }

@@ -1,0 +1,131 @@
+/* The collection banner owns its layout and colors; global caramel rules do not. */
+.lumi-site .collection-hero {
+  position:relative;
+  isolation:isolate;
+  height:300px;
+  margin-top:20px;
+  padding:0!important;
+  overflow:hidden;
+  border:1px solid #b98a5866;
+  border-radius:18px;
+  background:radial-gradient(ellipse at 45% 5%,#c38a5152,transparent 64%),linear-gradient(115deg,#603b26,#855332 58%,#b77d49);
+  box-shadow:0 12px 28px #603b261a;
+}
+.collection-hero-copy {
+  position:relative;
+  z-index:2;
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  justify-content:center;
+  width:48%;
+  height:100%;
+  padding:26px 22px 26px 38px;
+}
+.lumi-site .collection-hero .collection-hero-eyebrow {
+  margin:0 0 11px;
+  color:#f4dfc4!important;
+  font-size:10px;
+  font-weight:500;
+  line-height:1.5;
+  letter-spacing:.12em;
+}
+.lumi-site .collection-hero .collection-hero-title,
+.lumi-site .collection-hero .collection-hero-title>span {
+  margin:0;
+  padding:0;
+  font-family:Georgia,'Times New Roman',serif!important;
+  font-size:var(--deneb-font-size,clamp(32px,3vw,44px))!important;
+  font-weight:var(--deneb-font-weight,400)!important;
+  line-height:1.08!important;
+  letter-spacing:-.025em!important;
+  color:#fff8f0!important;
+  text-wrap:balance;
+}
+.lumi-site .collection-hero .collection-hero-description {
+  max-width:40ch;
+  margin:12px 0 20px;
+  color:#fff0df!important;
+  font-size:var(--deneb-font-size,14px)!important;
+  line-height:1.6!important;
+}
+.collection-hero-cta {
+  display:inline-flex;
+  align-items:center;
+  gap:17px;
+  flex-shrink:0;
+  min-height:42px;
+  padding:11px 20px;
+  border:1px solid #f2ce9b66;
+  border-radius:999px;
+  background:linear-gradient(135deg,#A46632,#935329);
+  color:#fff!important;
+  font-size:12px;
+  font-weight:600;
+  line-height:1.5;
+  text-decoration:none;
+  box-shadow:0 4px 12px #35201620,inset 0 1px #ffe1b52b;
+  transition:background-color .2s,box-shadow .2s;
+}
+.collection-hero-cta:hover { background:#975c2d; box-shadow:0 6px 16px #35201635; }
+.collection-hero-cta:focus-visible { outline:2px solid #fff0df; outline-offset:4px; }
+.collection-hero-media {
+  position:absolute;
+  z-index:0;
+  inset:0 0 0 43%;
+  overflow:hidden;
+  border-top-left-radius:28% 100%;
+  background:#895b37;
+}
+.collection-hero-image { display:block; width:100%; height:100%; object-fit:cover; }
+
+/* Only the photograph moves. The static image replaces all strips at the end. */
+.collection-hero-media[data-reveal=playing]>.collection-hero-image { visibility:hidden; }
+.collection-hero-strips { position:absolute; inset:0; display:grid; grid-template-columns:repeat(var(--strip-count),minmax(0,1fr)); pointer-events:none; }
+.collection-hero-strip {
+  position:relative;
+  overflow:hidden;
+  animation:collection-photo-fall 800ms cubic-bezier(.22,1,.36,1) both;
+  animation-delay:calc(var(--strip-index) * 55ms);
+}
+.collection-hero-strip>img {
+  position:absolute;
+  top:0;
+  left:calc(var(--strip-index) * -100%);
+  width:calc(var(--strip-count) * 100%);
+  max-width:none;
+  height:100%;
+  object-fit:cover;
+}
+@keyframes collection-photo-fall {
+  from { transform:translateY(-102%); }
+  to { transform:translateY(0); }
+}
+
+@media (max-width:1024px) and (min-width:751px) {
+  .collection-hero-copy { width:52%; padding-left:28px; }
+  .lumi-site .collection-hero .collection-hero-title,
+  .lumi-site .collection-hero .collection-hero-title>span { font-size:var(--deneb-font-size,32px)!important; }
+  .collection-hero-media { left:45%; }
+}
+@media (max-width:750px) {
+  .lumi-site .collection-hero { height:320px; margin-top:16px; border-radius:14px; }
+  .collection-hero-copy { width:80%; padding:20px; }
+  .lumi-site .collection-hero .collection-hero-title,
+  .lumi-site .collection-hero .collection-hero-title>span { font-size:var(--deneb-font-size,29px)!important; }
+  .lumi-site .collection-hero .collection-hero-description { font-size:var(--deneb-font-size,13px)!important; margin:11px 0 18px; }
+  .lumi-site .collection-hero .collection-hero-eyebrow { font-size:9px; letter-spacing:.08em; }
+  .collection-hero-media { left:32%; opacity:.42; border-top-left-radius:40% 100%; }
+  .collection-hero-media::after { content:''; position:absolute; inset:0; background:linear-gradient(90deg,#603b26,#603b2699 65%,transparent); pointer-events:none; }
+  .collection-hero-cta { padding:10px 16px; }
+}
+@media (prefers-reduced-motion:reduce) {
+  .collection-hero-strips { display:none; }
+  .collection-hero-media[data-reveal=playing]>.collection-hero-image { visibility:visible; }
+  .collection-hero-cta { transition:none; }
+}
+@media (max-width:360px) {
+  .collection-hero-copy { width:92%; padding:18px; }
+  .lumi-site .collection-hero .collection-hero-title,
+  .lumi-site .collection-hero .collection-hero-title>span { font-size:var(--deneb-font-size,27px)!important; }
+}

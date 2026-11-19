@@ -4,9 +4,9 @@ import { useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 
 const revealTargets = [
-  '.lr-heading > .lr-breadcrumbs', '.lr-collection-toolbar', '.lr-product-card',
+  '.lr-heading > .lr-breadcrumbs', '.lr-collection-toolbar', '.product-card',
   '.lr-detail-info > *',
-  '.lumi-section-top', '.lumi-category-card', '.lumi-product-card',
+  '.lumi-section-top', '.lumi-category-card', 
   '.lumi-story-image', '.lumi-story-copy > *', '.lumi-value-card',
   '.lumi-home-story .lumi-story-copy',
   '.lumi-newsletter > *',

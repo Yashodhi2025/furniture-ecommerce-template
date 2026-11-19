@@ -39,9 +39,7 @@
 }
 .lumi-site main .lr-product-caption .lr-sale-original { margin-top:3px; }
 .lumi-site main .lr-product-card .lr-product-caption {
-  text-align:left; padding:13px 12px 15px;
-  background:linear-gradient(180deg,#F7F0E6 0%,#f6f0e7 100%);
-  border-bottom:1px solid #e7ddcf; border-radius:0 0 14px 14px;
+  text-align:left;
 }
 .lumi-site main .lr-product-card .lr-product-caption h2 { margin-top:7px; margin-bottom:8px; }
 .lumi-site main .lr-product-caption .lr-brand {
@@ -86,7 +84,7 @@
   .lumi-site:not([data-card-editing=true]) main .lumi-product-heart:hover { scale:1.06; border-color:#a08c72; }
 }
 @media(max-width:750px) {
-  .lumi-site main :is(.lr-product-card .lr-product-caption,.lumi-product-card .lumi-product-info,.lumi-wishlist-card .lumi-wishlist-info) { padding:11px 8px 12px!important; }
+  .lumi-site main :is(.lumi-product-card .lumi-product-info,.lumi-wishlist-card .lumi-wishlist-info) { padding:11px 8px 12px!important; }
   .lumi-site main .lr-product-caption [data-preview-field-path$=".price"] { margin-top:8px; padding-top:8px; }
 }
 @media(prefers-reduced-motion:reduce) {
