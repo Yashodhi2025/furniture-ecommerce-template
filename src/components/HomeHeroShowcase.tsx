@@ -1,16 +1,39 @@
 'use client';
 
-import { useEffect, useRef, useState, type CSSProperties } from 'react';
+import { useEffect, useId, useRef, useState, type CSSProperties } from 'react';
 import { DENEB_PREVIEW_FOCUS_MESSAGE, PREVIEW_FOCUS_MESSAGE, LEGACY_PREVIEW_FOCUS_MESSAGE, EditableImage, EditableText } from '@deneb-ui/ui';
 import { contentList, contentObject, contentText } from '@/lib/siteDataContext';
 import { withBasePath } from '@/lib/utils';
 import './HomeHeroShowcase.css';
 
 const SLIDE_INTERVAL_MS = 3000;
+const PENTAGON_VERTICES = [[0, .5], [.3455, .0245], [.9045, .2061], [.9045, .7939], [.3455, .9755]];
+// Trim a small, equal fraction of each edge and soften the five tips.
+const ROUNDED_PENTAGON_PATH = PENTAGON_VERTICES.map((point, index, points) => {
+  const previous = points[(index + points.length - 1) % points.length];
+  const next = points[(index + 1) % points.length];
+  const before = point.map((value, axis) => value + (previous[axis] - value) * .04);
+  const after = point.map((value, axis) => value + (next[axis] - value) * .04);
+  return `${index ? 'L' : 'M'}${before.join(' ')} Q${point.join(' ')} ${after.join(' ')}`;
+}).join(' ') + ' Z';
+
+function updateWheel(stage: HTMLDivElement | null, position: number, count: number) {
+  if (!stage || !count) return;
+  stage.style.setProperty('--wheel-turn', `${-position * 360 / count}deg`);
+  stage.querySelectorAll<HTMLElement>('.lumi-showcase-object').forEach((object, index) => {
+    const offset = ((index - position) % count + count) % count;
+    const distance = Math.min(offset, count - offset, 1);
+    // A cosine ramp has a gentle slope at both the small and featured sizes.
+    const focus = (1 + Math.cos(distance * Math.PI)) / 2;
+    object.style.setProperty('--item-scale', String(.48 + .62 * focus));
+  });
+}
 
 export default function HomeHeroShowcase({ slides: rawSlides }: { slides: unknown }) {
   const slides = contentList(rawSlides).map(contentObject);
+  const pentagonClipId = `hero-pentagon-${useId().replace(/[^a-zA-Z0-9_-]/g, '')}`;
   const stage = useRef<HTMLDivElement>(null);
+  const wheelPosition = useRef(0);
   const [selected, setSelected] = useState(0);
   const [paused, setPaused] = useState(false);
   const [reduced, setReduced] = useState(true);
@@ -43,7 +66,12 @@ export default function HomeHeroShowcase({ slides: rawSlides }: { slides: unknow
       if (['FIVORA_PREVIEW_EDIT_MODE', 'MARKETPLACE_PREVIEW_EDIT_MODE'].includes(event.data?.type)) setEditing(Boolean(event.data.editMode));
       if ([PREVIEW_FOCUS_MESSAGE, DENEB_PREVIEW_FOCUS_MESSAGE, LEGACY_PREVIEW_FOCUS_MESSAGE].includes(event.data?.type)) {
         const match = /^home\.heroSlides\[(\d+)\]/.exec(String(event.data.fieldPath));
-        if (match) { setSelected(Number(match[1])); setInteraction(value => value + 1); }
+        if (match) {
+          wheelPosition.current = Number(match[1]);
+          updateWheel(stage.current, wheelPosition.current, slides.length);
+          setSelected(wheelPosition.current);
+          setInteraction(value => value + 1);
+        }
       }
     };
     syncPreference();
@@ -61,25 +89,45 @@ export default function HomeHeroShowcase({ slides: rawSlides }: { slides: unknow
       document.removeEventListener('visibilitychange', syncVisibility);
       window.removeEventListener('message', editMode);
     };
-  }, []);
+  }, [slides.length]);
 
   useEffect(() => {
     if (!playing || slides.length < 2) return;
-    const timer = window.setTimeout(() => setSelected(value => value + 1), SLIDE_INTERVAL_MS);
-    return () => window.clearTimeout(timer);
-  }, [playing, active, slides.length, interaction]);
+    let frame: number;
+    let previousTime: number | undefined;
+    const advance = (time: number) => {
+      if (previousTime !== undefined) {
+        // Always move, with the lowest speed at each featured position.
+        // This positive cosine speed profile has no stationary dwell.
+        const elapsed = Math.min(time - previousTime, 50);
+        const phase = wheelPosition.current % 1;
+        const speed = (.3 + 1.2 * (1 - Math.cos(phase * Math.PI * 2))) / .9;
+        wheelPosition.current += elapsed / SLIDE_INTERVAL_MS * speed;
+        updateWheel(stage.current, wheelPosition.current, slides.length);
+        const nearest = Math.round(wheelPosition.current);
+        setSelected(value => value === nearest ? value : nearest);
+      }
+      previousTime = time;
+      frame = window.requestAnimationFrame(advance);
+    };
+    frame = window.requestAnimationFrame(advance);
+    return () => window.cancelAnimationFrame(frame);
+  }, [playing, slides.length, interaction]);
 
   if (!slides.length) return null;
   const current = slides[active];
   const choose = (index: number) => {
-    setSelected(value => value + (index - value % slides.length + slides.length) % slides.length);
+    const nearest = Math.round(wheelPosition.current);
+    wheelPosition.current = nearest + (index - nearest % slides.length + slides.length) % slides.length;
+    updateWheel(stage.current, wheelPosition.current, slides.length);
+    setSelected(wheelPosition.current);
     setInteraction(value => value + 1);
   };
 
   return (
     <div ref={stage} className="lumi-showcase" role="region" aria-roledescription="carousel" aria-label="Furniture inspiration" data-preview-static="furniture-showcase-interface"
       data-playing={playing} data-editing={editing} data-reduced={reduced} data-active-slide={active} data-images-ready={imagesReady}
-      style={{ '--showcase-accent': contentText(current.color) || '#d8dfca', '--wheel-turn': `${-selected * 360 / slides.length}deg` } as CSSProperties}
+      style={{ '--showcase-accent': contentText(current.color) || '#d8dfca' } as CSSProperties}
       onFocusCapture={event => {
         // Keyboard users can read a slide at rest. Play can restart it while focused.
         const target = event.target as HTMLElement;
@@ -91,7 +139,14 @@ export default function HomeHeroShowcase({ slides: rawSlides }: { slides: unknow
         setPaused(true);
         choose(event.key === 'Home' ? 0 : event.key === 'End' ? slides.length - 1 : (active + (event.key === 'ArrowRight' ? 1 : slides.length - 1)) % slides.length);
       }}>
-      <div className="lumi-showcase-blob" aria-hidden="true" />
+      <svg width="0" height="0" aria-hidden="true" focusable="false" style={{ position: 'absolute' }}>
+        <defs>
+          <clipPath id={pentagonClipId} clipPathUnits="objectBoundingBox">
+            <path d={ROUNDED_PENTAGON_PATH} />
+          </clipPath>
+        </defs>
+      </svg>
+      <div className="lumi-showcase-blob" aria-hidden="true" style={{ clipPath: `url(#${pentagonClipId})` }} />
       <div className="lumi-showcase-orbit" aria-hidden="true" />
       <div className="lumi-showcase-spark" aria-hidden="true">✳</div>
       <div className="lumi-showcase-pebble lumi-showcase-pebble-one" aria-hidden="true" />
