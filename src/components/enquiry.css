@@ -2,7 +2,7 @@
 .lumi-whatsapp-button {
   display:flex; align-items:center; justify-content:center; gap:12px;
   width:100%; min-height:51px; padding:14px 20px; border:1px solid #8e7964;
-  border-radius:28px; background:transparent; color:#5b493c; font:inherit;
+  border-radius:28px; background:transparent; color:#3D2B20; font:inherit;
   font-size:12px; cursor:pointer; transition:background .25s, transform .25s, box-shadow .25s;
 }
 .lumi-whatsapp-button>span:last-child { margin-left:auto; }
@@ -10,9 +10,9 @@
 .lumi-whatsapp-button:enabled:hover { background:#eee4d7; box-shadow:0 5px 16px #5b493c12; }
 .lumi-whatsapp-button:enabled:active { transform:scale(.98); }
 .lumi-whatsapp-button:disabled { opacity:.45; cursor:not-allowed; }
-.lumi-enquiry-help { margin:12px 0 0; font-size:11px; line-height:1.8; color:#766b60; }
+.lumi-enquiry-help { margin:12px 0 0; font-size:11px; line-height:1.8; color:#715238; }
 .lumi-enquiry-help a { text-decoration:underline; text-underline-offset:3px; }
-.lumi-enquiry-contact { display:flex; flex-wrap:wrap; gap:6px 14px; margin-top:18px; font-size:11px; color:#766b60; }
+.lumi-enquiry-contact { display:flex; flex-wrap:wrap; gap:6px 14px; margin-top:18px; font-size:11px; color:#715238; }
 .lumi-enquiry-contact>span:last-child { overflow-wrap:anywhere; }
 .lumi-enquiry-send :is(button,a):focus-visible { outline:2px solid #a57450; outline-offset:4px; }
 .lumi-enquiry-page .lumi-cart-summary>.lumi-enquiry-send { display:block; }

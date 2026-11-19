@@ -21,8 +21,8 @@ html {
 
 body {
   margin: 0;
-  background: var(--page-background, #ffffff);
-  color: var(--page-text, #0f172a);
+  background: var(--page-background, #F7F0E6);
+  color: var(--page-text, #3D2B20);
   transition: background-color 0.25s ease, color 0.25s ease;
 }
 

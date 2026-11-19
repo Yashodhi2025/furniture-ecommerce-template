@@ -1,0 +1,112 @@
+/* Desktop density only. Keep the original mobile rules, palette and motion. */
+@media (min-width:1025px) {
+  .lumi-site { --section-padding:4.35rem; font-size:14.5px; }
+
+  .lumi-site .lumi-navbar-top { min-height:77px; padding-block:16px; gap:16px; }
+  .lumi-site .lumi-nav-brand { gap:10px; }
+  .lumi-site .lumi-nav-brand img { width:28px; height:32px; }
+  .lumi-site .lumi-nav-brand span { font-size:var(--deneb-font-size,17px)!important; }
+  .lumi-site .lumi-nav-icon { width:40px; height:40px; }
+  .lumi-site .lumi-announcements { min-height:48px; padding:8px 17px; }
+  .lumi-site .lumi-announcements :is(.deneb-announcement-bar,.deneb-announcement-text) { font-size:17.5px!important; }
+  .lumi-site :is(.lumi-nav-home,.lumi-nav-trigger) { min-height:49px; padding:16px 14px; }
+  .lumi-site .lumi-navbar-menu .lumi-nav-home span,
+  .lumi-site .lumi-nav-trigger span { font-size:var(--deneb-font-size,13.5px)!important; }
+  .lumi-site .lumi-mega-surface { padding-block:35px; gap:52px; }
+  .lumi-site .lumi-mega-description { font-size:var(--deneb-font-size,13.5px)!important; margin-bottom:21px; }
+  .lumi-site .lumi-mega-link { min-height:49px; padding-block:14px; }
+  .lumi-site .lumi-mega-link span { font-size:var(--deneb-font-size,16px)!important; }
+  .lumi-site .lumi-mega-imagery { min-height:254px; }
+
+  .lumi-site .lumi-home .lumi-hero { min-height:560px; }
+  .lumi-site .lumi-home .lumi-hero-media[data-hero-showcase=true],
+  .lumi-site .lumi-home .lumi-hero-image { min-height:560px; }
+  .lumi-site .lumi-home .lumi-hero-copy { padding:60px 33px 40px 0; }
+  .lumi-site .lumi-display { font-size:var(--deneb-font-size,clamp(38px,4.44vw,66px))!important; margin-bottom:24px; }
+  .lumi-site .lumi-home .lumi-hero-copy>.lumi-eyebrow { margin-bottom:20px; }
+  .lumi-site :is(.lumi-hero-description,.lumi-story-description,.lumi-newsletter-content>p) { font-size:var(--deneb-font-size,14.5px)!important; line-height:var(--deneb-line-height,1.75)!important; }
+  .lumi-site .lumi-home .lumi-hero-description { margin-bottom:26px; }
+  .lumi-site .lumi-home .lumi-hero-footnote { margin-top:50px; }
+  .lumi-site .lumi-actions { gap:23px; }
+  .lumi-site .lumi-home .lumi-showcase { --pentagon-size:min(100cqw,748px); --orbit-radius:min(36.5cqw,260px); }
+  .lumi-site .lumi-home .lumi-showcase-slide[data-position] .lumi-showcase-object { width:min(52cqw,330px); height:min(52cqw,330px); }
+  .lumi-site .lumi-home .lumi-showcase-headline { font-size:var(--deneb-font-size,clamp(22px,3.5cqw,30px))!important; }
+  .lumi-site .lumi-home .lumi-showcase-words { right:4%; width:43%; }
+  .lumi-site .lumi-home .lumi-hero-media[data-hero-showcase=true] .lumi-hero-brand { top:26px; left:31px; }
+  .lumi-site .lumi-home .lumi-showcase-footer { bottom:23px; right:26px; }
+  .lumi-site .lumi-home .lumi-showcase-slide-link { bottom:23px; left:31px; }
+
+  .lumi-site .lumi-section { padding-top:var(--deneb-section-pt,76px)!important; padding-bottom:var(--deneb-section-pb,76px)!important; }
+  .lumi-site .lumi-section-top { gap:36px; margin-bottom:33px; }
+  .lumi-site .lumi-heading { font-size:var(--deneb-font-size,clamp(27px,2.7vw,40px))!important; }
+  .lumi-site :is(.lumi-section-description,.lumi-category-card p,.lumi-value-card p) { font-size:var(--deneb-font-size,13px)!important; }
+  .lumi-site .lumi-home .lumi-product-card [data-preview-field-path$=".description"] { font-size:var(--deneb-font-size,13px)!important; }
+  .lumi-site .lumi-home .lumi-rooms .lumi-category-grid { gap:24px 19px; }
+  .lumi-site .lumi-home .lumi-rooms .lumi-category-card:first-child h3 { font-size:var(--deneb-font-size,28px)!important; }
+  .lumi-site .lumi-category-card h3 { font-size:var(--deneb-font-size,19px)!important; }
+  .lumi-site .lumi-home .lumi-product-grid { gap:30px 21px; }
+  .lumi-site .lumi-home .lumi-look-grid { gap:35px; }
+  .lumi-site .lumi-story-copy { padding:61px 10.5%; }
+  .lumi-site .lumi-newsletter { padding-top:var(--deneb-section-pt,65px)!important; padding-bottom:var(--deneb-section-pb,65px)!important; }
+  .lumi-site .lumi-button { padding:15px 21px!important; gap:24px; font-size:var(--deneb-font-size,12px)!important; }
+  .lumi-site :is(.lr-primary-button,.lumi-mega-browse,.lumi-about-cta,.lumi-drawer-primary) { padding:11px 18px; min-height:44px; }
+  .lumi-site :is(.lumi-text-link,.lumi-category-link,.lumi-product-link,.lumi-collection-link span) { font-size:var(--deneb-font-size,12px)!important; }
+  .lumi-site .lumi-home .lumi-product-link span { font-size:var(--deneb-font-size,12px)!important; }
+
+  .lumi-site :is(.lr-collection,.lr-detail-page) { padding-top:52px; padding-bottom:65px; }
+  .lumi-site .lr-heading { padding-bottom:56px; }
+  .lumi-site .lr-collection-toolbar { gap:28px; margin-bottom:30px; }
+  .lumi-site .lr-product-grid { gap:42px 21px; }
+  .lumi-site :is(.lr-heading h1,.lr-detail-info h1,.lumi-cart-heading h1,.lumi-wishlist-heading h1) { font-size:var(--deneb-font-size,clamp(29px,2.8vw,44px))!important; }
+  .lumi-site .lr-detail-page { padding-bottom:122px; }
+  .lumi-site .lr-detail-page .lr-detail-layout { gap:5.2%; margin-top:33px; }
+  .lumi-site .lr-detail-page .lr-gallery-detail { top:96px; }
+  .lumi-site .lr-detail-page .lr-thumbnails button { flex-basis:75px; width:75px; }
+  .lumi-site .lr-detail-page .lr-detail-prices p { font-size:var(--deneb-font-size,23px)!important; }
+  .lumi-site .lr-detail-page .lr-related { margin-top:61px; padding-top:35px; }
+  .lumi-site :is(.lumi-cart,.lumi-wishlist-page) { padding-top:49px; padding-bottom:70px; }
+  .lumi-site .lumi-cart-heading { margin-bottom:35px; }
+  .lumi-site .lumi-about { padding-top:31px; padding-bottom:49px; }
+  .lumi-site .lumi-about h1 { font-size:var(--deneb-font-size,clamp(32px,3.5vw,49px))!important; }
+  .lumi-site .lumi-about h2 { font-size:var(--deneb-font-size,clamp(22px,2vw,28px))!important; }
+  .lumi-site :is(.lumi-about-tagline,.lumi-about-introduction p,.lumi-contact .page-heading>p) { font-size:var(--deneb-font-size,13.5px)!important; }
+  .lumi-site .lumi-about .lumi-about-introduction { padding-block:35px!important; }
+  .lumi-site .lumi-about .lumi-about-values { padding-top:26px!important; padding-bottom:31px!important; }
+  .lumi-site .lumi-contact>.page-heading { padding-top:var(--deneb-section-pt,35px); padding-bottom:var(--deneb-section-pb,21px); }
+  .lumi-site .lumi-contact .page-heading h1 { font-size:var(--deneb-font-size,clamp(29px,3.05vw,42px))!important; }
+  .lumi-site .lumi-contact .contact-grid { gap:23px; padding-bottom:var(--deneb-section-pb,49px); }
+  .lumi-site .lumi-contact .contact-grid>.card { padding:24px; }
+  .lumi-site :is(.page-heading,.split-copy) h1 { font-size:var(--deneb-font-size,clamp(32px,3.65vw,52px))!important; }
+  .lumi-site .page-section { padding-block:4.35rem; }
+  .lumi-site .deneb-footer { padding:57px 5% 26px!important; }
+  .lumi-site .deneb-footer-grid { gap:26px!important; margin-bottom:48px!important; }
+  .lumi-site .deneb-footer :is(p,a,li,[data-preview-field-path^="contact."]) { font-size:var(--deneb-font-size,13px)!important; }
+  .lumi-site .deneb-footer [data-preview-field-path="common.footerHeading"] { font-size:var(--deneb-font-size,25px)!important; }
+
+  /* Dialog portals use their own roots outside the storefront wrapper. */
+  .lumi-search-studio>.deneb-dialog-content { width:min(640px,100vw)!important; padding:36px 36px 0!important; }
+  .lumi-search-studio .deneb-dialog-content h2 { font-size:var(--deneb-font-size,37px)!important; }
+  .lumi-studio-input-wrap { min-height:61px; padding-inline:16px; }
+  .lumi-studio-input-wrap input { font-size:17px; padding-block:16px; }
+  .lumi-enquiry-drawer { width:min(426px,100%); }
+  .lumi-drawer-header { padding:17px 24px; }
+  .lumi-drawer-scroll { padding:24px; }
+  .lumi-site .lr-filter-drawer { width:min(400px,100%); }
+}
+
+@media (min-width:1600px) {
+  .lumi-site .lumi-home .lumi-hero,
+  .lumi-site .lumi-home .lumi-hero-media[data-hero-showcase=true],
+  .lumi-site .lumi-home .lumi-hero-image { min-height:660px; }
+  .lumi-site .lumi-home .lumi-showcase { --pentagon-size:870px; --orbit-radius:296px; }
+}
+
+/* A laptop-height viewport also exposes the next section below the hero. */
+@media (min-width:1025px) and (max-height:800px) {
+  .lumi-site .lumi-home .lumi-hero,
+  .lumi-site .lumi-home .lumi-hero-media[data-hero-showcase=true],
+  .lumi-site .lumi-home .lumi-hero-image { min-height:520px; }
+  .lumi-site .lumi-home .lumi-hero-copy { padding-top:38px; padding-bottom:32px; }
+  .lumi-site .lumi-home .lumi-categories { padding-top:32px!important; }
+  .lumi-site .lumi-home .lumi-categories .lumi-eyebrow { margin-bottom:8px; }
+}

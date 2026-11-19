@@ -96,7 +96,7 @@
 /* Legacy informational routes share the cream storefront background. */
 .lumi-site [data-preview-page-key="services"] :is(h1,h2,h3),
 .lumi-site [data-preview-page-key="about_us"] :is(h1,h2,h3) {
-  color:var(--deneb-color,#38291f) !important;
+  color:var(--deneb-color,#3D2B20) !important;
 }
 @media (min-width:960px) and (max-width:1150px) {
   .lumi-site .lumi-navbar-menu .lumi-nav-home span,

@@ -2,14 +2,14 @@
 .lumi-home .lumi-hero-heading{display:flow-root;position:relative;width:100%;min-width:0}
 .lumi-home .lumi-hero-heading-reveal{position:absolute;inset:0;pointer-events:none}
 .lumi-home .lumi-hero-line-mask{position:absolute;left:0;display:block;overflow:hidden;pointer-events:none}
-.lumi-home .lumi-hero-scroll{position:absolute;left:0;bottom:14px;display:inline-flex;align-items:center;gap:11px;min-height:24px;color:#8a6b50;font-size:9px;letter-spacing:.13em;text-transform:uppercase;text-decoration:none}
+.lumi-home .lumi-hero-scroll{position:absolute;left:0;bottom:14px;display:inline-flex;align-items:center;gap:11px;min-height:24px;color:#715238;font-size:9px;letter-spacing:.13em;text-transform:uppercase;text-decoration:none}
 .lumi-home .lumi-hero-scroll-cue{position:relative;display:block;width:1px;height:20px;overflow:hidden;background:#d6c8b7}
 .lumi-home .lumi-hero-scroll-cue::after{content:"";position:absolute;inset:0;background:#8a6b50}
-.lumi-home .lumi-hero-scroll:hover{color:#49352a}
+.lumi-home .lumi-hero-scroll:hover{color:#3D2B20}
 .lumi-home .lumi-hero-media{overflow:hidden;isolation:isolate}
 .lumi-home .lumi-hero-brand{position:absolute;z-index:2;top:30px;left:30px;right:30px;isolation:isolate;max-width:calc(100% - 60px)}
 .lumi-home .lumi-hero-brand::before{content:'';position:absolute;z-index:-1;inset:-30px -30px -35px;background:linear-gradient(180deg,#30271f9c,transparent);pointer-events:none}
-.lumi-home .lumi-hero-brand-text{display:block;max-width:32ch;font-family:var(--deneb-font-family,var(--heading-font,Inter,sans-serif));font-size:var(--deneb-font-size,clamp(20px,2.3vw,36px))!important;font-weight:var(--deneb-font-weight,500)!important;line-height:var(--deneb-line-height,1.3)!important;letter-spacing:var(--deneb-letter-spacing,.09em)!important;color:var(--deneb-color,#fff9ed)!important;text-wrap:balance;overflow-wrap:anywhere;text-shadow:0 2px 18px #30271f45}
+.lumi-home .lumi-hero-brand-text{display:block;max-width:32ch;font-family:var(--deneb-font-family,var(--heading-font,Inter,sans-serif));font-size:var(--deneb-font-size,clamp(20px,2.3vw,36px))!important;font-weight:var(--deneb-font-weight,500)!important;line-height:var(--deneb-line-height,1.3)!important;letter-spacing:var(--deneb-letter-spacing,.09em)!important;color:var(--deneb-color,#fff9ed)!important;text-wrap:balance;overflow-wrap:anywhere;text-shadow:0 2px 18px #3D2B2045}
 .lumi-home .lumi-hero-brand-rule{display:block;width:min(88px,25%);height:1px;background:#fff9edb0;margin-top:15px;transform-origin:left center}
 .lumi-home .lumi-hero-film-light{position:absolute;inset:0;z-index:1;pointer-events:none;opacity:0;background:linear-gradient(110deg,transparent 15%,#fff5df70 48%,transparent 80%)}
 .lumi-home .lumi-hero-media .lumi-image-caption{z-index:3}

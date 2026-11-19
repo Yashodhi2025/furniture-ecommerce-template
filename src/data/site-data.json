@@ -30,13 +30,13 @@
         "wishlist"
       ],
       "theme": {
-        "primaryColor": "#5b493c",
-        "secondaryColor": "#eee7dd",
-        "accentColor": "#a57450",
-        "backgroundColor": "#fbf9f5",
-        "cardBackgroundColor": "#f2ede5",
-        "textColor": "#30271f",
-        "borderColor": "#ded7cd",
+        "primaryColor": "#C38A51",
+        "secondaryColor": "#E8D6BE",
+        "accentColor": "#C38A51",
+        "backgroundColor": "#F7F0E6",
+        "cardBackgroundColor": "#F7F0E6",
+        "textColor": "#3D2B20",
+        "borderColor": "#D7BFA3",
         "headingFont": "Inter",
         "bodyFont": "Inter",
         "baseSize": "16px",
@@ -48,19 +48,19 @@
           "home.heroTitle": {},
           "about.heading": {
             "fontSize": "40px",
-            "color": "#a08888"
+            "color": "#715238"
           }
         }
       }
     },
     "theme": {
-      "primaryColor": "#5b493c",
-      "secondaryColor": "#eee7dd",
-      "accentColor": "#a57450",
-      "backgroundColor": "#fbf9f5",
-      "cardBackgroundColor": "#f2ede5",
-      "textColor": "#30271f",
-      "borderColor": "#ded7cd",
+      "primaryColor": "#C38A51",
+      "secondaryColor": "#E8D6BE",
+      "accentColor": "#C38A51",
+      "backgroundColor": "#F7F0E6",
+      "cardBackgroundColor": "#F7F0E6",
+      "textColor": "#3D2B20",
+      "borderColor": "#D7BFA3",
       "headingFont": "Inter",
       "bodyFont": "Inter",
       "baseSize": "16px",
@@ -73,7 +73,7 @@
         "home.heroTitle": {},
         "about.heading": {
           "fontSize": "40px",
-          "color": "#a08888"
+          "color": "#715238"
         }
       }
     }
@@ -223,7 +223,7 @@
           "imageUrl": "/images/hero/sofa.webp",
           "imageAlt": "Rounded terracotta sofa",
           "linkUrl": "/collections/living-room/",
-          "color": "#d6ad8f"
+          "color": "#C38A51"
         },
         {
           "eyebrow": "BEDROOM",
@@ -232,7 +232,7 @@
           "imageUrl": "/images/hero/bedroom.webp",
           "imageAlt": "Oatmeal upholstered bed with ivory bedding",
           "linkUrl": "/collections/bedroom/",
-          "color": "#d6cbbb"
+          "color": "#CCA075"
         },
         {
           "eyebrow": "KITCHEN & DINING",
@@ -241,7 +241,7 @@
           "imageUrl": "/images/hero/dining.webp",
           "imageAlt": "Round oak dining table with two chairs",
           "linkUrl": "/collections/kitchen-dining/",
-          "color": "#cbd1b5"
+          "color": "#CBA67F"
         },
         {
           "eyebrow": "OFFICE FURNITURE",
@@ -250,7 +250,7 @@
           "imageUrl": "/images/hero/office.webp",
           "imageAlt": "Tan leather and walnut office swivel chair",
           "linkUrl": "/collections/office/",
-          "color": "#c5cdc4"
+          "color": "#BF966E"
         },
         {
           "eyebrow": "LIGHTING & DECOR",
@@ -259,7 +259,7 @@
           "imageUrl": "/images/hero/lighting.webp",
           "imageAlt": "Travertine table lamp with ivory pleated shade",
           "linkUrl": "/collections/lighting-decor/",
-          "color": "#ddd0af"
+          "color": "#CFAC82"
         }
       ],
       "primaryCtaLabel": "Shop the collection",
@@ -1187,7 +1187,7 @@
       }
     ],
     "navigation": {
-      "dropdownBackgroundColor": "#eee7dd",
+      "dropdownBackgroundColor": "#E8D6BE",
       "homeLabel": "Home",
       "homeUrl": "/",
       "searchLabel": "Search furniture",
@@ -1466,13 +1466,13 @@
     "analyticsUrl": null
   },
   "theme": {
-    "primaryColor": "#5b493c",
-    "secondaryColor": "#eee7dd",
-    "accentColor": "#a57450",
-    "backgroundColor": "#fbf9f5",
-    "cardBackgroundColor": "#f2ede5",
-    "textColor": "#30271f",
-    "borderColor": "#ded7cd",
+    "primaryColor": "#C38A51",
+    "secondaryColor": "#E8D6BE",
+    "accentColor": "#C38A51",
+    "backgroundColor": "#F7F0E6",
+    "cardBackgroundColor": "#F7F0E6",
+    "textColor": "#3D2B20",
+    "borderColor": "#D7BFA3",
     "headingFont": "Inter",
     "bodyFont": "Inter",
     "baseSize": "16px",
@@ -1484,7 +1484,7 @@
       "home.heroTitle": {},
       "about.heading": {
         "fontSize": "40px",
-        "color": "#a08888"
+        "color": "#715238"
       }
     }
   },
@@ -1492,7 +1492,7 @@
     "home.heroTitle": {},
     "about.heading": {
       "fontSize": "40px",
-      "color": "#a08888"
+      "color": "#715238"
     }
   }
 }
