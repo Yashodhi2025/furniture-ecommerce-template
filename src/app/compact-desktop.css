@@ -9,7 +9,7 @@
   .lumi-site .lumi-nav-icon { width:40px; height:40px; }
   .lumi-site .lumi-announcements { min-height:48px; padding:8px 17px; }
   .lumi-site .lumi-announcements :is(.deneb-announcement-bar,.deneb-announcement-text) { font-size:17.5px!important; }
-  .lumi-site :is(.lumi-nav-home,.lumi-nav-trigger) { min-height:49px; padding:16px 14px; }
+  .lumi-site :is(.lumi-nav-home,.lumi-nav-trigger) { min-height:46px; padding:12px 10px; }
   .lumi-site .lumi-navbar-menu .lumi-nav-home span,
   .lumi-site .lumi-nav-trigger span { font-size:var(--deneb-font-size,13.5px)!important; }
   .lumi-site .lumi-mega-surface {

@@ -1,5 +1,5 @@
 /* One data-driven navigation tree serves desktop, tablet, mobile and Fivora. */
-.lumi-navbar { position:relative; z-index:60; background:var(--page-background,#F7F0E6); color:var(--page-text,#3D2B20); border-bottom:1px solid var(--lumi-line,#ded7cd); }
+.lumi-navbar { position:relative; z-index:60; background:var(--page-background,#F7F0E6); color:var(--page-text,#3D2B20); border-bottom:0; }
 .lumi-navbar-top { max-width:1600px; margin:auto; min-height:88px; padding:19px 5%; display:flex; align-items:center; gap:18px; }
 .lumi-nav-brand { display:inline-flex; align-items:center; gap:12px; text-decoration:none; min-width:0; }
 .lumi-nav-brand img { width:32px; height:36px; object-fit:contain; }
@@ -8,7 +8,7 @@
 .lumi-nav-icon { display:inline-flex; align-items:center; justify-content:center; width:42px; height:42px; padding:0; border:0; background:transparent; color:inherit; cursor:pointer; border-radius:50%; transition:background .2s; }
 .lumi-nav-icon:hover { background:var(--lumi-sand,#E8D6BE); }
 .lumi-hamburger { display:none; }
-.lumi-navbar-menu { display:flex; justify-content:center; align-items:stretch; border-top:1px solid var(--lumi-line,#ded7cd); padding:0 4%; }
+.lumi-navbar-menu { display:flex; justify-content:center; align-items:stretch; border-top:0; padding:0 4%; }
 .lumi-nav-categories { display:flex; list-style:none; padding:0; margin:0; }
 .lumi-nav-category { margin:0; }
 .lumi-nav-home,.lumi-nav-trigger { position:relative; display:flex; align-items:center; justify-content:space-between; gap:7px; padding:19px 16px; min-height:56px; background:transparent; border:0; text-decoration:none; cursor:pointer; color:inherit; }
@@ -277,6 +277,9 @@
     isolation:isolate;
     overflow:hidden;
     border-radius:999px;
+    padding-left:10px;
+    padding-right:10px;
+    min-height:46px;
   }
 
   .lumi-nav-home > *,
