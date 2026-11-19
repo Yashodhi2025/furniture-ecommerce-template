@@ -52,9 +52,9 @@ body { background:#F7F0E6; }
 .lumi-site .lr-gallery-stage { background:#E8D6BE; box-shadow:0 8px 20px #946d4512; }
 .lumi-site :is(.lumi-button,.lr-primary-button,.lumi-mega-browse,.lr-sticky-review,.header-cta,.button-primary,.product-detail-link),
 .lumi-drawer-primary {
-  background:linear-gradient(130deg,#CEA172,#C38A51)!important;
-  color:#352418!important;
-  border-color:#B57F49;
+  background:linear-gradient(130deg,#895638,#3D2519)!important;
+  color:#FFF8F0!important;
+  border-color:#3D2519;
   box-shadow:0 5px 16px #946d4514,inset 0 1px #F7F0E64d;
 }
 .lumi-site :is(.lumi-button,.lr-primary-button,.lumi-mega-browse,.lr-sticky-review) :is(span,svg) { color:inherit!important; }
