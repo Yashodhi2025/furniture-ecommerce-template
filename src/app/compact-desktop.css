@@ -12,11 +12,19 @@
   .lumi-site :is(.lumi-nav-home,.lumi-nav-trigger) { min-height:49px; padding:16px 14px; }
   .lumi-site .lumi-navbar-menu .lumi-nav-home span,
   .lumi-site .lumi-nav-trigger span { font-size:var(--deneb-font-size,13.5px)!important; }
-  .lumi-site .lumi-mega-surface { padding-block:35px; gap:52px; }
-  .lumi-site .lumi-mega-description { font-size:var(--deneb-font-size,13.5px)!important; margin-bottom:21px; }
-  .lumi-site .lumi-mega-link { min-height:49px; padding-block:14px; }
-  .lumi-site .lumi-mega-link span { font-size:var(--deneb-font-size,16px)!important; }
-  .lumi-site .lumi-mega-imagery { min-height:254px; }
+  .lumi-site .lumi-mega-surface {
+    min-height:258px;
+    grid-template-columns:minmax(0,1.32fr) minmax(300px,.68fr);
+    gap:32px;
+    padding:22px 22px 22px 28px;
+  }
+  .lumi-site .lumi-mega-description { font-size:var(--deneb-font-size,13px)!important; line-height:1.55!important; margin-bottom:14px; }
+  .lumi-site .lumi-mega-items { gap:2px 22px; }
+  .lumi-site .lumi-mega-link { min-height:48px; padding-block:11px; }
+  .lumi-site .lumi-mega-link span { font-size:var(--deneb-font-size,15px)!important; }
+  .lumi-site .lumi-mega-browse { min-height:44px; margin-top:13px; padding:9px 16px; border-radius:999px!important; gap:16px; }
+  .lumi-site .lumi-mega-browse span { font-size:var(--deneb-font-size,13px)!important; }
+  .lumi-site .lumi-mega-imagery { min-height:212px; height:212px; }
 
   .lumi-site .lumi-home .lumi-hero { min-height:560px; }
   .lumi-site .lumi-home .lumi-hero-media[data-hero-showcase=true],
@@ -109,4 +117,83 @@
   .lumi-site .lumi-home .lumi-hero-copy { padding-top:38px; padding-bottom:32px; }
   .lumi-site .lumi-home .lumi-categories { padding-top:32px!important; }
   .lumi-site .lumi-home .lumi-categories .lumi-eyebrow { margin-bottom:8px; }
+}
+
+/* Liquid caramel control geometry (compact override). */
+.lumi-site :is(.lumi-button,.lr-primary-button,.lumi-mega-browse,.lumi-drawer-primary,.lr-filter-button) {
+  border-radius:999px!important;
+}
+
+/* Liquid caramel hero and product surfaces. */
+.lumi-site .lumi-home .lumi-hero-media[data-hero-showcase=true] {
+  border-radius:26px 0 0 26px;
+  box-shadow:-12px 18px 36px #946d4512;
+}
+
+.lumi-site .lumi-home .lumi-showcase-blob {
+  filter:drop-shadow(0 18px 28px #946d4510);
+}
+
+.lumi-site .lumi-home .lumi-showcase-object .lumi-showcase-cutout {
+  animation-duration:6s;
+  filter:drop-shadow(0 14px 12px #49382218);
+}
+
+.lumi-site .lumi-home .lumi-category-image {
+  border-radius:18px;
+}
+
+.lumi-site .lumi-home .lumi-product-card {
+  overflow:hidden;
+  border:1px solid #d7bfa370!important;
+  border-radius:16px!important;
+  background:#F7F0E6!important;
+  box-shadow:0 12px 28px #946d4514!important;
+  transition:transform .42s cubic-bezier(.22,1,.36,1),box-shadow .42s ease,border-color .42s ease!important;
+}
+
+.lumi-site .lumi-home .lumi-product-card .deneb-product-card-media {
+  border-radius:15px 15px 0 0!important;
+}
+
+.lumi-site .lumi-home .lumi-product-card .lumi-product-info {
+  padding:18px 18px 16px;
+}
+
+@media(hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference) {
+  .lumi-site .lumi-home .lumi-product-card:hover {
+    transform:translateY(-5px)!important;
+    border-color:#c39a70!important;
+    box-shadow:0 18px 34px #946d4524!important;
+  }
+}
+
+@media(max-width:767px) {
+  .lumi-site .lumi-home .lumi-hero-media[data-hero-showcase=true] {
+    border-radius:24px 24px 0 0;
+  }
+
+  .lumi-site .lumi-home .lumi-category-image {
+    border-radius:14px;
+  }
+
+  .lumi-site .lumi-home .lumi-product-card {
+    border-radius:14px!important;
+  }
+
+  .lumi-site .lumi-home .lumi-product-card .lumi-product-info {
+    padding:16px 14px 14px;
+  }
+}
+
+@media(prefers-reduced-motion:reduce) {
+  .lumi-site .lumi-home .lumi-product-card,
+  .lumi-site .lumi-home .lumi-showcase-object .lumi-showcase-cutout {
+    transition:none!important;
+    animation:none!important;
+  }
+
+  .lumi-site .lumi-home .lumi-product-card:hover {
+    transform:none!important;
+  }
 }
