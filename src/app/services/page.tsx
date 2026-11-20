@@ -140,6 +140,7 @@ export default function ServicesPage() {
                     return (
                       <div style={{ marginTop: 'auto', paddingTop: '0.75rem' }}>
                         <span
+                          data-preview-static="service-quote-label"
                           style={{
                             display: 'inline-flex',
                             alignItems: 'center',

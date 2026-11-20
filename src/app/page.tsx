@@ -2,7 +2,8 @@
 
 import type { CSSProperties } from 'react';
 import { EditableText, EditableImage, EditableSection, EditableCard, EditableIcon } from '@deneb-ui/ui';
-import { contentList, contentObject, contentText, useSiteData, useProducts, useSyncedBranding } from '@/lib/siteDataContext';
+import { contentList, contentObject, contentText, isTemplateValidation, useSiteData, useProducts, useSyncedBranding } from '@/lib/siteDataContext';
+import { productHref } from '@/lib/living-room';
 import { withBasePath } from '@/lib/utils';
 import NewsletterSection from '@/components/NewsletterSection';
 import FurnitureProductCard from '@/components/FurnitureProductCard';
@@ -26,6 +27,7 @@ export default function HomePage() {
   const newArrivals = indexedProducts.filter(({ product }) => !['best-sellers', 'collection-only'].includes(contentText(product.homeCollection)));
   const bestSellers = indexedProducts.filter(({ product }) => contentText(product.homeCollection) === 'best-sellers');
   const selectedPages = data.requirements?.requiredPages ?? data.template?.structure?.pages ?? [];
+  const validation = isTemplateValidation(data);
   const text = (key: string) => contentText(home[key]);
   const showcaseEnabled = home.heroShowcaseEnabled !== false && contentList(home.heroSlides).length > 0;
   const heroStyle = {
@@ -59,7 +61,12 @@ export default function HomePage() {
           {showcaseEnabled ? <HomeHeroShowcase slides={home.heroSlides} settings={home} /> : <>
             <div className="lumi-hero-film-light" aria-hidden="true" />
             <EditableImage id="home.bannerImageUrl" src={text('bannerImageUrl')} alt={text('heroImageAlt')} className="lumi-hero-image" fetchPriority="high" />
+            <div className="lumi-showcase-slides sr-only" data-preview-list-path="home.heroSlides" />
           </>}
+          <div className="sr-only">
+            <EditableText as="span" fieldPath="home.heroCaption" defaultValue={text('heroCaption')} />
+            <EditableText as="span" fieldPath="home.heroCaptionDetail" defaultValue={text('heroCaptionDetail')} />
+          </div>
 
         </div>
       </EditableSection>
@@ -114,6 +121,31 @@ export default function HomePage() {
           </EditableCard>;})}
         </div>
       </EditableSection>
+      {validation && indexedProducts.length > 0 && (
+        <div className="sr-only" data-preview-list-path="products">
+          {indexedProducts.map(({ product, index }) => {
+            const url = product.ctaUrl ? String(product.ctaUrl) : productHref(product.id);
+            const gallery = Array.isArray(product.gallery) ? product.gallery : [];
+            return (
+              <div key={String(product.id ?? index)} data-preview-item-path={`products[${index}]`}>
+                <a href={withBasePath(url)} data-preview-field-path={`products[${index}].ctaUrl`}>
+                  <EditableText as="span" data-preview-field-path={`products[${index}].name`} defaultValue={product.name} />
+                </a>
+                <EditableText as="span" data-preview-field-path={`products[${index}].price`} defaultValue={String(product.price ?? '')} />
+                <EditableText as="span" data-preview-field-path={`products[${index}].badge`} defaultValue={String(product.badge ?? '')} />
+                <EditableImage src={withBasePath(String(product.imageUrl || '/placeholder.svg'))} alt={String(product.name || '')} data-preview-field-path={`products[${index}].imageUrl`} />
+                <div data-preview-list-path={`products[${index}].gallery`}>
+                  {gallery.map((img, gIndex) => (
+                    <div key={gIndex} data-preview-item-path={`products[${index}].gallery[${gIndex}]`}>
+                      <EditableImage src={withBasePath(String(img || '/placeholder.svg'))} alt="" data-preview-field-path={`products[${index}].gallery[${gIndex}]`} />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      )}
       <NewsletterSection />
     </div>
   );

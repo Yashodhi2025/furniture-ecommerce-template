@@ -145,7 +145,6 @@ export default function FooterSofaDivider() {
       className="footer-sofa-divider"
       data-state="idle"
       aria-hidden="true"
-      data-preview-static="footer-sofa-divider"
     >
       <div className="footer-sofa-lane">
         <div ref={trackRef} className="footer-sofa-track">
@@ -161,6 +160,7 @@ export default function FooterSofaDivider() {
                 decoding="async"
                 draggable={false}
                 className="footer-sofa-image"
+                data-preview-static="footer-sofa-image"
               />
             </div>
           </div>

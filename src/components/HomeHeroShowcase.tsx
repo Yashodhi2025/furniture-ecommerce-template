@@ -44,7 +44,8 @@ function updateWheel(stage: HTMLDivElement | null, position: number, count: numb
 
 export default function HomeHeroShowcase({ slides: rawSlides, settings = {} }: { slides: unknown; settings?: Record<string, unknown> }) {
   const slides = contentList(rawSlides).map(contentObject);
-  const pentagonClipId = `hero-pentagon-${useId().replace(/[^a-zA-Z0-9_-]/g, '')}`;
+  const showcaseId = useId();
+  const pentagonClipId = `hero-pentagon-${showcaseId.replace(/[^a-zA-Z0-9_-]/g, '')}`;
   const stage = useRef<HTMLDivElement>(null);
   const wheelPosition = useRef(0);
   const [selected, setSelected] = useState(0);
@@ -65,8 +66,6 @@ export default function HomeHeroShowcase({ slides: rawSlides, settings = {} }: {
   const floatEnabled = isEnabled(settings.heroFloatEnabled, true);
   const floatDurationMs = clampNumber(settings.heroFloatDuration, 2000, 10000, 5500);
   const showAccentShape = isEnabled(settings.heroAccentShapeVisible, true);
-  const showOrbitRing = isEnabled(settings.heroOrbitRingVisible, true);
-  const orbitRingColor = contentText(settings.heroOrbitRingColor) || '#96683f';
   const showPagination = isEnabled(settings.heroShowPagination, true);
   const showPauseControl = isEnabled(settings.heroShowPauseControl, true);
   const dotActiveColor = contentText(settings.heroPaginationActiveColor) || '#3D2B20';
@@ -163,7 +162,9 @@ export default function HomeHeroShowcase({ slides: rawSlides, settings = {} }: {
     return () => window.cancelAnimationFrame(frame);
   }, [playing, slides.length, interaction, autoplayDuration, speedMultiplier, rotationEnabled]);
 
-  if (!slides.length) return null;
+  if (!slides.length) {
+    return <div className="lumi-showcase-slides sr-only" data-preview-list-path="home.heroSlides" />;
+  }
   const current = slides[active];
   const choose = (index: number) => {
     const nearest = Math.round(wheelPosition.current);
@@ -176,11 +177,10 @@ export default function HomeHeroShowcase({ slides: rawSlides, settings = {} }: {
   const transitionDurationMs = Math.round(650 / speedMultiplier);
 
   return (
-    <div ref={stage} className="lumi-showcase" role="region" aria-roledescription="carousel" aria-label="Furniture inspiration"
+    <div ref={stage} className="lumi-showcase" role="region" aria-roledescription="carousel" aria-labelledby={`${showcaseId}-label`}
       data-playing={playing} data-editing={editing} data-reduced={reduced} data-float-enabled={floatEnabled} data-active-slide={active} data-images-ready={imagesReady}
       style={{
         '--showcase-accent': contentText(current.color) || '#C38A51',
-        '--showcase-orbit-color': orbitRingColor,
         '--showcase-float-dur': `${floatDurationMs}ms`,
         '--showcase-transition-ms': `${transitionDurationMs}ms`,
         '--showcase-dot-active': dotActiveColor,
@@ -197,6 +197,7 @@ export default function HomeHeroShowcase({ slides: rawSlides, settings = {} }: {
         setPaused(true);
         choose(event.key === 'Home' ? 0 : event.key === 'End' ? slides.length - 1 : (active + (event.key === 'ArrowRight' ? 1 : slides.length - 1)) % slides.length);
       }}>
+      <span id={`${showcaseId}-label`} className="sr-only" data-preview-static="hero-carousel-label">Furniture inspiration</span>
       <svg width="0" height="0" aria-hidden="true" focusable="false" style={{ position: 'absolute' }}>
         <defs>
           <clipPath id={pentagonClipId} clipPathUnits="objectBoundingBox">
@@ -205,7 +206,6 @@ export default function HomeHeroShowcase({ slides: rawSlides, settings = {} }: {
         </defs>
       </svg>
       {showAccentShape && <div className="lumi-showcase-blob" aria-hidden="true" style={{ clipPath: `url(#${pentagonClipId})` }} />}
-      {showOrbitRing && <div className="lumi-showcase-orbit" aria-hidden="true" />}
       <div className="lumi-showcase-spark" aria-hidden="true">✳</div>
       <div className="lumi-showcase-pebble lumi-showcase-pebble-one" aria-hidden="true" />
       <div className="lumi-showcase-pebble lumi-showcase-pebble-two" aria-hidden="true" />
@@ -219,7 +219,8 @@ export default function HomeHeroShowcase({ slides: rawSlides, settings = {} }: {
           const slideOffsetX = clampNumber(slide.imageOffsetX, -60, 60, 0);
           const slideOffsetY = clampNumber(slide.imageOffsetY, -60, 60, 0);
           return <div key={index} className="lumi-showcase-slide" data-position={position} data-preview-item-path={`home.heroSlides[${index}]`}
-            role="group" aria-roledescription="slide" aria-label={`${index + 1} of ${slides.length}: ${contentText(slide.label)}`} inert={index !== active}>
+            role="group" aria-roledescription="slide" aria-labelledby={`${showcaseId}-slide-${index}`} inert={index !== active}>
+            <span id={`${showcaseId}-slide-${index}`} className="sr-only" data-preview-static="hero-slide-accessible-label">{index + 1} of {slides.length}: {contentText(slide.label)}</span>
             <div className="lumi-showcase-words">
               <EditableText as="p" fieldPath={`home.heroSlides[${index}].eyebrow`} data-preview-field-path={`home.heroSlides[${index}].eyebrow`} defaultValue={contentText(slide.eyebrow)} className="lumi-showcase-eyebrow" />
               <EditableText as="p" fieldPath={`home.heroSlides[${index}].headline`} data-preview-field-path={`home.heroSlides[${index}].headline`} defaultValue={contentText(slide.headline)} className="lumi-showcase-headline" />
@@ -247,7 +248,8 @@ export default function HomeHeroShowcase({ slides: rawSlides, settings = {} }: {
 
       <div className="lumi-showcase-footer">
         {slides.length > 1 && (showPagination || showPauseControl) && <div className="lumi-showcase-controls">
-          {showPagination && <div className="lumi-showcase-dots" role="group" aria-label="Choose a furniture slide">
+          {showPagination && <div className="lumi-showcase-dots" role="group" aria-labelledby={`${showcaseId}-dots-label`}>
+            <span id={`${showcaseId}-dots-label`} className="sr-only" data-preview-static="hero-dots-label">Choose a furniture slide</span>
             {slides.map((slide, index) => <button key={index} type="button" data-preview-static="hero-slide-dot" onClick={() => choose(index)} aria-label={`Show ${contentText(slide.label)}`} aria-current={index === active ? 'true' : undefined}><span /></button>)}
           </div>}
           {showPauseControl && <button className="lumi-showcase-pause" type="button" data-preview-static="hero-slide-pause" disabled={reduced || editing || !autoplayEnabled} onClick={() => setPaused(value => !value)} aria-pressed={paused}

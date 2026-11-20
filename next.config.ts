@@ -18,9 +18,10 @@ const nextConfig: NextConfig = {
 export default function config(phase: string): NextConfig {
   return {
     ...nextConfig,
-    // Local Lab and the regular preview can run together without sharing output.
+    // Keep dev caches under .cache so Local Lab and dev servers stay isolated
+    // and are automatically excluded from Deneb's source-only template archive.
     ...(phase === PHASE_DEVELOPMENT_SERVER
-      ? { distDir: `.next-dev-${process.env.PORT || '3000'}` }
+      ? { distDir: `.cache/next-dev-${process.env.PORT || '3000'}` }
       : {}),
   };
 }

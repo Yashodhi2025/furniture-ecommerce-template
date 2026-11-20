@@ -59,6 +59,7 @@ export default function WishlistPage() {
 
   return <div className="lumi-cart lumi-wishlist" data-preview-page-key="wishlist">
     <header id="lumi-wishlist-heading" className="lumi-cart-heading">{copy('title', 'h1')}{copy('description', 'p')}</header>
+    <div className="sr-only">{copy('removeLabel')}</div>
     {error && <p role="alert" className="lumi-cart-error" data-preview-static="wishlist-storage-error">{error}</p>}
     <p role="status" className="lumi-wishlist-status">{notice ? copy(notice) : preview ? copy('removedMessage') : null}</p>
     {!ready && !preview ? <p role="status" data-preview-static="wishlist-loading">Loading your wishlist…</p> : visibleItems.length ? <>

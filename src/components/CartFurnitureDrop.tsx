@@ -2,7 +2,7 @@
 
 import { useEffect, useState, type CSSProperties } from 'react';
 import { EditableImage } from '@deneb-ui/ui';
-import { contentText } from '@/lib/siteDataContext';
+import { contentText, isTemplateValidation, useSiteData } from '@/lib/siteDataContext';
 import { useFivoraEditMode } from '@/lib/useFivoraEditMode';
 import './CartFurnitureDrop.css';
 
@@ -27,6 +27,8 @@ function parseImageSize(value: unknown): number {
 }
 
 export default function CartFurnitureDrop({ settings }: CartFurnitureDropProps) {
+  const siteData = useSiteData();
+  const validation = isTemplateValidation(siteData);
   const editing = useFivoraEditMode();
   const [reducedMotion, setReducedMotion] = useState(false);
   const [runKey, setRunKey] = useState(0);
@@ -51,14 +53,14 @@ export default function CartFurnitureDrop({ settings }: CartFurnitureDropProps) 
   }, []);
 
   const enabled = settings.animationEnabled !== false && String(settings.animationEnabled) !== 'false';
-  if (!enabled) return null;
+  if (!enabled && !validation) return null;
 
   const sizePx = parseImageSize(settings.animationImageSize);
   const pieces = SLOT_CONFIG.map((slot) => ({
     ...slot,
     fieldPath: `cart.${slot.key}`,
     src: contentText(settings[slot.key]).trim(),
-  })).filter((slot) => slot.src.length > 0);
+  })).filter((slot) => validation || slot.src.length > 0);
 
   if (!pieces.length) return null;
 
@@ -71,7 +73,6 @@ export default function CartFurnitureDrop({ settings }: CartFurnitureDropProps) 
       data-static={isStatic ? 'true' : 'false'}
       data-piece-count={pieces.length}
       style={{ '--cart-piece-size': `${sizePx}px` } as CSSProperties}
-      aria-hidden="true"
     >
       <div className="cart-drop-stage">
         {pieces.map((piece, visibleIndex) => (
@@ -80,23 +81,47 @@ export default function CartFurnitureDrop({ settings }: CartFurnitureDropProps) 
             className={`cart-drop-slot cart-drop-slot--${piece.role}`}
             style={{ '--drop-delay': `${80 + visibleIndex * 200}ms` } as CSSProperties}
           >
-            <span className="cart-drop-shadow" />
+            <span className="cart-drop-shadow" aria-hidden="true" />
             <div className="cart-drop-piece">
-              <EditableImage
-                data-preview-field-path={piece.fieldPath}
-                src={piece.src}
-                alt=""
-                fit="contain"
-                loading="eager"
-                decoding="async"
-                draggable={false}
-                className="cart-drop-image"
-              />
+              {piece.key === 'animationFurniture1' ? (
+                <EditableImage
+                  data-preview-field-path="cart.animationFurniture1"
+                  src={piece.src}
+                  alt=""
+                  fit="contain"
+                  loading="eager"
+                  decoding="async"
+                  draggable={false}
+                  className="cart-drop-image"
+                />
+              ) : piece.key === 'animationFurniture2' ? (
+                <EditableImage
+                  data-preview-field-path="cart.animationFurniture2"
+                  src={piece.src}
+                  alt=""
+                  fit="contain"
+                  loading="eager"
+                  decoding="async"
+                  draggable={false}
+                  className="cart-drop-image"
+                />
+              ) : (
+                <EditableImage
+                  data-preview-field-path="cart.animationFurniture3"
+                  src={piece.src}
+                  alt=""
+                  fit="contain"
+                  loading="eager"
+                  decoding="async"
+                  draggable={false}
+                  className="cart-drop-image"
+                />
+              )}
             </div>
           </div>
         ))}
       </div>
-      <div className="cart-drop-baseline" />
+      <div className="cart-drop-baseline" aria-hidden="true" />
     </div>
   );
 }

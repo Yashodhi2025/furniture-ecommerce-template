@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useRef, useState, type CSSProperties, type PointerEvent } from 'react';
+import { useCallback, useEffect, useId, useRef, useState, type CSSProperties, type PointerEvent } from 'react';
 import { createPortal } from 'react-dom';
 import {
   DENEB_PREVIEW_FOCUS_MESSAGE,
@@ -92,6 +92,7 @@ function formatPrice(value: unknown) {
 
 export default function NewArrivalsCarousel({ items }: { items: ArrivalEntry[] }) {
   const count = items.length;
+  const carouselId = useId();
   const initialIndex = Math.max(0, items.findIndex(({ product }) => String(product.id) === 'nola-chair'));
   const [active, setActive] = useState(initialIndex);
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -309,7 +310,6 @@ export default function NewArrivalsCarousel({ items }: { items: ArrivalEntry[] }
   const activeEntry = items[safeActive];
   const activeProduct = activeEntry.product;
   const activeCatalogIndex = activeEntry.index;
-  const field = (key: string) => `products[${activeCatalogIndex}].${key}`;
   const activeUrl = activeProduct.ctaUrl ? String(activeProduct.ctaUrl) : productHref(activeProduct.id);
   const formattedPrice = formatPrice(activeProduct.price);
   const originalPrice = saleOriginalPrice(activeProduct);
@@ -347,7 +347,7 @@ export default function NewArrivalsCarousel({ items }: { items: ArrivalEntry[] }
   return (
     <>
       {/* Decorative sunlit peach-champagne architectural backdrop & dappled foliage shadow */}
-      <div className="arrivals-atmosphere" aria-hidden="true" data-preview-static="arrivals-studio-lighting">
+      <div className="arrivals-atmosphere" aria-hidden="true">
         <svg className="arrivals-light-arc" viewBox="0 0 1440 760" preserveAspectRatio="none">
           <defs>
             <linearGradient id="arrivalsCurveUpper" x1="0.18" y1="0.35" x2="0.98" y2="0.05">
@@ -413,7 +413,7 @@ export default function NewArrivalsCarousel({ items }: { items: ArrivalEntry[] }
         className="arrivals-showcase"
         role="region"
         aria-roledescription="carousel"
-        aria-label="New Arrivals"
+        aria-labelledby={`${carouselId}-label`}
         data-editing={editing}
         onKeyDown={event => {
           if (event.key === 'ArrowLeft') {
@@ -425,6 +425,7 @@ export default function NewArrivalsCarousel({ items }: { items: ArrivalEntry[] }
           }
         }}
       >
+        <span id={`${carouselId}-label`} className="sr-only" data-preview-static="arrivals-carousel-label">New Arrivals</span>
         <div
           ref={stageRef}
           className="arrivals-orbit-stage"
@@ -471,6 +472,7 @@ export default function NewArrivalsCarousel({ items }: { items: ArrivalEntry[] }
                   <div className="arrivals-float-wrap">
                     <a
                       href={withBasePath(href)}
+                      data-preview-field-path={`products[${catalogIndex}].ctaUrl`}
                       className="arrivals-orbit-link"
                       tabIndex={isFront ? 0 : -1}
                       aria-current={isFront ? 'true' : undefined}
@@ -532,12 +534,14 @@ export default function NewArrivalsCarousel({ items }: { items: ArrivalEntry[] }
         </div>
 
         {count > 1 && (
-          <div className="arrivals-dots" role="tablist" aria-label="Choose a new arrival" data-preview-static="arrivals-carousel-dots">
+          <div className="arrivals-dots" role="tablist" aria-labelledby={`${carouselId}-dots-label`}>
+            <span id={`${carouselId}-dots-label`} className="sr-only" data-preview-static="arrivals-dots-label">Choose a new arrival</span>
             {items.map(({ product, index: catalogIndex }, slotIndex) => (
               <button
                 key={String(product.id ?? catalogIndex)}
                 type="button"
                 role="tab"
+                data-preview-static="arrivals-carousel-dot"
                 aria-selected={slotIndex === safeActive}
                 aria-label={`Show ${String(product.name || `product ${slotIndex + 1}`)}`}
                 className="arrivals-dot"
@@ -555,14 +559,14 @@ export default function NewArrivalsCarousel({ items }: { items: ArrivalEntry[] }
         >
           <a
             href={withBasePath(activeUrl)}
-            data-preview-field-path={field('ctaUrl')}
+            data-preview-field-path={`products[${activeCatalogIndex}].ctaUrl`}
             className="arrivals-active-name-link"
             onClick={event => { if (editing) event.preventDefault(); }}
           >
             <EditableText
               as="h3"
               className="arrivals-active-name"
-              data-preview-field-path={field('name')}
+              data-preview-field-path={`products[${activeCatalogIndex}].name`}
               defaultValue={activeProduct.name}
             />
           </a>
@@ -570,23 +574,30 @@ export default function NewArrivalsCarousel({ items }: { items: ArrivalEntry[] }
           <EditableText
             as="p"
             className="arrivals-active-category"
-            data-preview-field-path={field('category')}
+            data-preview-field-path={`products[${activeCatalogIndex}].category`}
             defaultValue={activeProduct.category || 'Furniture'}
           />
 
           <div className="arrivals-active-pricing">
             <span className="arrivals-active-price">
-              <span className="arrivals-active-currency">{String(activeProduct.currency || 'LKR')} </span>
-              <EditableText as="span" data-preview-field-path={field('price')} defaultValue={formattedPrice} />
+              <span className="arrivals-active-currency" data-preview-static="arrivals-currency">{String(activeProduct.currency || 'LKR')} </span>
+              <EditableText as="span" data-preview-field-path={`products[${activeCatalogIndex}].price`} defaultValue={formattedPrice} />
             </span>
-            {originalPrice !== undefined && (
+            {originalPrice !== undefined && (activeProduct.compareAtPrice != null ? (
               <EditableText
                 as="s"
                 className="arrivals-active-compare"
-                data-preview-field-path={field(activeProduct.compareAtPrice != null ? 'compareAtPrice' : 'originalPrice')}
+                data-preview-field-path={`products[${activeCatalogIndex}].compareAtPrice`}
                 defaultValue={formatPrice(originalPrice)}
               />
-            )}
+            ) : (
+              <EditableText
+                as="s"
+                className="arrivals-active-compare"
+                data-preview-field-path={`products[${activeCatalogIndex}].originalPrice`}
+                defaultValue={formatPrice(originalPrice)}
+              />
+            ))}
           </div>
 
           <div className="arrivals-active-actions">
@@ -613,9 +624,9 @@ export default function NewArrivalsCarousel({ items }: { items: ArrivalEntry[] }
 
           {editing && (
             <div className="arrivals-editor-fields">
-              <EditableText as="p" data-preview-field-path={field('description')} defaultValue={activeProduct.description} />
-              <EditableText as="span" data-preview-field-path={field('badge')} defaultValue={activeProduct.badge} />
-              <EditableText as="span" data-preview-field-path={field('ctaLabel')} defaultValue={String(activeProduct.ctaLabel || '')} />
+              <EditableText as="p" data-preview-field-path={`products[${activeCatalogIndex}].description`} defaultValue={activeProduct.description} />
+              <EditableText as="span" data-preview-field-path={`products[${activeCatalogIndex}].badge`} defaultValue={activeProduct.badge} />
+              <EditableText as="span" data-preview-field-path={`products[${activeCatalogIndex}].ctaLabel`} defaultValue={String(activeProduct.ctaLabel || '')} />
             </div>
           )}
         </div>

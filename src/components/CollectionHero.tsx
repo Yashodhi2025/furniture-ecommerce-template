@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState, type CSSProperties } from 'react';
 import { EditableImage, EditableSection, EditableText } from '@deneb-ui/ui';
-import { contentText } from '@/lib/siteDataContext';
+import { contentText, isTemplateValidation, useSiteData } from '@/lib/siteDataContext';
 import { collections, type CollectionId } from '@/lib/collections';
 import { withBasePath } from '@/lib/utils';
 import { useFivoraEditMode } from '@/lib/useFivoraEditMode';
@@ -30,6 +30,8 @@ export default function CollectionHero({ collectionId, heading, headingPath, max
   headingPath: string;
   maxDiscount?: number;
 }) {
+  const siteData = useSiteData();
+  const validation = isTemplateValidation(siteData);
   const collection = collections[collectionId];
   const interior = interiors[collectionId];
   const isSale = collectionId === 'sale';
@@ -40,10 +42,10 @@ export default function CollectionHero({ collectionId, heading, headingPath, max
   const stripRevealOn = !isSale || (saleAnimationsOn && isFlagOn(heading.heroStripRevealEnabled, true));
   const showWatermark = !isSale || isFlagOn(heading.showWatermark, true);
   const watermarkText = contentText(heading.watermarkText) || '%';
-  const showHeroBadge = !isSale || isFlagOn(heading.showHeroBadge, true);
-  const showCornerRibbon = !isSale || isFlagOn(heading.showCornerRibbon, true);
+  const showHeroBadge = !isSale || validation || isFlagOn(heading.showHeroBadge, true);
+  const showCornerRibbon = !isSale || validation || isFlagOn(heading.showCornerRibbon, true);
   const discountOverride = isSale ? contentText(heading.maxDiscountOverride).trim() : '';
-  const hasDiscountClaim = isSale && (Boolean(discountOverride) || (typeof maxDiscount === 'number' && maxDiscount > 0));
+  const hasDiscountClaim = isSale && (validation || Boolean(discountOverride) || (typeof maxDiscount === 'number' && maxDiscount > 0));
   const offerPillText = discountOverride || (maxDiscount ? `${maxDiscount}% OFF` : '');
   const ribbonNumberText = discountOverride
     ? discountOverride.replace(/\s*off\s*$/i, '').trim()
@@ -104,7 +106,7 @@ export default function CollectionHero({ collectionId, heading, headingPath, max
     : undefined;
 
   return <EditableSection as="div" name={`${collectionId}-heading`} padding="none" className={`collection-hero${isSale ? ' collection-hero-sale' : ''}`} style={saleHeroStyle}>
-    {isSale && showWatermark && <div className="sale-hero-decor" aria-hidden="true" data-preview-static="sale-hero-decoration">
+    {isSale && showWatermark && <div className="sale-hero-decor" aria-hidden="true">
       <span className="sale-hero-watermark">{watermarkText}</span>
       <svg className="sale-hero-flourish" viewBox="0 0 360 140" fill="none" preserveAspectRatio="none">
         <path d="M 10 132 C 95 62, 170 124, 260 66 C 302 38, 336 26, 358 10" stroke="#e5b887" strokeWidth="1.25" strokeOpacity="0.45" />
@@ -135,19 +137,19 @@ export default function CollectionHero({ collectionId, heading, headingPath, max
       </p>}
       <EditableText as="p" className={`collection-hero-description${isSale ? ' sale-hero-anim-3' : ''}`} fieldPath={`${headingPath}.description`} defaultValue={contentText(heading.description) || collection.description} />
       {isSale ? (
-        <a className="collection-hero-cta sale-hero-anim-4" href={resolvedCtaHref} data-preview-field-path={`${headingPath}.ctaUrl`}>
-          <EditableText as="span" fieldPath={`${headingPath}.ctaLabel`} defaultValue={contentText(heading.ctaLabel) || 'Shop the Collection'} />
+        <a className="collection-hero-cta sale-hero-anim-4" href={resolvedCtaHref} data-preview-field-path="collectionHeadings.sale.ctaUrl">
+          <EditableText as="span" fieldPath="collectionHeadings.sale.ctaLabel" defaultValue={contentText(heading.ctaLabel) || 'Shop the Collection'} />
           <span aria-hidden="true">→</span>
         </a>
       ) : (
-        <a className="collection-hero-cta" href={`#${collectionId}-products`}>Shop the Collection <span aria-hidden="true">→</span></a>
+        <a className="collection-hero-cta" href={`#${collectionId}-products`} data-preview-static="collection-hero-cta">Shop the Collection <span aria-hidden="true">→</span></a>
       )}
     </div>
     <div ref={mediaRef} className="collection-hero-media" data-reveal={reveal}>
       {isSale ? (
         <EditableImage
-          id={`${headingPath}.bannerImageUrl`}
-          data-preview-field-path={`${headingPath}.bannerImageUrl`}
+          id="collectionHeadings.sale.bannerImageUrl"
+          data-preview-field-path="collectionHeadings.sale.bannerImageUrl"
           className="collection-hero-image"
           src={saleImageUrl}
           alt={interior.alt}
@@ -156,14 +158,14 @@ export default function CollectionHero({ collectionId, heading, headingPath, max
           style={{ objectPosition: interior.position }}
         />
       ) : (
-        <img className="collection-hero-image" src={withBasePath(interior.src)} alt={interior.alt} fetchPriority="high" decoding="async" style={{ objectPosition: interior.position }} />
+        <img className="collection-hero-image" data-preview-static="collection-hero-image" src={withBasePath(interior.src)} alt={interior.alt} fetchPriority="high" decoding="async" style={{ objectPosition: interior.position }} />
       )}
       {reveal === 'playing' && <div className="collection-hero-strips" aria-hidden="true" style={{ '--strip-count': STRIP_COUNT } as CSSProperties}>
         {Array.from({ length: STRIP_COUNT }, (_, index) => <span key={index} className="collection-hero-strip" style={{ '--strip-index': index } as CSSProperties}
           onAnimationEnd={event => {
             if (index === STRIP_COUNT - 1 && event.target === event.currentTarget) setReveal('done');
           }}>
-          <img src={withBasePath(saleImageUrl)} alt="" draggable={false} style={{ objectPosition: interior.position }} />
+          <img src={withBasePath(saleImageUrl)} alt="" draggable={false} data-preview-static="collection-hero-strip-image" style={{ objectPosition: interior.position }} />
         </span>)}
       </div>}
     </div>

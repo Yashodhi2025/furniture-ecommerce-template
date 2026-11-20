@@ -329,7 +329,6 @@ export default function ShopTheLook() {
     transitionToIndex(safeHighlightIndex + step, step, true);
   };
 
-  const field = (key: string) => (productIndex >= 0 ? `products[${productIndex}].${key}` : undefined);
   const cutout = product ? resolveCutout(product) : null;
   const productUrl = product
     ? product.ctaUrl
@@ -507,6 +506,7 @@ export default function ShopTheLook() {
                     <div className="look-float-layer">
                       <a
                         href={withBasePath(productUrl)}
+                        data-preview-field-path={`products[${productIndex}].ctaUrl`}
                         className="look-cutout-link"
                         aria-label={`View ${String(product.name || 'product')}`}
                         onClick={(event) => {
@@ -534,7 +534,7 @@ export default function ShopTheLook() {
                     <EditableText
                       as="span"
                       className="look-detail-category"
-                      data-preview-field-path={field('category')}
+                      data-preview-field-path={`products[${productIndex}].category`}
                       defaultValue={product.category || 'Furniture'}
                     />
                     {discountPct !== undefined && (
@@ -547,7 +547,7 @@ export default function ShopTheLook() {
                   <div className="look-detail-item look-detail-title-wrap">
                     <a
                       href={withBasePath(productUrl)}
-                      data-preview-field-path={field('ctaUrl')}
+                      data-preview-field-path={`products[${productIndex}].ctaUrl`}
                       className="look-detail-name-link"
                       onClick={(event) => {
                         if (editing) event.preventDefault();
@@ -556,7 +556,7 @@ export default function ShopTheLook() {
                       <EditableText
                         as="h3"
                         className="look-detail-name"
-                        data-preview-field-path={field('name')}
+                        data-preview-field-path={`products[${productIndex}].name`}
                         defaultValue={product.name}
                       />
                     </a>
@@ -564,25 +564,30 @@ export default function ShopTheLook() {
 
                   <div className="look-detail-item look-detail-pricing">
                     <span className="look-detail-price">
-                      <span className="look-detail-currency">
+                      <span className="look-detail-currency" data-preview-static="look-currency">
                         {String(product.currency || 'LKR')}{' '}
                       </span>
                       <EditableText
                         as="span"
-                        data-preview-field-path={field('price')}
+                        data-preview-field-path={`products[${productIndex}].price`}
                         defaultValue={formattedPrice}
                       />
                     </span>
-                    {originalPrice !== undefined && (
+                    {originalPrice !== undefined && (product.compareAtPrice != null ? (
                       <EditableText
                         as="s"
                         className="look-detail-original"
-                        data-preview-field-path={field(
-                          product.compareAtPrice != null ? 'compareAtPrice' : 'originalPrice',
-                        )}
+                        data-preview-field-path={`products[${productIndex}].compareAtPrice`}
                         defaultValue={formatPrice(originalPrice)}
                       />
-                    )}
+                    ) : (
+                      <EditableText
+                        as="s"
+                        className="look-detail-original"
+                        data-preview-field-path={`products[${productIndex}].originalPrice`}
+                        defaultValue={formatPrice(originalPrice)}
+                      />
+                    ))}
                   </div>
 
                   <div className="look-detail-item look-detail-actions">
@@ -635,17 +640,17 @@ export default function ShopTheLook() {
                     <div className="look-editor-fields">
                       <EditableText
                         as="p"
-                        data-preview-field-path={field('description')}
+                        data-preview-field-path={`products[${productIndex}].description`}
                         defaultValue={product.description}
                       />
                       <EditableText
                         as="span"
-                        data-preview-field-path={field('badge')}
+                        data-preview-field-path={`products[${productIndex}].badge`}
                         defaultValue={product.badge}
                       />
                       <EditableText
                         as="span"
-                        data-preview-field-path={field('ctaLabel')}
+                        data-preview-field-path={`products[${productIndex}].ctaLabel`}
                         defaultValue={String(product.ctaLabel || '')}
                       />
                     </div>
@@ -663,10 +668,11 @@ export default function ShopTheLook() {
           </div>
 
           {count > 1 && (
-            <div className="look-controls" data-preview-static="look-showroom-controls">
+            <div className="look-controls">
               <button
                 type="button"
                 className="look-nav-btn look-nav-prev"
+                data-preview-static="look-nav-prev"
                 aria-label="Previous featured piece"
                 onClick={() => handleStep(-1)}
               >
@@ -685,7 +691,8 @@ export default function ShopTheLook() {
                 </svg>
               </button>
 
-              <div className="look-progress-dots" role="tablist" aria-label="Featured room pieces">
+              <div className="look-progress-dots" role="tablist" aria-labelledby={`${previewId}-dots-label`}>
+                <span id={`${previewId}-dots-label`} className="sr-only" data-preview-static="look-dots-label">Featured room pieces</span>
                 {hotspots.map((item, index) => {
                   const isActiveDot = safeHighlightIndex === index;
                   return (
@@ -693,6 +700,7 @@ export default function ShopTheLook() {
                       key={contentText(item.id) || index}
                       type="button"
                       role="tab"
+                      data-preview-static="look-progress-dot"
                       aria-selected={isActiveDot}
                       aria-label={contentText(item.label) || `Show piece ${index + 1}`}
                       className="look-progress-dot"
@@ -714,6 +722,7 @@ export default function ShopTheLook() {
               <button
                 type="button"
                 className="look-nav-btn look-nav-next"
+                data-preview-static="look-nav-next"
                 aria-label="Next featured piece"
                 onClick={() => handleStep(1)}
               >

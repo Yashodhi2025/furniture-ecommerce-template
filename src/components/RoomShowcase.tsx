@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState, type CSSProperties, type PointerEvent } from 'react';
+import { useEffect, useId, useRef, useState, type CSSProperties, type PointerEvent } from 'react';
 import { EditableCard, EditableImage, EditableText, PREVIEW_FOCUS_MESSAGE, DENEB_PREVIEW_FOCUS_MESSAGE, LEGACY_PREVIEW_FOCUS_MESSAGE } from '@deneb-ui/ui';
 import { contentList, contentObject, contentText } from '@/lib/siteDataContext';
 import { useFivoraEditMode } from '@/lib/useFivoraEditMode';
@@ -58,6 +58,7 @@ const FALLBACK_TONES = Object.values(ROOM_TONES);
 
 export default function RoomShowcase({ rooms }: { rooms: unknown }) {
   const items = contentList(rooms).map(contentObject);
+  const carouselLabelId = useId();
   const [selected, setSelected] = useState(0);
   const [entered, setEntered] = useState(false);
   const [floating, setFloating] = useState(false);
@@ -289,7 +290,13 @@ export default function RoomShowcase({ rooms }: { rooms: unknown }) {
     return () => window.removeEventListener('message', focus);
   }, [items.length]);
 
-  if (!items.length) return null;
+  if (!items.length) {
+    return (
+      <div className="room-showcase" data-editing={editing}>
+        <div className="room-showcase-stage sr-only" data-preview-list-path="home.categories" />
+      </div>
+    );
+  }
   panels.current.length = items.length;
 
   const endGesture = (event: PointerEvent<HTMLDivElement>) => {
@@ -303,12 +310,13 @@ export default function RoomShowcase({ rooms }: { rooms: unknown }) {
     }
   };
 
-  return <div className="room-showcase" role="region" aria-roledescription="carousel" aria-label="Shop by Room" data-editing={editing}
+  return <div className="room-showcase" role="region" aria-roledescription="carousel" aria-labelledby={carouselLabelId} data-editing={editing}
     onKeyDown={event => {
       if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
       event.preventDefault();
       choose(event.key === 'Home' ? 0 : event.key === 'End' ? items.length - 1 : active + (event.key === 'ArrowRight' ? 1 : -1), true);
     }}>
+    <span id={carouselLabelId} className="sr-only" data-preview-static="room-carousel-label">Shop by Room</span>
     <div ref={stage} className="room-showcase-stage" data-entered={entered} data-floating={floating} data-preview-list-path="home.categories"
       onPointerDown={event => {
         swiped.current = false;
@@ -316,7 +324,6 @@ export default function RoomShowcase({ rooms }: { rooms: unknown }) {
       }} onPointerUp={endGesture} onPointerCancel={() => { gesture.current = null; }}
       onClickCapture={event => { if (swiped.current) { event.preventDefault(); event.stopPropagation(); swiped.current = false; } }}>
       {items.map((item, index) => {
-        const path = `home.categories[${index}]`;
         const roomId = contentText(item.id);
         const offset = offsetOf(index, active, items.length);
         const isActive = index === active;
@@ -333,8 +340,8 @@ export default function RoomShowcase({ rooms }: { rooms: unknown }) {
             '--room-tint-bottom': tone.tintBottom,
             '--room-glow': tone.glow,
           } as CSSProperties}>
-          <EditableCard item={{}} itemPath={path} data-preview-item-path={path} className="room-panel" as="article">
-            <a className="room-panel-link" href={withBasePath(contentText(item.linkUrl))} data-preview-field-path={`${path}.linkUrl`}
+          <EditableCard item={{}} itemPath={`home.categories[${index}]`} data-preview-item-path={`home.categories[${index}]`} className="room-panel" as="article">
+            <a className="room-panel-link" href={withBasePath(contentText(item.linkUrl))} data-preview-field-path={`home.categories[${index}].linkUrl`}
               aria-current={isActive ? 'true' : undefined} tabIndex={isActive ? 0 : -1}
               onClick={event => {
                 if (editing) { event.preventDefault(); return; }
@@ -343,14 +350,14 @@ export default function RoomShowcase({ rooms }: { rooms: unknown }) {
                   choose(index);
                 }
               }}>
-              <EditableImage id={`${path}.imageUrl`} className="room-panel-image" src={contentText(item.imageUrl)} alt={contentText(item.title)} data-preview-field-path={`${path}.imageUrl`} fit="cover" decoding="async" />
+              <EditableImage id={`home.categories[${index}].imageUrl`} className="room-panel-image" src={contentText(item.imageUrl)} alt={contentText(item.title)} data-preview-field-path={`home.categories[${index}].imageUrl`} fit="cover" decoding="async" />
               <div className="room-panel-caption">
-                <EditableText as="h3" className="room-panel-title" data-preview-field-path={`${path}.title`} defaultValue={contentText(item.title)} />
+                <EditableText as="h3" className="room-panel-title" data-preview-field-path={`home.categories[${index}].title`} defaultValue={contentText(item.title)} />
                 <div className="room-panel-details">
                   <div className="room-panel-details-inner">
-                    <EditableText as="p" className="room-panel-description" data-preview-field-path={`${path}.description`} defaultValue={contentText(item.description)} />
+                    <EditableText as="p" className="room-panel-description" data-preview-field-path={`home.categories[${index}].description`} defaultValue={contentText(item.description)} />
                     <span className="room-panel-cta-wrap">
-                      <EditableText as="span" className="room-panel-cta" data-preview-field-path={`${path}.linkLabel`} defaultValue={contentText(item.linkLabel)} />
+                      <EditableText as="span" className="room-panel-cta" data-preview-field-path={`home.categories[${index}].linkLabel`} defaultValue={contentText(item.linkLabel)} />
                       <span className="room-panel-cta-arrow" aria-hidden="true" data-preview-static="room-cta-arrow">&#8599;</span>
                     </span>
                   </div>

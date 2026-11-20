@@ -1375,6 +1375,7 @@
       {
         "id": "products",
         "path": "products",
+        "pageKey": "home",
         "type": "list",
         "label": "Products",
         "minItems": 0,

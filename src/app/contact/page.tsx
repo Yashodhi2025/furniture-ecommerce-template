@@ -177,15 +177,15 @@ export default function ContactPage() {
               data-preview-field-path="contact.formTitle"
               defaultValue={contentText(contact.formTitle)}
             />
-            <label data-preview-static>
+            <label data-preview-static="contact-form-name-label">
               Name
               <input type="text" name="name" autoComplete="name" required />
             </label>
-            <label data-preview-static>
+            <label data-preview-static="contact-form-email-label">
               Email
               <input type="email" name="email" autoComplete="email" required />
             </label>
-            <label data-preview-static>
+            <label data-preview-static="contact-form-message-label">
               Message
               <textarea name="message" rows={4} required />
             </label>

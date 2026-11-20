@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState, type CSSProperties, type KeyboardEvent } from 'react';
 import { EditableText } from '@deneb-ui/ui';
-import { useProducts, useSiteData, contentObject, contentText } from '@/lib/siteDataContext';
+import { useProducts, useSiteData, contentObject, contentText, isTemplateValidation } from '@/lib/siteDataContext';
 import { formatPrice, isLivingProduct } from '@/lib/living-room';
 import { withBasePath } from '@/lib/utils';
 import FurnitureProductCard from './FurnitureProductCard';
@@ -49,7 +49,8 @@ export default function LivingRoomProducts({ collectionId = 'living-room' }: { c
   const saleAnimSpeed = isSale ? clampNum(heading.animationSpeed, 50, 200, 100) : 100;
   const showProductBadges = !isSale || isFlagOn(heading.showProductBadges, true);
   const productBadgePrefix = isSale ? contentText(heading.productBadgePrefix) || 'SALE' : 'SALE';
-  const showSaleOnlyPill = isSale && isFlagOn(heading.showSaleOnlyPill, true);
+  const validation = isTemplateValidation(siteData);
+  const showSaleOnlyPill = isSale && (validation || isFlagOn(heading.showSaleOnlyPill, true));
   const sortFeaturedLabel = isSale ? contentText(heading.sortFeaturedLabel) || 'Featured' : 'Featured';
   const sortPriceLowLabel = isSale ? contentText(heading.sortPriceLowLabel) || 'Price: low to high' : 'Price: low to high';
   const sortPriceHighLabel = isSale ? contentText(heading.sortPriceHighLabel) || 'Price: high to low' : 'Price: high to low';

@@ -17,6 +17,7 @@ export default function ProductPurchaseActions({ product, productIndex = -1 }: {
   const settings = contentObject(contentObject(siteData.content).productDetail);
   const text = (key: string, fallback: string) => key in settings ? contentText(settings[key]) : fallback;
   const quantityId = useId();
+  const wishlistLabelId = useId();
   const [quantity, setQuantity] = useState('1');
   const [wishlisted, setWishlisted] = useState(false);
   const [message, setMessage] = useState('');
@@ -123,16 +124,34 @@ export default function ProductPurchaseActions({ product, productIndex = -1 }: {
       </div>
       <button type="button" className={`lr-primary-button lr-add-enquiry${added ? ' is-added' : ''}`} disabled={product.isAvailable === false || !id} onClick={addToCart}>{product.isAvailable === false ? <EditableText as="span" fieldPath="productDetail.unavailableLabel" defaultValue={text('unavailableLabel', 'Unavailable')} /> : added ? <EditableText as="span" fieldPath="productDetail.addSuccessLabel" defaultValue={text('addSuccessLabel', 'Added to Enquiry List')} /> : <EditableText as="span" fieldPath="productDetail.addToCartLabel" defaultValue={text('addToCartLabel', 'Add to Enquiry List')} />}</button>
       {preview && <button type="button" className="lr-primary-button" disabled>{product.isAvailable === false ? <EditableText as="span" fieldPath="productDetail.addToCartLabel" defaultValue={text('addToCartLabel', 'Add to Enquiry List')} /> : <EditableText as="span" fieldPath="productDetail.unavailableLabel" defaultValue={text('unavailableLabel', 'Unavailable')} />}</button>}
-      <button type="button" className="lr-wishlist-button" aria-label={`${text(wishlisted ? 'wishlistSavedLabel' : 'wishlistLabel', wishlisted ? 'Saved to Wishlist' : 'Wishlist')} - ${product.name || 'product'}`} title={text(wishlisted ? 'wishlistSavedLabel' : 'wishlistLabel', wishlisted ? 'Saved to Wishlist' : 'Wishlist')} aria-pressed={wishlisted} onClick={toggleWishlist} disabled={!id}>
+      <button type="button" className="lr-wishlist-button" aria-labelledby={wishlistLabelId} aria-pressed={wishlisted} onClick={toggleWishlist} disabled={!id}>
         <svg viewBox="0 0 24 24" width="18" height="18" fill={wishlisted ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="1.5" aria-hidden="true"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z" /></svg>
-        <span className="sr-only">{wishlisted ? <EditableText as="span" fieldPath="productDetail.wishlistSavedLabel" defaultValue={text('wishlistSavedLabel', 'Saved to Wishlist')} /> : <EditableText as="span" fieldPath="productDetail.wishlistLabel" defaultValue={text('wishlistLabel', 'Wishlist')} />}</span>
+        <span id={wishlistLabelId} className="sr-only">{wishlisted ? <EditableText as="span" fieldPath="productDetail.wishlistSavedLabel" defaultValue={text('wishlistSavedLabel', 'Saved to Wishlist')} /> : <EditableText as="span" fieldPath="productDetail.wishlistLabel" defaultValue={text('wishlistLabel', 'Wishlist')} />}</span>
       </button>
       {preview && <button type="button" className="lr-wishlist-button" aria-pressed={!wishlisted} disabled>{wishlisted ? <EditableText as="span" fieldPath="productDetail.wishlistLabel" defaultValue={text('wishlistLabel', 'Wishlist')} /> : <EditableText as="span" fieldPath="productDetail.wishlistSavedLabel" defaultValue={text('wishlistSavedLabel', 'Saved to Wishlist')} />}</button>}
     </div>
     <EnquiryWhatsApp direct items={[{ ...item, quantity: amount }]} disabled={product.isAvailable === false || !id} />
-    <a href={withBasePath('/cart/')} className="lr-review-list"><EditableText as="span" fieldPath="productDetail.reviewListLabel" defaultValue={text('reviewListLabel', 'Review your enquiry list')} /><span>{count} {count === 1 ? 'piece' : 'pieces'} ↗</span></a>
+    <a href={withBasePath('/cart/')} className="lr-review-list" data-preview-field-path="productDetail.reviewListLabel"><EditableText as="span" fieldPath="productDetail.reviewListLabel" defaultValue={text('reviewListLabel', 'Review your enquiry list')} /><span data-preview-static="product-review-list-count">{count} {count === 1 ? 'piece' : 'pieces'} ↗</span></a>
     {listError && <p role="alert">Your saved list could not be loaded. Please allow browser storage and try again.</p>}
     <p className={`lr-purchase-status${message ? ' has-message' : ''}`} role="status" data-preview-static="product-purchase-status">{message}</p>
+    {!(mounted && ((drawerOpen && !editing) || (editorDrawerOpen && editing))) && (
+      <div className="sr-only">
+        <EditableText as="span" fieldPath="productDetail.drawerEyebrow" defaultValue={text('drawerEyebrow', 'YOUR FURNITURE EDIT')} />
+        <EditableText as="span" fieldPath="productDetail.drawerHeading" defaultValue={text('drawerHeading', 'Added to your enquiry list')} />
+        <EditableText as="span" fieldPath="productDetail.drawerIntro" defaultValue={text('drawerIntro', 'A little closer to your perfect space.')} />
+        <EditableText as="span" fieldPath="productDetail.drawerJustAdded" defaultValue={text('drawerJustAdded', 'JUST ADDED')} />
+        <EditableText as="span" fieldPath="productDetail.drawerQuantityLabel" defaultValue={text('drawerQuantityLabel', 'Quantity added')} />
+        <EditableText as="span" fieldPath="productDetail.drawerEachLabel" defaultValue={text('drawerEachLabel', 'each')} />
+        <EditableText as="span" fieldPath="productDetail.drawerSelectionHeading" defaultValue={text('drawerSelectionHeading', 'In your enquiry list')} />
+        <EditableText as="span" fieldPath="productDetail.drawerPiecesLabel" defaultValue={text('drawerPiecesLabel', 'pieces')} />
+        <EditableText as="span" fieldPath="productDetail.drawerQuantityShort" defaultValue={text('drawerQuantityShort', 'Qty')} />
+        <EditableText as="span" fieldPath="productDetail.drawerTotalLabel" defaultValue={text('drawerTotalLabel', 'Estimated total')} />
+        <EditableText as="span" fieldPath="productDetail.drawerConfirmPrice" defaultValue={text('drawerConfirmPrice', 'Price on enquiry')} />
+        <EditableText as="span" fieldPath="productDetail.drawerTotalNote" defaultValue={text('drawerTotalNote', 'Availability and delivery confirmed with your quotation.')} />
+        <EditableText as="span" fieldPath="productDetail.drawerViewLabel" defaultValue={text('drawerViewLabel', 'View Enquiry List')} />
+        <EditableText as="span" fieldPath="productDetail.drawerContinueLabel" defaultValue={text('drawerContinueLabel', 'Continue Shopping')} />
+      </div>
+    )}
     {mounted && ((drawerOpen && !editing) || (editorDrawerOpen && editing)) && createPortal(<EnquiryDrawer key={editing ? 'editor' : 'shopper'} open onClose={closeDrawer} product={product} productIndex={productIndex} quantity={editing ? 1 : addedQuantity} items={editing ? [{ ...item, quantity: 1 }] : items} listError={editing ? false : listError} editing={editing} />, document.body)}
     {mounted && !preview && createPortal(<aside className={`lr-sticky-enquiry${sticky && !editing && !footerVisible ? ' is-visible' : ''}`} aria-label="Enquiry shortcuts" aria-hidden={!sticky || editing || footerVisible} inert={!sticky || editing || footerVisible}>
       <div className="lr-sticky-piece"><strong>{product.name}</strong><span>{product.price !== undefined && formatPrice(product.price)} &#183; Qty {amount}</span></div>

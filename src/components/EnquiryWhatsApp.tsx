@@ -14,6 +14,8 @@ type EnquiryItem = { id: string; name?: string; price?: string | number; quantit
 export default function EnquiryWhatsApp({ items, disabled = false, direct = false, contact = false }: { items: EnquiryItem[]; disabled?: boolean; direct?: boolean; contact?: boolean }) {
   const siteData = useSiteData();
   const settings = contentObject(contentObject(siteData.content).enquiry);
+  const selectedPages = siteData.requirements?.requiredPages ?? siteData.template?.structure?.pages ?? [];
+  const hasContactPage = selectedPages.includes('contact');
   const { number, digits, configured } = enquiryWhatsAppContact(siteData);
   const [editing, setEditing] = useState(false);
   useEffect(() => {
@@ -42,6 +44,10 @@ export default function EnquiryWhatsApp({ items, disabled = false, direct = fals
       <EditableText as="span" fieldPath={`enquiry.${direct ? 'directLabel' : 'sendLabel'}`} defaultValue={contentText(settings[direct ? 'directLabel' : 'sendLabel']) || (direct ? 'Enquire on WhatsApp' : 'Send Enquiry via WhatsApp')} /><span aria-hidden="true">↗</span>
     </button>
     {contact && (configured || editing || isTemplateValidation(siteData)) && <div className="lumi-enquiry-contact"><EditableText as="span" fieldPath="enquiry.contactLabel" defaultValue={contentText(settings.contactLabel) || 'Business WhatsApp'} /><EditableText as="span" fieldPath="enquiry.whatsappNumber" defaultValue={number} placeholder="Set business number with country code" /></div>}
-    {!configured && <p className="lumi-enquiry-help"><EditableText as="span" fieldPath="enquiry.unconfiguredText" defaultValue={contentText(settings.unconfiguredText) || 'WhatsApp enquiries are currently unavailable. Please contact us about your selection.'} /> <a href={withBasePath('/contact/')}>Contact us ↗</a></p>}
+    {(!configured || editing || isTemplateValidation(siteData)) && <p className="lumi-enquiry-help"><EditableText as="span" fieldPath="enquiry.unconfiguredText" defaultValue={contentText(settings.unconfiguredText) || 'WhatsApp enquiries are currently unavailable. Please contact us about your selection.'} /> {hasContactPage && <a href={withBasePath('/contact/')} data-preview-static="enquiry-contact-link">Contact us ↗</a>}</p>}
+    <div className="sr-only">
+      <EditableText as="span" fieldPath="enquiry.messageIntro" defaultValue={contentText(settings.messageIntro) || 'Hello LUMI LIVING, I would like to enquire about these pieces:'} />
+      <EditableText as="span" fieldPath="enquiry.messageClosing" defaultValue={contentText(settings.messageClosing) || 'Please confirm availability, the final quotation and delivery options.'} />
+    </div>
   </div>;
 }
