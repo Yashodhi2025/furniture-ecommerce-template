@@ -6,6 +6,7 @@ import { Footer, getThemeCssProperties } from '@deneb-ui/ui';
 
 import LumiNavbar from './LumiNavbar';
 import SiteMotion from './SiteMotion';
+import FooterSofaDivider from './FooterSofaDivider';
 
 export default function SiteChrome({ children }: { children: ReactNode }) {
   const siteData = useSiteData();
@@ -24,6 +25,7 @@ export default function SiteChrome({ children }: { children: ReactNode }) {
       <SiteMotion />
       <LumiNavbar />
       <main>{children}</main>
+      <FooterSofaDivider />
       <Footer defaultLinks={navigation} showNewsletter={false} />
     </div>
   );
