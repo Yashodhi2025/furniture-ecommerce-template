@@ -58,7 +58,60 @@
       "home.look.hotspots[*].y",
       "announcements.enabled",
       "cart.animationEnabled",
-      "cart.animationImageSize"
+      "cart.animationImageSize",
+      "home.heroBgStart",
+      "home.heroBgEnd",
+      "home.heroShowcaseBgStart",
+      "home.heroShowcaseBgEnd",
+      "home.heroAccentShapeVisible",
+      "home.heroOrbitRingVisible",
+      "home.heroOrbitRingColor",
+      "home.heroAutoplayEnabled",
+      "home.heroAutoplayDuration",
+      "home.heroAnimationSpeed",
+      "home.heroRotationEnabled",
+      "home.heroFloatEnabled",
+      "home.heroFloatDuration",
+      "home.heroShowPagination",
+      "home.heroShowPauseControl",
+      "home.heroPaginationActiveColor",
+      "home.heroPaginationColor",
+      "home.heroSlides[*].description",
+      "home.heroSlides[*].imageScale",
+      "home.heroSlides[*].imageOffsetX",
+      "home.heroSlides[*].imageOffsetY",
+      "collectionHeadings.sale.showHeroBadge",
+      "collectionHeadings.sale.maxDiscountOverride",
+      "collectionHeadings.sale.bannerBgStart",
+      "collectionHeadings.sale.bannerBgMid",
+      "collectionHeadings.sale.bannerBgEnd",
+      "collectionHeadings.sale.ctaBgColor",
+      "collectionHeadings.sale.ctaTextColor",
+      "collectionHeadings.sale.showWatermark",
+      "collectionHeadings.sale.watermarkText",
+      "collectionHeadings.sale.showCornerRibbon",
+      "collectionHeadings.sale.ribbonBgStart",
+      "collectionHeadings.sale.ribbonBgEnd",
+      "collectionHeadings.sale.ribbonTextColor",
+      "collectionHeadings.sale.showProductBadges",
+      "collectionHeadings.sale.productBadgePrefix",
+      "collectionHeadings.sale.accentColor",
+      "collectionHeadings.sale.accentSoftColor",
+      "collectionHeadings.sale.badgeTextColor",
+      "collectionHeadings.sale.originalPriceColor",
+      "collectionHeadings.sale.animationsEnabled",
+      "collectionHeadings.sale.animationSpeed",
+      "collectionHeadings.sale.heroStripRevealEnabled",
+      "collectionHeadings.sale.showSaleOnlyPill",
+      "collectionHeadings.sale.sortFeaturedLabel",
+      "collectionHeadings.sale.sortPriceLowLabel",
+      "collectionHeadings.sale.sortPriceHighLabel",
+      "collectionHeadings.sale.sortNameLabel",
+      "collectionHeadings.sale.filterDrawerHeading",
+      "collectionHeadings.sale.sectionBackground",
+      "collectionHeadings.sale.sectionPaddingTop",
+      "collectionHeadings.sale.sectionPaddingBottom",
+      "collectionHeadings.sale.gridGap"
     ]
   },
   "siteDataFile": "src/data/site-data.json",
@@ -593,6 +646,102 @@
             "label": "Animated furniture hero (off shows room photo)"
           },
           {
+            "key": "heroFootnote",
+            "type": "text",
+            "label": "Hero footnote signature"
+          },
+          {
+            "key": "heroBgStart",
+            "type": "color",
+            "label": "Hero background gradient start"
+          },
+          {
+            "key": "heroBgEnd",
+            "type": "color",
+            "label": "Hero background gradient end"
+          },
+          {
+            "key": "heroShowcaseBgStart",
+            "type": "color",
+            "label": "Showcase backdrop gradient start"
+          },
+          {
+            "key": "heroShowcaseBgEnd",
+            "type": "color",
+            "label": "Showcase backdrop gradient end"
+          },
+          {
+            "key": "heroAccentShapeVisible",
+            "type": "boolean",
+            "label": "Show decorative geometric shape"
+          },
+          {
+            "key": "heroOrbitRingVisible",
+            "type": "boolean",
+            "label": "Show decorative orbit ring"
+          },
+          {
+            "key": "heroOrbitRingColor",
+            "type": "color",
+            "label": "Decorative orbit ring color"
+          },
+          {
+            "key": "heroAutoplayEnabled",
+            "type": "boolean",
+            "label": "Enable hero carousel autoplay"
+          },
+          {
+            "key": "heroAutoplayDuration",
+            "type": "number",
+            "label": "Hero slide autoplay duration (ms)",
+            "min": 1500,
+            "max": 10000
+          },
+          {
+            "key": "heroAnimationSpeed",
+            "type": "number",
+            "label": "Hero animation & transition speed (%)",
+            "min": 25,
+            "max": 200
+          },
+          {
+            "key": "heroRotationEnabled",
+            "type": "boolean",
+            "label": "Enable decorative shape rotation"
+          },
+          {
+            "key": "heroFloatEnabled",
+            "type": "boolean",
+            "label": "Enable furniture floating animation"
+          },
+          {
+            "key": "heroFloatDuration",
+            "type": "number",
+            "label": "Furniture float cycle duration (ms)",
+            "min": 2000,
+            "max": 10000
+          },
+          {
+            "key": "heroShowPagination",
+            "type": "boolean",
+            "label": "Show hero pagination indicators"
+          },
+          {
+            "key": "heroShowPauseControl",
+            "type": "boolean",
+            "label": "Show hero pause/play button"
+          },
+          {
+            "key": "heroPaginationActiveColor",
+            "type": "color",
+            "label": "Active pagination indicator color"
+          },
+          {
+            "key": "heroPaginationColor",
+            "type": "color",
+            "label": "Inactive pagination indicator color"
+          },
+          {
             "key": "heroSlides",
             "type": "list",
             "label": "Animated hero slides (transparent images)",
@@ -601,12 +750,17 @@
               {
                 "key": "eyebrow",
                 "type": "text",
-                "label": "Small heading"
+                "label": "Category label"
               },
               {
                 "key": "headline",
                 "type": "textarea",
-                "label": "Slide headline"
+                "label": "Slide heading"
+              },
+              {
+                "key": "description",
+                "type": "textarea",
+                "label": "Slide description (optional)"
               },
               {
                 "key": "label",
@@ -616,12 +770,33 @@
               {
                 "key": "imageUrl",
                 "type": "image",
-                "label": "Transparent furniture cutout"
+                "label": "Transparent furniture image"
               },
               {
                 "key": "imageAlt",
                 "type": "text",
                 "label": "Image description"
+              },
+              {
+                "key": "imageScale",
+                "type": "number",
+                "label": "Furniture image size (%)",
+                "min": 50,
+                "max": 150
+              },
+              {
+                "key": "imageOffsetX",
+                "type": "number",
+                "label": "Horizontal image position (px)",
+                "min": -60,
+                "max": 60
+              },
+              {
+                "key": "imageOffsetY",
+                "type": "number",
+                "label": "Vertical image position (px)",
+                "min": -60,
+                "max": 60
               },
               {
                 "key": "linkUrl",
@@ -630,8 +805,8 @@
               },
               {
                 "key": "color",
-                "type": "text",
-                "label": "Shape colour (hex)"
+                "type": "color",
+                "label": "Decorative shape color"
               }
             ]
           },
@@ -1539,18 +1714,252 @@
       {
         "id": "sale-heading",
         "path": "collectionHeadings.sale",
+        "pageKey": "sale",
         "type": "object",
-        "label": "Furniture Sale heading",
+        "label": "Sale Page Customization",
         "fields": [
+          {
+            "key": "eyebrowLabel",
+            "type": "text",
+            "label": "Promotional eyebrow pill"
+          },
           {
             "key": "title",
             "type": "text",
-            "label": "Title"
+            "label": "Banner heading"
+          },
+          {
+            "key": "badgeLabel",
+            "type": "text",
+            "label": "Inline sale badge text"
+          },
+          {
+            "key": "showHeroBadge",
+            "type": "boolean",
+            "label": "Show inline SALE badge"
+          },
+          {
+            "key": "offerPrefix",
+            "type": "text",
+            "label": "Discount offer prefix"
+          },
+          {
+            "key": "offerSuffix",
+            "type": "text",
+            "label": "Discount offer suffix"
+          },
+          {
+            "key": "maxDiscountOverride",
+            "type": "text",
+            "label": "Custom discount claim (blank = auto from prices)"
           },
           {
             "key": "description",
             "type": "textarea",
-            "label": "Subtitle"
+            "label": "Banner description"
+          },
+          {
+            "key": "ctaLabel",
+            "type": "text",
+            "label": "Banner CTA label"
+          },
+          {
+            "key": "ctaUrl",
+            "type": "text",
+            "label": "Banner CTA link"
+          },
+          {
+            "key": "bannerImageUrl",
+            "type": "image",
+            "label": "Sale banner background image"
+          },
+          {
+            "key": "bannerBgStart",
+            "type": "color",
+            "label": "Banner gradient start color"
+          },
+          {
+            "key": "bannerBgMid",
+            "type": "color",
+            "label": "Banner gradient middle color"
+          },
+          {
+            "key": "bannerBgEnd",
+            "type": "color",
+            "label": "Banner gradient end color"
+          },
+          {
+            "key": "ctaBgColor",
+            "type": "color",
+            "label": "Banner CTA background color"
+          },
+          {
+            "key": "ctaTextColor",
+            "type": "color",
+            "label": "Banner CTA text color"
+          },
+          {
+            "key": "showWatermark",
+            "type": "boolean",
+            "label": "Show percentage watermark & flourish"
+          },
+          {
+            "key": "watermarkText",
+            "type": "text",
+            "label": "Watermark symbol"
+          },
+          {
+            "key": "showCornerRibbon",
+            "type": "boolean",
+            "label": "Show red discount corner ribbon"
+          },
+          {
+            "key": "ribbonBgStart",
+            "type": "color",
+            "label": "Corner ribbon gradient start"
+          },
+          {
+            "key": "ribbonBgEnd",
+            "type": "color",
+            "label": "Corner ribbon gradient end"
+          },
+          {
+            "key": "ribbonTextColor",
+            "type": "color",
+            "label": "Corner ribbon text color"
+          },
+          {
+            "key": "ribbonKicker",
+            "type": "text",
+            "label": "Corner ribbon top text"
+          },
+          {
+            "key": "ribbonSubLabel",
+            "type": "text",
+            "label": "Corner ribbon bottom text"
+          },
+          {
+            "key": "showProductBadges",
+            "type": "boolean",
+            "label": "Show product discount badges"
+          },
+          {
+            "key": "productBadgePrefix",
+            "type": "text",
+            "label": "Product discount badge prefix"
+          },
+          {
+            "key": "accentColor",
+            "type": "color",
+            "label": "Sale discount accent color"
+          },
+          {
+            "key": "accentSoftColor",
+            "type": "color",
+            "label": "Sale badge highlight color"
+          },
+          {
+            "key": "badgeTextColor",
+            "type": "color",
+            "label": "Product discount badge text color"
+          },
+          {
+            "key": "originalPriceColor",
+            "type": "color",
+            "label": "Crossed-out original price color"
+          },
+          {
+            "key": "animationsEnabled",
+            "type": "boolean",
+            "label": "Enable sale page animations"
+          },
+          {
+            "key": "animationSpeed",
+            "type": "number",
+            "label": "Sale animation speed (%)",
+            "min": 50,
+            "max": 200
+          },
+          {
+            "key": "heroStripRevealEnabled",
+            "type": "boolean",
+            "label": "Enable banner vertical panel reveal"
+          },
+          {
+            "key": "filterButtonLabel",
+            "type": "text",
+            "label": "Filter button label"
+          },
+          {
+            "key": "saleOnlyLabel",
+            "type": "text",
+            "label": "Sale Only indicator label"
+          },
+          {
+            "key": "showSaleOnlyPill",
+            "type": "boolean",
+            "label": "Show Sale Only toolbar badge"
+          },
+          {
+            "key": "sortLabel",
+            "type": "text",
+            "label": "Sort control label"
+          },
+          {
+            "key": "sortFeaturedLabel",
+            "type": "text",
+            "label": "Sort option: Featured"
+          },
+          {
+            "key": "sortPriceLowLabel",
+            "type": "text",
+            "label": "Sort option: Price low to high"
+          },
+          {
+            "key": "sortPriceHighLabel",
+            "type": "text",
+            "label": "Sort option: Price high to low"
+          },
+          {
+            "key": "sortNameLabel",
+            "type": "text",
+            "label": "Sort option: Name A–Z"
+          },
+          {
+            "key": "filterDrawerHeading",
+            "type": "text",
+            "label": "Filter drawer heading"
+          },
+          {
+            "key": "sampleNote",
+            "type": "text",
+            "label": "Collection footer note"
+          },
+          {
+            "key": "sectionBackground",
+            "type": "color",
+            "label": "Sale page background color"
+          },
+          {
+            "key": "sectionPaddingTop",
+            "type": "number",
+            "label": "Section top spacing (px)",
+            "min": 16,
+            "max": 120
+          },
+          {
+            "key": "sectionPaddingBottom",
+            "type": "number",
+            "label": "Section bottom spacing (px)",
+            "min": 24,
+            "max": 140
+          },
+          {
+            "key": "gridGap",
+            "type": "number",
+            "label": "Product grid column gap (px)",
+            "min": 12,
+            "max": 48
           }
         ]
       },

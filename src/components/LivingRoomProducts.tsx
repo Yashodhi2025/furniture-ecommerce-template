@@ -1,7 +1,8 @@
 'use client';
 
-import { useEffect, useMemo, useRef, useState, type KeyboardEvent } from 'react';
-import { useProducts, useSiteData, contentObject } from '@/lib/siteDataContext';
+import { useEffect, useMemo, useRef, useState, type CSSProperties, type KeyboardEvent } from 'react';
+import { EditableText } from '@deneb-ui/ui';
+import { useProducts, useSiteData, contentObject, contentText } from '@/lib/siteDataContext';
 import { formatPrice, isLivingProduct } from '@/lib/living-room';
 import { withBasePath } from '@/lib/utils';
 import FurnitureProductCard from './FurnitureProductCard';
@@ -9,7 +10,18 @@ import CollectionHero from './CollectionHero';
 import { collections, matchesCollectionFilter, saleDiscountPercent, saleOriginalPrice, type CollectionId } from '@/lib/collections';
 import './SaleCollection.css';
 
-const sortOptions = <><option value="featured">Featured</option><option value="price-low">Price: low to high</option><option value="price-high">Price: high to low</option><option value="name">Name: A–Z</option></>;
+function isFlagOn(value: unknown, fallback = true): boolean {
+  if (value === undefined || value === null || value === '') return fallback;
+  if (typeof value === 'boolean') return value;
+  return String(value) !== 'false';
+}
+
+function clampNum(value: unknown, min: number, max: number, fallback: number): number {
+  const num = typeof value === 'number' ? value : Number(String(value ?? '').trim());
+  if (!Number.isFinite(num) || value === '' || value === null || value === undefined) return fallback;
+  return Math.min(max, Math.max(min, Math.round(num)));
+}
+
 export default function LivingRoomProducts({ collectionId = 'living-room' }: { collectionId?: CollectionId }) {
   const products = useProducts();
   const collection = collections[collectionId];
@@ -31,6 +43,33 @@ export default function LivingRoomProducts({ collectionId = 'living-room' }: { c
   const trigger = useRef<HTMLButtonElement>(null);
   const gridRef = useRef<HTMLDivElement>(null);
   const isSale = collectionId === 'sale';
+
+  // Sale-only Fivora settings
+  const saleAnimationsOn = !isSale || isFlagOn(heading.animationsEnabled, true);
+  const saleAnimSpeed = isSale ? clampNum(heading.animationSpeed, 50, 200, 100) : 100;
+  const showProductBadges = !isSale || isFlagOn(heading.showProductBadges, true);
+  const productBadgePrefix = isSale ? contentText(heading.productBadgePrefix) || 'SALE' : 'SALE';
+  const showSaleOnlyPill = isSale && isFlagOn(heading.showSaleOnlyPill, true);
+  const sortFeaturedLabel = isSale ? contentText(heading.sortFeaturedLabel) || 'Featured' : 'Featured';
+  const sortPriceLowLabel = isSale ? contentText(heading.sortPriceLowLabel) || 'Price: low to high' : 'Price: low to high';
+  const sortPriceHighLabel = isSale ? contentText(heading.sortPriceHighLabel) || 'Price: high to low' : 'Price: high to low';
+  const sortNameLabel = isSale ? contentText(heading.sortNameLabel) || 'Name: A–Z' : 'Name: A–Z';
+  const filterDrawerHeading = isSale ? contentText(heading.filterDrawerHeading) || 'Refine your collection' : 'Refine your collection';
+
+  const saleStyle = isSale
+    ? ({
+        '--sale-terracotta': contentText(heading.accentColor) || '#B84335',
+        '--sale-terracotta-soft': contentText(heading.accentSoftColor) || '#C65344',
+        '--sale-badge-text': contentText(heading.badgeTextColor) || '#fff9f5',
+        '--sale-original-color': contentText(heading.originalPriceColor) || '#8c6e58',
+        '--sale-anim-scale': String(100 / saleAnimSpeed),
+        '--sale-section-bg': contentText(heading.sectionBackground) || '#F7F0E6',
+        '--sale-pt': `${clampNum(heading.sectionPaddingTop, 16, 120, 42)}px`,
+        '--sale-pb': `${clampNum(heading.sectionPaddingBottom, 24, 140, 65)}px`,
+        '--sale-grid-gap': `${clampNum(heading.gridGap, 12, 48, 21)}px`,
+      } as CSSProperties)
+    : undefined;
+
   const maxDiscount = useMemo(() => {
     if (!isSale) return undefined;
     const values = catalog.map(({ product }) => saleDiscountPercent(product) ?? 0);
@@ -44,7 +83,7 @@ export default function LivingRoomProducts({ collectionId = 'living-room' }: { c
     if (!isSale || !gridRef.current) return;
     const cards = Array.from(gridRef.current.querySelectorAll<HTMLElement>('.product-card'));
     if (!cards.length) return;
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window)) {
+    if (!saleAnimationsOn || window.matchMedia('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window)) {
       cards.forEach(card => { card.dataset.saleVisible = 'true'; });
       return;
     }
@@ -57,7 +96,7 @@ export default function LivingRoomProducts({ collectionId = 'living-room' }: { c
     }, { threshold: 0.12 });
     cards.forEach(card => observer.observe(card));
     return () => observer.disconnect();
-  }, [isSale, filtered.length, sort, category, maxPrice]);
+  }, [isSale, saleAnimationsOn, filtered.length, sort, category, maxPrice]);
   const closeFilters = () => {
     if (closing) return;
     const element = dialog.current;
@@ -100,7 +139,7 @@ export default function LivingRoomProducts({ collectionId = 'living-room' }: { c
     else if (!event.shiftKey && document.activeElement === buttons.at(-1)) { event.preventDefault(); buttons[0]?.focus(); }
   };
   const clear = () => { setCategory(''); setMaxPrice(null); setDraftCategory(''); setDraftPrice(null); };
-  return <div className={`lr-collection${isSale ? ' lr-collection-sale' : ''}`} data-preview-page-key={collection.pageId}>
+  return <div className={`lr-collection${isSale ? ' lr-collection-sale' : ''}`} data-preview-page-key={collection.pageId} data-sale-animations={isSale ? (saleAnimationsOn ? 'on' : 'off') : undefined} style={saleStyle}>
     <header className="lr-heading">
       <nav className="lr-breadcrumbs" aria-labelledby={`${collectionId}-breadcrumbs-label`}>
         <span id={`${collectionId}-breadcrumbs-label`} className="sr-only" data-preview-static="breadcrumb-accessible-label">Breadcrumb</span>
@@ -112,24 +151,28 @@ export default function LivingRoomProducts({ collectionId = 'living-room' }: { c
     </header>
     <section id={`${collectionId}-products`} aria-labelledby={`${collectionId}-title`}>
       <div className="lr-collection-toolbar">
-        <button type="button" className="lr-filter-button" ref={trigger} aria-haspopup="dialog" data-preview-static="collection-open-filters" onClick={() => { setDraftCategory(category); setDraftPrice(maxPrice); setOpen(true); }}><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18M8 3v6M16 9v6M10 15v6" /></svg>Show filters{(category || maxPrice !== null) && <span className="lr-filter-indicator" />}</button>
+        <button type="button" className="lr-filter-button" ref={trigger} aria-haspopup="dialog" data-preview-static={isSale ? undefined : 'collection-open-filters'} onClick={() => { setDraftCategory(category); setDraftPrice(maxPrice); setOpen(true); }}><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18M8 3v6M16 9v6M10 15v6" /></svg>{isSale ? <EditableText as="span" fieldPath={`${headingPath}.filterButtonLabel`} defaultValue={contentText(heading.filterButtonLabel) || 'Show filters'} /> : 'Show filters'}{(category || maxPrice !== null) && <span className="lr-filter-indicator" />}</button>
         <span className="lr-product-count" role="status" aria-live="polite" data-preview-static="collection-result-count">{filtered.length} {filtered.length === 1 ? 'product' : 'products'}</span>
-        {isSale && <span className="sale-toolbar-pill" data-preview-static="sale-only-indicator">
+        {showSaleOnlyPill && <span className="sale-toolbar-pill">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.59 13.41 13.42 20.58a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82ZM7 7a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3Z" /></svg>
-          Sale Only
+          <EditableText as="span" fieldPath={`${headingPath}.saleOnlyLabel`} defaultValue={contentText(heading.saleOnlyLabel) || 'Sale Only'} />
         </span>}
-        <label className="lr-sort"><span data-preview-static="collection-sort-label">Sort by:</span><select aria-label="Sort products" data-preview-static="collection-sort-options" value={sort} onChange={event => setSort(event.target.value)}>{sortOptions}</select></label>
+        <label className="lr-sort">{isSale ? <EditableText as="span" fieldPath={`${headingPath}.sortLabel`} defaultValue={contentText(heading.sortLabel) || 'Sort by:'} /> : <span data-preview-static="collection-sort-label">Sort by:</span>}<select aria-label="Sort products" data-preview-static="collection-sort-options" value={sort} onChange={event => setSort(event.target.value)}><option value="featured">{sortFeaturedLabel}</option><option value="price-low">{sortPriceLowLabel}</option><option value="price-high">{sortPriceHighLabel}</option><option value="name">{sortNameLabel}</option></select></label>
       </div>
       {(category || maxPrice !== null) && <div className="lr-active-filters">{category && <button type="button" onClick={() => setCategory('')}>{category} ×</button>}{maxPrice !== null && <button type="button" onClick={() => setMaxPrice(null)}>Up to {formatPrice(maxPrice)} ×</button>}<button type="button" onClick={clear}>Clear filters</button></div>}
       <div ref={gridRef} className="lr-product-grid" data-preview-list-path="products">{filtered.map(({ product, index }) => {
-        const discount = isSale ? saleDiscountPercent(product) : undefined;
-        return <FurnitureProductCard key={String(product.id)} product={product} index={index} collectionId={collectionId} saleBadge={discount ? `SALE · ${discount}% OFF` : undefined} />;
+        const discount = isSale && showProductBadges ? saleDiscountPercent(product) : undefined;
+        return <FurnitureProductCard key={String(product.id)} product={product} index={index} collectionId={collectionId} saleBadge={discount ? `${productBadgePrefix} · ${discount}% OFF` : undefined} />;
       })}</div>
       {!filtered.length && <div className="lr-empty"><h2 data-preview-static="collection-empty-heading">A little more room to explore.</h2><p data-preview-static="collection-empty-message">No products match these filters.</p><button type="button" className="lr-filter-button" data-preview-static="collection-reset-action" onClick={clear}>View all products</button></div>}
-      <p className="lr-sample-note" data-preview-static="sample-collection-disclosure">A sample collection for LUMI LIVING. Additional product views are AI-generated illustrations.</p>
+      {isSale ? (
+        <EditableText as="p" className="lr-sample-note" fieldPath={`${headingPath}.sampleNote`} defaultValue={contentText(heading.sampleNote) || 'A sample collection for LUMI LIVING. Additional product views are AI-generated illustrations.'} />
+      ) : (
+        <p className="lr-sample-note" data-preview-static="sample-collection-disclosure">A sample collection for LUMI LIVING. Additional product views are AI-generated illustrations.</p>
+      )}
     </section>
     <dialog ref={dialog} className={`lr-filter-drawer${closing ? ' is-closing' : ''}`} aria-labelledby={`${collectionId}-filters-title`} onKeyDown={trapFocus} onCancel={event => { event.preventDefault(); closeFilters(); }} onClick={event => { if (event.target === event.currentTarget) { const rect = event.currentTarget.getBoundingClientRect(); if (event.clientX > rect.right || event.clientX < rect.left || event.clientY < rect.top || event.clientY > rect.bottom) closeFilters(); } }}>
-      <div className="lr-drawer-heading"><h2 id={`${collectionId}-filters-title`} data-preview-static="collection-filter-heading">Refine your collection</h2><button type="button" aria-label="Close filters" data-preview-static="collection-close-filters" onClick={closeFilters} autoFocus>×</button></div>
+      <div className="lr-drawer-heading"><h2 id={`${collectionId}-filters-title`} data-preview-static="collection-filter-heading">{filterDrawerHeading}</h2><button type="button" aria-label="Close filters" data-preview-static="collection-close-filters" onClick={closeFilters} autoFocus>×</button></div>
       <div className="lr-drawer-content"><fieldset><legend data-preview-static="collection-filter-type-label">Product type</legend><label><input type="radio" name="category" checked={!draftCategory} onChange={() => setDraftCategory('')} /><span data-preview-static="collection-filter-all-option">All {collection.label.toLowerCase()}</span></label>{categories.map(value => <label key={value}><input type="radio" name="category" checked={draftCategory === value} onChange={() => setDraftCategory(value)} /><span data-preview-static="derived-product-type-option">{value}</span></label>)}</fieldset><label className="lr-price-filter"><span data-preview-static="collection-price-limit-label" style={{ display: 'inline', fontSize: 'inherit', color: 'inherit' }}>Maximum price</span><strong data-preview-static="collection-price-limit-value">{formatPrice(draftPrice ?? ceiling)}</strong><input type="range" min="0" max={ceiling} step="1" data-preview-static="collection-price-limit-control" value={Math.min(draftPrice ?? ceiling, ceiling)} onChange={event => setDraftPrice(Number(event.target.value))} /><span data-preview-static="collection-price-range">LKR 0 <span>{formatPrice(ceiling)}</span></span></label></div>
       <div className="lr-drawer-bottom"><p aria-live="polite" data-preview-static="collection-filter-result-count">{draftCount} matching {draftCount === 1 ? 'product' : 'products'}</p><button type="button" className="lr-primary-button" data-preview-static="collection-apply-filters" onClick={() => { setCategory(draftCategory); setMaxPrice(draftPrice); closeFilters(); }}>Show products ↗</button><button type="button" className="lr-clear-button" data-preview-static="collection-clear-filters" onClick={clear}>Clear filters</button></div>
     </dialog>

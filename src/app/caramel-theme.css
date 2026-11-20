@@ -18,19 +18,19 @@ body { background:#F7F0E6; }
 }
 .lumi-site .lumi-navbar-menu [aria-current=page] { background:#E8D6BE; color:#3D2B20; }
 .lumi-site .lumi-home .lumi-hero {
-  background:var(--deneb-section-bg,linear-gradient(110deg,#F7F0E6 35%,#F0DFC8));
+  background:var(--deneb-section-bg,linear-gradient(110deg,var(--hero-bg-start,#F7F0E6) 35%,var(--hero-bg-end,#F0DFC8)));
 }
 .lumi-site .lumi-home .lumi-hero-media[data-hero-showcase=true] {
-  background:radial-gradient(ellipse at 40% 28%,#F7F0E6b3,transparent 65%),linear-gradient(135deg,#E8D6BE,#DAB68E);
+  background:radial-gradient(ellipse at 40% 28%,#F7F0E6b3,transparent 65%),linear-gradient(135deg,var(--hero-showcase-bg-start,#E8D6BE),var(--hero-showcase-bg-end,#DAB68E));
 }
 .lumi-site .lumi-home .lumi-showcase-blob {
-  background:radial-gradient(ellipse at 25% 20%,#F7F0E638,transparent 65%),linear-gradient(145deg,var(--showcase-accent,#C38A51),#C38A51);
+  background:radial-gradient(ellipse at 25% 20%,#F7F0E638,transparent 65%),linear-gradient(145deg,var(--showcase-accent,#C38A51),var(--showcase-accent,#C38A51));
 }
 .lumi-site .lumi-home :is(.lumi-showcase-headline,.lumi-showcase-eyebrow) { color:var(--deneb-color,#3D2B20)!important; }
-.lumi-site .lumi-home .lumi-showcase-orbit { border-color:#96683f30; }
-.lumi-site .lumi-home .lumi-showcase-dots button span { background:#986e48; }
-.lumi-site .lumi-home .lumi-showcase-dots button[aria-current=true] span { background:#3D2B20; }
-.lumi-site .lumi-home .lumi-showcase-controls .lumi-showcase-pause { color:#3D2B20; border-color:#986e48; }
+.lumi-site .lumi-home .lumi-showcase-orbit { border-color:color-mix(in srgb,var(--showcase-orbit-color,#96683f) 24%,transparent); }
+.lumi-site .lumi-home .lumi-showcase-dots button span { background:var(--showcase-dot-color,#986e48); }
+.lumi-site .lumi-home .lumi-showcase-dots button[aria-current=true] span { background:var(--showcase-dot-active,#3D2B20); }
+.lumi-site .lumi-home .lumi-showcase-controls .lumi-showcase-pause { color:var(--showcase-dot-active,#3D2B20); border-color:var(--showcase-dot-color,#986e48); }
 .lumi-site main .lumi-home :is(.lumi-arrivals,.lumi-look,.lumi-story,.lumi-newsletter) {
   background:var(--deneb-section-bg,linear-gradient(125deg,#E8D6BE,#EEDDCA));
 }

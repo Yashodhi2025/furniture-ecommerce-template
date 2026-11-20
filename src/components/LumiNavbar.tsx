@@ -184,25 +184,25 @@ export default function LumiNavbar() {
               <button type="button" className="lumi-category-toggle" data-preview-static="navigation-category-disclosure" aria-label={`Show ${contentText(category.label)} subcategories`} aria-expanded={isOpen} aria-controls={panelId} onClick={() => { cancelClose(); setOpenCategory(isOpen ? null : categoryIndex); }}><svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" aria-hidden="true"><path d="m4 6 4 4 4-4" /></svg></button>
               <EditableSection as="div" name={`navigation-dropdown-${categoryIndex}`} padding="none" className="lumi-mega-panel" id={panelId} inert={!isOpen} aria-labelledby={`${panelId}-trigger`}>
                 <div className="lumi-mega-surface">
-                <div className="lumi-mega-copy">
-                  <EditableText as="p" className="lumi-mega-description" data-preview-field-path={`navigation.categories[${categoryIndex}].description`} defaultValue={contentText(category.description)} />
-                  <ul className="lumi-mega-items" data-preview-list-path={`navigation.categories[${categoryIndex}].items`}>
-                    {items.map((item, itemIndex) => <li className={selected === itemIndex ? 'is-current' : ''} key={contentText(item.id) || itemIndex} data-preview-item-path={`navigation.categories[${categoryIndex}].items[${itemIndex}]`}>
-                      <a className="lumi-mega-link" href={withBasePath(contentText(item.url) || '/#shop')} data-preview-field-path={`navigation.categories[${categoryIndex}].items[${itemIndex}].url`} onPointerEnter={() => setPreviews(previous => ({ ...previous, [categoryIndex]: itemIndex }))} onFocus={() => setPreviews(previous => ({ ...previous, [categoryIndex]: itemIndex }))} onClick={closeMenus}>
-                        <EditableText as="span" data-preview-field-path={`navigation.categories[${categoryIndex}].items[${itemIndex}].label`} defaultValue={contentText(item.label)} placeholder="Furniture" />
-                        <span aria-hidden="true">&#8599;</span>
-                      </a>
-                      <button type="button" className="lumi-subcategory-preview" aria-label={`Preview ${contentText(item.label)}`} aria-pressed={selected === itemIndex} onClick={() => setPreviews(previous => ({ ...previous, [categoryIndex]: itemIndex }))} data-preview-static="subcategory-preview-control"><EditableIcon name="camera" size={17} strokeWidth={1.5} aria-hidden="true" /></button>
-                    </li>)}
-                  </ul>
-                  <a className="lumi-mega-browse" href={withBasePath(contentText(category.browseUrl) || '/#shop')} data-preview-field-path={`navigation.categories[${categoryIndex}].browseUrl`} onClick={closeMenus}><EditableText as="span" data-preview-field-path={`navigation.categories[${categoryIndex}].browseLabel`} defaultValue={contentText(category.browseLabel)} placeholder="Explore the collection" /><span aria-hidden="true">&#8594;</span></a>
-                </div>
-                <div className="lumi-mega-imagery" data-preview-list-path={`navigation.categories[${categoryIndex}].items`}>
-                  {items.map((item, itemIndex) => <EditableCard as="figure" itemPath={`navigation.categories[${categoryIndex}].items[${itemIndex}]`} item={{}} radius="lg" padding="none" className={`lumi-mega-figure${selected === itemIndex ? ' is-current' : ''}`} key={contentText(item.id) || itemIndex} data-preview-item-path={`navigation.categories[${categoryIndex}].items[${itemIndex}]`} inert={selected !== itemIndex}>
-                    <EditableImage data-preview-field-path={`navigation.categories[${categoryIndex}].items[${itemIndex}].imageUrl`} src={contentText(item.imageUrl)} alt={contentText(item.label)} loading="eager" />
-                    <figcaption><EditableText as="span" data-preview-field-path={`navigation.categories[${categoryIndex}].items[${itemIndex}].label`} defaultValue={contentText(item.label)} /></figcaption>
-                  </EditableCard>)}
-                </div>
+                  <div className="lumi-mega-copy">
+                    <EditableText as="p" className="lumi-mega-description" data-preview-field-path={`navigation.categories[${categoryIndex}].description`} defaultValue={contentText(category.description)} />
+                    <ul className="lumi-mega-items" data-preview-list-path={`navigation.categories[${categoryIndex}].items`}>
+                      {items.map((item, itemIndex) => <li className={selected === itemIndex ? 'is-current' : ''} key={contentText(item.id) || itemIndex} data-preview-item-path={`navigation.categories[${categoryIndex}].items[${itemIndex}]`}>
+                        <a className="lumi-mega-link" href={withBasePath(contentText(item.url) || '/#shop')} data-preview-field-path={`navigation.categories[${categoryIndex}].items[${itemIndex}].url`} onPointerEnter={() => setPreviews(previous => ({ ...previous, [categoryIndex]: itemIndex }))} onFocus={() => setPreviews(previous => ({ ...previous, [categoryIndex]: itemIndex }))} onClick={closeMenus}>
+                          <EditableText as="span" data-preview-field-path={`navigation.categories[${categoryIndex}].items[${itemIndex}].label`} defaultValue={contentText(item.label)} placeholder="Furniture" />
+                          <span aria-hidden="true">&#8599;</span>
+                        </a>
+                        <button type="button" className="lumi-subcategory-preview" aria-label={`Preview ${contentText(item.label)}`} aria-pressed={selected === itemIndex} onClick={() => setPreviews(previous => ({ ...previous, [categoryIndex]: itemIndex }))} data-preview-static="subcategory-preview-control"><EditableIcon name="camera" size={17} strokeWidth={1.5} aria-hidden="true" /></button>
+                      </li>)}
+                    </ul>
+                    <a className="lumi-mega-browse" href={withBasePath(contentText(category.browseUrl) || '/#shop')} data-preview-field-path={`navigation.categories[${categoryIndex}].browseUrl`} onClick={closeMenus}><EditableText as="span" data-preview-field-path={`navigation.categories[${categoryIndex}].browseLabel`} defaultValue={contentText(category.browseLabel)} placeholder="Explore the collection" /><span aria-hidden="true">&#8594;</span></a>
+                  </div>
+                  <div className="lumi-mega-imagery" data-preview-list-path={`navigation.categories[${categoryIndex}].items`}>
+                    {items.map((item, itemIndex) => <EditableCard as="figure" itemPath={`navigation.categories[${categoryIndex}].items[${itemIndex}]`} item={{}} radius="lg" padding="none" className={`lumi-mega-figure${selected === itemIndex ? ' is-current' : ''}`} key={contentText(item.id) || itemIndex} data-preview-item-path={`navigation.categories[${categoryIndex}].items[${itemIndex}]`} inert={selected !== itemIndex}>
+                      <EditableImage data-preview-field-path={`navigation.categories[${categoryIndex}].items[${itemIndex}].imageUrl`} src={contentText(item.imageUrl)} alt={contentText(item.label)} loading="eager" />
+                      <figcaption><EditableText as="span" data-preview-field-path={`navigation.categories[${categoryIndex}].items[${itemIndex}].label`} defaultValue={contentText(item.label)} /></figcaption>
+                    </EditableCard>)}
+                  </div>
                 </div>
               </EditableSection>
             </li>;

@@ -1,5 +1,6 @@
 'use client';
 
+import type { CSSProperties } from 'react';
 import { EditableText, EditableImage, EditableSection, EditableCard, EditableIcon } from '@deneb-ui/ui';
 import { contentList, contentObject, contentText, useSiteData, useProducts, useSyncedBranding } from '@/lib/siteDataContext';
 import { withBasePath } from '@/lib/utils';
@@ -27,10 +28,18 @@ export default function HomePage() {
   const selectedPages = data.requirements?.requiredPages ?? data.template?.structure?.pages ?? [];
   const text = (key: string) => contentText(home[key]);
   const showcaseEnabled = home.heroShowcaseEnabled !== false && contentList(home.heroSlides).length > 0;
+  const heroStyle = {
+    '--hero-bg-start': text('heroBgStart') || '#F7F0E6',
+    '--hero-bg-end': text('heroBgEnd') || '#F0DFC8',
+  } as CSSProperties;
+  const heroMediaStyle = {
+    '--hero-showcase-bg-start': text('heroShowcaseBgStart') || '#E8D6BE',
+    '--hero-showcase-bg-end': text('heroShowcaseBgEnd') || '#DAB68E',
+  } as CSSProperties;
   return (
     <div className="lumi-home" data-preview-page-key="home">
       <HomeHeroStartup />
-      <EditableSection name="home-hero" padding="none" className="lumi-hero">
+      <EditableSection name="home-hero" padding="none" className="lumi-hero" style={heroStyle}>
         <div className="lumi-hero-copy">
           <EditableText as="p" fieldPath="home.heroEyebrow" defaultValue={text('heroEyebrow')} className="lumi-eyebrow" />
           <div className="lumi-hero-heading">
@@ -42,12 +51,12 @@ export default function HomePage() {
             <a href={withBasePath(text('primaryCtaUrl') || '/#shop')} data-preview-field-path="home.primaryCtaUrl" className="lumi-button"><EditableText as="span" fieldPath="home.primaryCtaLabel" defaultValue={text('primaryCtaLabel')} placeholder="Shop the collection" /><span className="lumi-hero-cta-arrow" aria-hidden="true">↗</span></a>
             <a href={withBasePath(text('secondaryCtaUrl') || '/#our-story')} data-preview-field-path="home.secondaryCtaUrl" className="lumi-text-link"><EditableText as="span" fieldPath="home.secondaryCtaLabel" defaultValue={text('secondaryCtaLabel')} placeholder="Our story" /></a>
           </div>
-          <p className="lumi-hero-footnote" data-preview-static="decorative-brand-signature"><span /> CONSIDERED DESIGN, EVERY DAY</p>
+          <p className="lumi-hero-footnote"><span aria-hidden="true" /> <EditableText as="span" fieldPath="home.heroFootnote" defaultValue={text('heroFootnote') || 'CONSIDERED DESIGN, EVERY DAY'} /></p>
           <HomeHeroMotion title={text('heroTitle')} brandName={branding.websiteTitle} imageSrc={showcaseEnabled ? 'showcase' : text('bannerImageUrl')} />
         </div>
-        <div className="lumi-hero-media" data-hero-showcase={showcaseEnabled}>
+        <div className="lumi-hero-media" data-hero-showcase={showcaseEnabled} style={heroMediaStyle}>
           <div className="lumi-hero-brand"><EditableText as="span" fieldPath="common.websiteTitle" defaultValue={branding.websiteTitle} className="lumi-hero-brand-text" /><span className="lumi-hero-brand-rule" aria-hidden="true" /></div>
-          {showcaseEnabled ? <HomeHeroShowcase slides={home.heroSlides} /> : <>
+          {showcaseEnabled ? <HomeHeroShowcase slides={home.heroSlides} settings={home} /> : <>
             <div className="lumi-hero-film-light" aria-hidden="true" />
             <EditableImage id="home.bannerImageUrl" src={text('bannerImageUrl')} alt={text('heroImageAlt')} className="lumi-hero-image" fetchPriority="high" />
           </>}
