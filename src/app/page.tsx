@@ -7,6 +7,7 @@ import NewsletterSection from '@/components/NewsletterSection';
 import FurnitureProductCard from '@/components/FurnitureProductCard';
 import ShopTheLook from '@/components/ShopTheLook';
 import HomeProductCarousel from '@/components/HomeProductCarousel';
+import RoomShowcase from '@/components/RoomShowcase';
 import HomeHeroMotion, { HomeHeroStartup } from '@/components/HomeHeroMotion';
 import HomeHeroShowcase from '@/components/HomeHeroShowcase';
 import './home-collections.css';
@@ -53,22 +54,12 @@ export default function HomePage() {
         </div>
       </EditableSection>
 
-      <EditableSection name="categories" padding="none" className="lumi-section lumi-categories lumi-rooms">
+      <EditableSection name="categories" padding="none" className="lumi-section lumi-categories lumi-room-showcase">
         <div className="lumi-section-top">
           <div><EditableText as="p" fieldPath="home.categoriesEyebrow" defaultValue={text('categoriesEyebrow')} className="lumi-eyebrow" /><EditableText as="h2" fieldPath="home.categoriesTitle" defaultValue={text('categoriesTitle')} className="lumi-heading" /></div>
           <EditableText as="p" fieldPath="home.categoriesSummary" defaultValue={text('categoriesSummary')} className="lumi-section-description" />
         </div>
-        <div className="lumi-category-grid" data-preview-list-path="home.categories">
-          {categories.map((raw, index) => {
-            const item = contentObject(raw); const itemPath = `home.categories[${index}]`;
-            return <EditableCard key={contentText(item.id) || index} itemPath={itemPath} data-preview-item-path={`home.categories[${index}]`} item={{}} className="lumi-category-card" as="article">
-              <div className="lumi-category-image"><EditableImage id={`${itemPath}.imageUrl`} data-preview-field-path={`home.categories[${index}].imageUrl`} src={contentText(item.imageUrl)} alt={contentText(item.title)} loading="lazy" /><span className="lumi-room-number" data-preview-static="room-index">0{index + 1}</span></div>
-              <EditableText as="h3" data-preview-field-path={`home.categories[${index}].title`} defaultValue={contentText(item.title)} />
-              <EditableText as="p" data-preview-field-path={`home.categories[${index}].description`} defaultValue={contentText(item.description)} />
-              <a href={withBasePath(contentText(item.linkUrl))} data-preview-field-path={`home.categories[${index}].linkUrl`} className="lumi-category-link"><EditableText as="span" data-preview-field-path={`home.categories[${index}].linkLabel`} defaultValue={contentText(item.linkLabel)} /><span aria-hidden="true">↗</span></a>
-            </EditableCard>;
-          })}
-        </div>
+        <RoomShowcase rooms={categories} />
       </EditableSection>
 
       <EditableSection name="shop" padding="none" className="lumi-section lumi-shop lumi-arrivals">

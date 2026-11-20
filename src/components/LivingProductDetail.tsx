@@ -9,6 +9,7 @@ import HomeProductCarousel from './HomeProductCarousel';
 import FurnitureProductCard from './FurnitureProductCard';
 import ProductPhotoGallery from './ProductPhotoGallery';
 import ProductPurchaseActions from './ProductPurchaseActions';
+import CustomerReviews, { ProductRatingSummary } from './CustomerReviews';
 import { collections, productCollection, type CollectionId } from '@/lib/collections';
 
 export default function LivingProductDetail({ product, index, collectionId = productCollection(product?.category) }: { product?: ProductDetailItem; index: number; collectionId?: CollectionId }) {
@@ -26,7 +27,7 @@ export default function LivingProductDetail({ product, index, collectionId = pro
   const backHref = withBasePath(`/collections/${collectionId}/`);
   return <div className="lr-detail-page">{product && <nav className="lr-breadcrumbs"><a href={withBasePath('/')} data-preview-static="detail-home-link">Home</a><span>/</span><a href={backHref} data-preview-static="detail-collection-link">{collection.label}</a><span>/</span><span aria-current="page" data-preview-field-path={`products[${index}].name`}>{product.name}</span></nav>}
     <div className="lr-detail-layout">{product && <ProductPhotoGallery key={String(product.id)} product={product} index={index} thumbnails />}
-      <section className="lr-detail-info"><EditableText as="span" className="lr-brand" fieldPath="productDetail.brand" defaultValue={text('brand', 'LUMI LIVING')} />{product && <><EditableText as="h1" data-preview-field-path={`products[${index}].name`} defaultValue={product.name} /><EditableText as="p" className="lr-detail-category" data-preview-field-path={`products[${index}].category`} defaultValue={product.category} />
+      <section className="lr-detail-info"><EditableText as="span" className="lr-brand" fieldPath="productDetail.brand" defaultValue={text('brand', 'LUMI LIVING')} />{product && <><EditableText as="h1" data-preview-field-path={`products[${index}].name`} defaultValue={product.name} /><EditableText as="p" className="lr-detail-category" data-preview-field-path={`products[${index}].category`} defaultValue={product.category} /><ProductRatingSummary productId={String(product.id)} />
         <div className="lr-detail-prices"><EditableText as="p" data-preview-field-path={`products[${index}].price`} defaultValue={formatPrice(product.price)} />{originalKey && <EditableText as="s" data-preview-field-path={`products[${index}].${originalKey}`} defaultValue={formatPrice(product[originalKey])} />}{originalKey && Number(product.price) > 0 && <span className="lr-discount-badge">{copy('savingLabel', 'Save')} {Math.round((1 - Number(product.price) / Number(product[originalKey])) * 100)}%</span>}</div>
         <EditableText as="p" className="lr-detail-description" data-preview-field-path={`products[${index}].description`} defaultValue={product.description} /></>}
         {product && <div className={`lr-availability${product.isAvailable === false ? ' is-unavailable' : ''}`} data-preview-field-path={`products[${index}].isAvailable`}><span aria-hidden="true" />{product.isAvailable === false ? copy('unavailableLabel', 'Currently unavailable') : product.isAvailable === true ? copy('availableLabel', 'Available for enquiry') : copy('availabilityLabel', 'Ask us about availability')}</div>}
@@ -51,6 +52,7 @@ export default function LivingProductDetail({ product, index, collectionId = pro
         <a href={backHref} className="lr-back-link" data-preview-static="detail-back-to-collection">← Back to the {collection.label.toLowerCase()} collection</a><p className="lr-sample-note" data-preview-static="sample-product-disclosure">Sample product and price. Additional views are AI-generated illustrations of this piece.</p>
       </section>
     </div>
+    {product && <CustomerReviews productId={String(product.id)} productName={String(product.name || 'this piece')} />}
     {!!related.length && <section className="lr-related" aria-labelledby="lumi-best-sellers-label"><div className="lumi-section-top"><div><span className="lr-brand">{copy('relatedEyebrow', 'CONTINUE YOUR EDIT')}</span><h2 id="lumi-best-sellers-label">{copy('relatedHeading', 'Room for something more.')}</h2></div><a href={backHref}>{copy('relatedLinkLabel', 'Explore the collection')} <span aria-hidden="true">&#8599;</span></a></div><HomeProductCarousel label="related pieces" related>{related.map(({ item, position }) => <FurnitureProductCard key={String(item.id)} product={item} index={position} compact />)}</HomeProductCarousel></section>}
   </div>;
 }

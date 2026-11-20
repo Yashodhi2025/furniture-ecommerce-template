@@ -49,8 +49,6 @@
   .lumi-site .lumi-heading { font-size:var(--deneb-font-size,var(--ui-font-section))!important; }
   .lumi-site :is(.lumi-section-description,.lumi-category-card p,.lumi-value-card p) { font-size:var(--deneb-font-size,13px)!important; }
   .lumi-site .lumi-home .lumi-product-card [data-preview-field-path$=".description"] { font-size:var(--deneb-font-size,13px)!important; }
-  .lumi-site .lumi-home .lumi-rooms .lumi-category-grid { gap:24px 19px; }
-  .lumi-site .lumi-home .lumi-rooms .lumi-category-card:first-child h3 { font-size:var(--deneb-font-size,28px)!important; }
   .lumi-site .lumi-category-card h3 { font-size:var(--deneb-font-size,19px)!important; }
   .lumi-site .lumi-home .lumi-product-grid { gap:30px 21px; }
   .lumi-site .lumi-home .lumi-look-grid { gap:35px; }
