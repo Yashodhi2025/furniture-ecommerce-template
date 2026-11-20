@@ -7,6 +7,7 @@ import NewsletterSection from '@/components/NewsletterSection';
 import FurnitureProductCard from '@/components/FurnitureProductCard';
 import ShopTheLook from '@/components/ShopTheLook';
 import HomeProductCarousel from '@/components/HomeProductCarousel';
+import NewArrivalsCarousel from '@/components/NewArrivalsCarousel';
 import RoomShowcase from '@/components/RoomShowcase';
 import HomeHeroMotion, { HomeHeroStartup } from '@/components/HomeHeroMotion';
 import HomeHeroShowcase from '@/components/HomeHeroShowcase';
@@ -67,9 +68,7 @@ export default function HomePage() {
           <div><EditableText as="p" fieldPath="home.productsEyebrow" defaultValue={text('productsEyebrow')} className="lumi-eyebrow" /><EditableText as="h2" fieldPath="home.productsHeading" defaultValue={text('productsHeading')} className="lumi-heading" /></div>
           <EditableText as="p" fieldPath="home.productsSummary" defaultValue={text('productsSummary')} className="lumi-section-description" />
         </div>
-        <div className="lumi-product-grid" data-preview-list-path="products" data-home-collection="new-arrivals">
-          {newArrivals.map(({ product, index }) => <FurnitureProductCard key={product.id ?? index} product={product} index={index} />)}
-        </div>
+        <NewArrivalsCarousel items={newArrivals} />
         <EditableText as="p" fieldPath="home.sampleNote" defaultValue={text('sampleNote')} className="lumi-sample-note" />
       </EditableSection>
 
