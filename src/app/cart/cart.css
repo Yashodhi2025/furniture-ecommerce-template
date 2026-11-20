@@ -1,4 +1,5 @@
-.lumi-cart{max-width:1500px;min-height:55vh;margin:auto;padding:56px 5% 80px;color:#3D2B20}
+.lumi-cart{max-width:1500px;min-height:55vh;margin:auto;padding:56px 5% 80px;color:#3D2B20;overflow-x:clip}
+.lumi-cart-sidebar{min-width:0;display:flex;flex-direction:column}
 .lumi-cart-heading{margin-bottom:40px}.lumi-cart-heading h1{font-size:clamp(32px,4vw,50px);font-weight:400;letter-spacing:-.045em;line-height:1.2;margin:0 0 14px}.lumi-cart-heading p{color:#715238;font-size:14px;line-height:1.8;margin:0}
 /* EditableText's inline inherit fallback must retain the page's type scale. */
 .lumi-site .lumi-cart-heading h1{font-size:var(--deneb-font-size,clamp(32px,4vw,50px))!important;line-height:var(--deneb-line-height,1.2)!important;letter-spacing:var(--deneb-letter-spacing,-.045em)!important}

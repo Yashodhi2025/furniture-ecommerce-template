@@ -6,6 +6,7 @@ import { EditableSection, EditableText } from '@deneb-ui/ui';
 import { contentObject, contentText, isTemplateValidation, useProducts, useSiteData } from '@/lib/siteDataContext';
 import { productHref } from '@/lib/living-room';
 import EnquiryWhatsApp from '@/components/EnquiryWhatsApp';
+import CartFurnitureDrop from '@/components/CartFurnitureDrop';
 import { CART_KEY, CART_CHANGE_EVENT } from '@/lib/shoppingStorage';
 import { withBasePath } from '@/lib/utils';
 import './cart.css';
@@ -111,13 +112,16 @@ export default function CartPage() {
         </article>)}
         {continueShopping}
       </section>
-      <EditableSection name="cart-summary" padding="none" className="lumi-cart-summary">
-        {copy('summaryTitle', 'h2')}
-        <div>{copy('subtotalLabel')}<span data-preview-static="cart-subtotal">{money(subtotal)}</span></div>
-        <div className="lumi-cart-total" aria-live="polite">{copy('totalLabel')}<strong data-preview-static="cart-total">{money(subtotal)}</strong></div>
-        <div className="lumi-cart-enquiry-note">{copy('enquiryNote', 'p')}</div>
-        <EnquiryWhatsApp items={items} disabled={!ready || !!error || !items.length} contact />
-      </EditableSection>
+      <div className="lumi-cart-sidebar">
+        <CartFurnitureDrop settings={settings} />
+        <EditableSection name="cart-summary" padding="none" className="lumi-cart-summary">
+          {copy('summaryTitle', 'h2')}
+          <div>{copy('subtotalLabel')}<span data-preview-static="cart-subtotal">{money(subtotal)}</span></div>
+          <div className="lumi-cart-total" aria-live="polite">{copy('totalLabel')}<strong data-preview-static="cart-total">{money(subtotal)}</strong></div>
+          <div className="lumi-cart-enquiry-note">{copy('enquiryNote', 'p')}</div>
+          <EnquiryWhatsApp items={items} disabled={!ready || !!error || !items.length} contact />
+        </EditableSection>
+      </div>
     </div> : null}
     {(preview || (ready && !items.length && !error)) && <EditableSection name="cart-empty" padding="none" className="lumi-cart-empty">
       <svg width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" aria-hidden="true"><path d="M5 7h14l1 14H4L5 7ZM9 8V6a3 3 0 0 1 6 0v2" /></svg>

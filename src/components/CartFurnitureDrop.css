@@ -1,0 +1,267 @@
+/* Premium drop-and-bounce furniture entrance above the Cart summary card. */
+.cart-drop-showcase {
+  --cart-piece-size: 84px;
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  padding: 6px 10px 0;
+  margin-bottom: 14px;
+  box-sizing: border-box;
+  overflow: visible;
+  pointer-events: none;
+  user-select: none;
+}
+
+.cart-drop-stage {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: clamp(10px, 2.2vw, 22px);
+  width: 100%;
+  min-height: calc(var(--cart-piece-size) * 0.9);
+  padding-inline: 4px;
+  box-sizing: border-box;
+}
+
+.cart-drop-slot {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  flex: 0 1 auto;
+  min-width: 0;
+  max-width: 34%;
+}
+
+.cart-drop-slot--sofa {
+  width: calc(var(--cart-piece-size) * 1.32);
+  height: calc(var(--cart-piece-size) * 0.72);
+  max-width: 40%;
+}
+
+.cart-drop-slot--chair {
+  width: calc(var(--cart-piece-size) * 0.84);
+  height: calc(var(--cart-piece-size) * 0.84);
+  max-width: 28%;
+}
+
+.cart-drop-slot--table {
+  width: calc(var(--cart-piece-size) * 1.12);
+  height: calc(var(--cart-piece-size) * 0.88);
+  max-width: 34%;
+}
+
+.cart-drop-piece {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  transform-origin: center bottom;
+  will-change: transform, opacity;
+  animation:
+    cart-drop-fade 220ms ease-out var(--drop-delay, 80ms) both,
+    cart-drop-bounce 1350ms var(--drop-delay, 80ms) both;
+}
+
+.cart-drop-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center bottom;
+  filter: drop-shadow(0 4px 6px rgba(61, 43, 32, 0.14));
+}
+
+.cart-drop-shadow {
+  position: absolute;
+  left: 8%;
+  right: 8%;
+  bottom: -2px;
+  height: 8px;
+  z-index: 1;
+  border-radius: 50%;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(61, 43, 32, 0.28) 0%,
+    rgba(113, 82, 56, 0.13) 50%,
+    rgba(113, 82, 56, 0) 76%
+  );
+  filter: blur(2.4px);
+  transform-origin: center;
+  will-change: transform, opacity;
+  animation: cart-drop-shadow-land 1350ms var(--drop-delay, 80ms) both;
+}
+
+.cart-drop-baseline {
+  position: relative;
+  width: 100%;
+  height: 1.5px;
+  margin-top: 1px;
+  background: linear-gradient(
+    90deg,
+    rgba(183, 154, 122, 0.08) 0%,
+    rgba(137, 86, 56, 0.45) 16%,
+    rgba(113, 82, 56, 0.58) 50%,
+    rgba(137, 86, 56, 0.45) 84%,
+    rgba(183, 154, 122, 0.08) 100%
+  );
+  box-shadow: 0 1px 0 rgba(255, 248, 240, 0.65);
+}
+
+/* Smooth fade-in layered separately so the gravity curve stays mathematically seamless. */
+@keyframes cart-drop-fade {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+/* Natural gravity fall, realistic subtle squash-and-stretch on landing, two damped spring bounces, then calm settle. */
+@keyframes cart-drop-bounce {
+  0% {
+    transform: translate3d(0, -210px, 0) scaleX(0.96) scaleY(1.05);
+    animation-timing-function: cubic-bezier(0.55, 0.055, 0.75, 0.22);
+  }
+  42% {
+    transform: translate3d(0, 0px, 0) scaleX(1.075) scaleY(0.91);
+    animation-timing-function: cubic-bezier(0.22, 0.61, 0.36, 1);
+  }
+  60% {
+    transform: translate3d(0, -22px, 0) scaleX(0.985) scaleY(1.02);
+    animation-timing-function: cubic-bezier(0.55, 0.055, 0.75, 0.22);
+  }
+  74% {
+    transform: translate3d(0, 0px, 0) scaleX(1.032) scaleY(0.962);
+    animation-timing-function: cubic-bezier(0.22, 0.61, 0.36, 1);
+  }
+  84% {
+    transform: translate3d(0, -7px, 0) scaleX(0.995) scaleY(1.006);
+    animation-timing-function: cubic-bezier(0.55, 0.055, 0.75, 0.22);
+  }
+  93% {
+    transform: translate3d(0, 0px, 0) scaleX(1.01) scaleY(0.988);
+    animation-timing-function: ease-out;
+  }
+  100% {
+    transform: translate3d(0, 0px, 0) scaleX(1) scaleY(1);
+  }
+}
+
+@keyframes cart-drop-shadow-land {
+  0% {
+    opacity: 0;
+    transform: scaleX(0.32) scaleY(0.4);
+    animation-timing-function: cubic-bezier(0.55, 0.055, 0.75, 0.22);
+  }
+  42% {
+    opacity: 0.96;
+    transform: scaleX(1.08) scaleY(1.04);
+    animation-timing-function: cubic-bezier(0.22, 0.61, 0.36, 1);
+  }
+  60% {
+    opacity: 0.48;
+    transform: scaleX(0.76) scaleY(0.78);
+    animation-timing-function: cubic-bezier(0.55, 0.055, 0.75, 0.22);
+  }
+  74% {
+    opacity: 0.92;
+    transform: scaleX(1.03) scaleY(1.02);
+    animation-timing-function: cubic-bezier(0.22, 0.61, 0.36, 1);
+  }
+  84% {
+    opacity: 0.72;
+    transform: scaleX(0.9) scaleY(0.9);
+    animation-timing-function: cubic-bezier(0.55, 0.055, 0.75, 0.22);
+  }
+  93% {
+    opacity: 0.9;
+    transform: scaleX(1.01) scaleY(1.01);
+    animation-timing-function: ease-out;
+  }
+  100% {
+    opacity: 0.88;
+    transform: scaleX(1) scaleY(1);
+  }
+}
+
+/* Allow direct visual clicking on each image inside Fivora edit mode. */
+.cart-drop-showcase[data-static='true'],
+.lumi-enquiry-page[data-enquiry-editing='true'] .cart-drop-showcase,
+.lumi-site[data-card-editing='true'] .cart-drop-showcase {
+  pointer-events: auto;
+}
+
+.cart-drop-showcase[data-static='true'] .cart-drop-piece,
+.cart-drop-showcase[data-static='true'] .cart-drop-shadow,
+.lumi-enquiry-page[data-enquiry-editing='true'] .cart-drop-piece,
+.lumi-enquiry-page[data-enquiry-editing='true'] .cart-drop-shadow,
+.lumi-site[data-card-editing='true'] .cart-drop-piece,
+.lumi-site[data-card-editing='true'] .cart-drop-shadow {
+  animation: none !important;
+  opacity: 1 !important;
+  transform: none !important;
+}
+
+.cart-drop-showcase[data-static='true'] .cart-drop-shadow,
+.lumi-enquiry-page[data-enquiry-editing='true'] .cart-drop-shadow,
+.lumi-site[data-card-editing='true'] .cart-drop-shadow {
+  opacity: 0.88 !important;
+}
+
+@media (max-width: 850px) {
+  .cart-drop-showcase {
+    padding: 4px 8px 0;
+    margin-bottom: 12px;
+  }
+
+  .cart-drop-stage {
+    gap: clamp(12px, 4vw, 22px);
+  }
+}
+
+@media (max-width: 480px) {
+  .cart-drop-showcase {
+    padding: 4px 4px 0;
+    margin-bottom: 10px;
+  }
+
+  .cart-drop-stage {
+    gap: 10px;
+    min-height: calc(min(var(--cart-piece-size), 72px) * 0.9);
+  }
+
+  .cart-drop-slot--sofa {
+    width: calc(min(var(--cart-piece-size), 72px) * 1.32);
+    height: calc(min(var(--cart-piece-size), 72px) * 0.72);
+  }
+
+  .cart-drop-slot--chair {
+    width: calc(min(var(--cart-piece-size), 72px) * 0.84);
+    height: calc(min(var(--cart-piece-size), 72px) * 0.84);
+  }
+
+  .cart-drop-slot--table {
+    width: calc(min(var(--cart-piece-size), 72px) * 1.12);
+    height: calc(min(var(--cart-piece-size), 72px) * 0.88);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cart-drop-piece {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .cart-drop-shadow {
+    animation: none !important;
+    opacity: 0.88 !important;
+    transform: none !important;
+  }
+}

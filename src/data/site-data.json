@@ -136,7 +136,12 @@
       "removeLabel": "Remove",
       "subtotalLabel": "Subtotal",
       "totalLabel": "Estimated total",
-      "enquiryNote": "Send your selection to our team on WhatsApp. Availability, delivery and the final quotation will be confirmed with you. You send the message yourself; no payment is taken here."
+      "enquiryNote": "Send your selection to our team on WhatsApp. Availability, delivery and the final quotation will be confirmed with you. You send the message yourself; no payment is taken here.",
+      "animationEnabled": true,
+      "animationImageSize": 84,
+      "animationFurniture1": "/images/hero/sofa.webp",
+      "animationFurniture2": "/images/hero/chair.webp",
+      "animationFurniture3": "/images/cart/dining-table.webp"
     },
     "enquiry": {
       "whatsappNumber": "",

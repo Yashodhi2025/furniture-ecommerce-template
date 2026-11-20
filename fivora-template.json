@@ -56,7 +56,9 @@
       "home.look.hotspots[*].productId",
       "home.look.hotspots[*].x",
       "home.look.hotspots[*].y",
-      "announcements.enabled"
+      "announcements.enabled",
+      "cart.animationEnabled",
+      "cart.animationImageSize"
     ]
   },
   "siteDataFile": "src/data/site-data.json",
@@ -331,6 +333,33 @@
             "key": "totalLabel",
             "type": "text",
             "label": "Total label"
+          },
+          {
+            "key": "animationEnabled",
+            "type": "boolean",
+            "label": "Enable Cart Furniture Animation"
+          },
+          {
+            "key": "animationImageSize",
+            "type": "number",
+            "label": "Cart Animation Furniture Size (px)",
+            "min": 48,
+            "max": 130
+          },
+          {
+            "key": "animationFurniture1",
+            "type": "image",
+            "label": "Cart Animation Furniture 1"
+          },
+          {
+            "key": "animationFurniture2",
+            "type": "image",
+            "label": "Cart Animation Furniture 2"
+          },
+          {
+            "key": "animationFurniture3",
+            "type": "image",
+            "label": "Cart Animation Furniture 3"
           }
         ]
       },
