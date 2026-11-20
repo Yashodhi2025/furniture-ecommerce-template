@@ -22,6 +22,40 @@ const FLOAT_TIMINGS = [
   { duration: '4.85s', delay: '0.2s' },
 ];
 
+const ROOM_TONES: Record<string, { tintTop: string; tintMid: string; tintBottom: string; glow: string }> = {
+  'living-room': {
+    tintTop: 'rgba(236, 198, 148, 0.22)',
+    tintMid: 'rgba(138, 86, 44, 0.16)',
+    tintBottom: 'rgba(72, 41, 20, 0.72)',
+    glow: 'rgba(228, 191, 134, 0.46)',
+  },
+  bedroom: {
+    tintTop: 'rgba(244, 222, 198, 0.24)',
+    tintMid: 'rgba(150, 106, 76, 0.14)',
+    tintBottom: 'rgba(84, 52, 36, 0.70)',
+    glow: 'rgba(236, 207, 168, 0.45)',
+  },
+  'kitchen-dining': {
+    tintTop: 'rgba(226, 174, 132, 0.22)',
+    tintMid: 'rgba(148, 84, 48, 0.17)',
+    tintBottom: 'rgba(78, 39, 24, 0.74)',
+    glow: 'rgba(224, 182, 132, 0.46)',
+  },
+  office: {
+    tintTop: 'rgba(216, 188, 154, 0.20)',
+    tintMid: 'rgba(112, 76, 50, 0.16)',
+    tintBottom: 'rgba(58, 37, 23, 0.76)',
+    glow: 'rgba(218, 186, 140, 0.44)',
+  },
+  'lighting-decor': {
+    tintTop: 'rgba(246, 214, 162, 0.26)',
+    tintMid: 'rgba(166, 114, 56, 0.15)',
+    tintBottom: 'rgba(80, 50, 22, 0.70)',
+    glow: 'rgba(240, 208, 148, 0.50)',
+  },
+};
+const FALLBACK_TONES = Object.values(ROOM_TONES);
+
 export default function RoomShowcase({ rooms }: { rooms: unknown }) {
   const items = contentList(rooms).map(contentObject);
   const [selected, setSelected] = useState(0);
@@ -283,12 +317,22 @@ export default function RoomShowcase({ rooms }: { rooms: unknown }) {
       onClickCapture={event => { if (swiped.current) { event.preventDefault(); event.stopPropagation(); swiped.current = false; } }}>
       {items.map((item, index) => {
         const path = `home.categories[${index}]`;
+        const roomId = contentText(item.id);
         const offset = offsetOf(index, active, items.length);
         const isActive = index === active;
         const floatTiming = FLOAT_TIMINGS[index % FLOAT_TIMINGS.length];
-        return <div key={contentText(item.id) || index} ref={element => { panels.current[index] = element; }} className="room-panel-position"
-          data-offset={offset} aria-hidden={Math.abs(offset) > 2 || undefined}
-          style={{ '--room-order': index, '--float-duration': floatTiming.duration, '--float-delay': floatTiming.delay } as CSSProperties}>
+        const tone = ROOM_TONES[roomId] ?? FALLBACK_TONES[index % FALLBACK_TONES.length];
+        return <div key={roomId || index} ref={element => { panels.current[index] = element; }} className="room-panel-position"
+          data-offset={offset} data-room-id={roomId || undefined} aria-hidden={Math.abs(offset) > 2 || undefined}
+          style={{
+            '--room-order': index,
+            '--float-duration': floatTiming.duration,
+            '--float-delay': floatTiming.delay,
+            '--room-tint-top': tone.tintTop,
+            '--room-tint-mid': tone.tintMid,
+            '--room-tint-bottom': tone.tintBottom,
+            '--room-glow': tone.glow,
+          } as CSSProperties}>
           <EditableCard item={{}} itemPath={path} data-preview-item-path={path} className="room-panel" as="article">
             <a className="room-panel-link" href={withBasePath(contentText(item.linkUrl))} data-preview-field-path={`${path}.linkUrl`}
               aria-current={isActive ? 'true' : undefined} tabIndex={isActive ? 0 : -1}

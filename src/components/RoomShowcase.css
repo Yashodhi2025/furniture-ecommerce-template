@@ -23,7 +23,12 @@
   z-index:1;
   opacity:.9;
   transform:translate3d(0,12px,-110px) scale(.74);
-  transition:transform 720ms cubic-bezier(.22,1,.36,1),opacity 560ms ease,translate 360ms cubic-bezier(.22,1,.36,1);
+  transition:
+    transform 720ms cubic-bezier(.22,1,.36,1),
+    translate 400ms cubic-bezier(.22,1,.36,1),
+    scale 400ms cubic-bezier(.22,1,.36,1),
+    opacity 400ms ease,
+    filter 400ms ease;
   will-change:transform,opacity;
 }
 .room-panel-position[data-offset="0"] {
@@ -66,7 +71,7 @@
   border-radius:var(--deneb-card-radius,22px)!important;
   background:#735139!important;
   box-shadow:0 12px 26px #4a2d181c!important;
-  transition:box-shadow 450ms ease,border-color 450ms ease;
+  transition:box-shadow 400ms cubic-bezier(.22,1,.36,1),border-color 400ms ease;
 }
 .lumi-site .room-panel-position[data-offset="0"] .room-panel {
   border-color:#c99a6766!important;
@@ -89,12 +94,29 @@
   max-height:none;
   object-fit:cover;
   transform:scale(1.02);
-  transition:scale 750ms cubic-bezier(.22,1,.36,1),filter 450ms ease;
+  transition:scale 400ms cubic-bezier(.22,1,.36,1),filter 400ms ease;
+}
+/* Per-category warm-toned atmospheric hover overlay */
+.room-panel-link::before {
+  content:'';
+  position:absolute;
+  inset:0;
+  z-index:1;
+  pointer-events:none;
+  opacity:0;
+  background:linear-gradient(
+    180deg,
+    var(--room-tint-top,rgba(236,198,148,.22)) 0%,
+    var(--room-tint-mid,rgba(138,86,44,.15)) 48%,
+    var(--room-tint-bottom,rgba(72,41,20,.72)) 100%
+  );
+  transition:opacity 400ms cubic-bezier(.22,1,.36,1);
 }
 .room-panel-link::after {
   content:'';
   position:absolute;
   inset:0;
+  z-index:1;
   pointer-events:none;
   background:linear-gradient(180deg,#23160d00 34%,#23160d42 57%,#1c110ad6 100%);
   transition:opacity 400ms ease;
@@ -105,7 +127,7 @@
   left:18px;
   right:18px;
   bottom:18px;
-  transition:opacity 360ms ease,transform 420ms cubic-bezier(.22,1,.36,1);
+  transition:opacity 360ms ease,transform 400ms cubic-bezier(.22,1,.36,1);
 }
 .lumi-site .room-panel .room-panel-title {
   margin:0;
@@ -123,15 +145,20 @@
   display:grid;
   grid-template-rows:0fr;
   opacity:0;
-  transition:grid-template-rows 520ms cubic-bezier(.22,1,.36,1),opacity 380ms ease;
+  transition:grid-template-rows 400ms cubic-bezier(.22,1,.36,1),opacity 380ms ease;
 }
 .room-panel-details-inner {
   overflow:hidden;
   min-height:0;
+  transform:translateY(12px);
+  transition:transform 400ms cubic-bezier(.22,1,.36,1);
 }
 .room-panel-position[data-offset="0"] .room-panel-details {
   grid-template-rows:1fr;
   opacity:1;
+}
+.room-panel-position[data-offset="0"] .room-panel-details-inner {
+  transform:translateY(0);
 }
 .lumi-site .room-panel .room-panel-description {
   margin:7px 0 11px;
@@ -229,21 +256,57 @@
 }
 
 @media(hover:hover) and (pointer:fine) {
-  .room-showcase-stage[data-floating=true] .room-panel-position:hover .room-panel {
+  .room-showcase:not([data-editing=true]) .room-showcase-stage[data-floating=true] .room-panel-position:hover .room-panel {
     animation-play-state:paused;
   }
-  .room-panel-position:not([data-offset="0"]):hover {
-    translate:0 -6px;
+  /* Gently dim non-hovered cards while any room card is hovered */
+  .room-showcase:not([data-editing=true]) .room-showcase-stage:has(.room-panel-position:hover) .room-panel-position:not(:hover) {
+    opacity:.62;
+    filter:brightness(.86) saturate(.88);
+  }
+  /* Lift, scale (1.03x), and elevate every hovered card */
+  .room-showcase:not([data-editing=true]) .room-panel-position:hover {
+    z-index:6;
+    opacity:1;
+    translate:0 -8px;
+    scale:1.03;
+  }
+  /* Champagne-gold glowing border + soft warm shadow on every hovered card */
+  .lumi-site .room-showcase:not([data-editing=true]) .room-panel-position:hover .room-panel {
+    border-color:rgba(232,201,150,.88)!important;
+    box-shadow:
+      0 0 0 1px rgba(242,217,173,.52),
+      0 0 24px var(--room-glow,rgba(228,191,134,.44)),
+      0 26px 48px rgba(46,26,13,.30)!important;
+  }
+  /* Activate unique warm-toned overlay & brighten hovered room photograph */
+  .room-showcase:not([data-editing=true]) .room-panel-position:hover .room-panel-link::before {
     opacity:1;
   }
-  .room-panel-position[data-offset="0"]:hover .room-panel {
-    border-color:#d4a57488!important;
-    box-shadow:0 26px 50px #381f0f36!important;
+  .room-showcase:not([data-editing=true]) .room-panel-position:hover .room-panel-link::after {
+    opacity:.68;
   }
-  .room-panel-link:hover .room-panel-image { scale:1.045; }
-  .room-panel-link:hover .room-panel-cta-wrap { border-color:#fff6eb; }
-  .room-panel-link:hover .room-panel-cta-arrow { transform:translate(2px,-2px); }
-  .room-panel-position:not([data-offset="0"]) .room-panel-link:hover .room-panel-caption { transform:translateY(-2px); }
+  .room-showcase:not([data-editing=true]) .room-panel-position:hover .room-panel-image {
+    scale:1.045;
+    filter:brightness(1.09) saturate(1.06);
+  }
+  /* Reveal description & Explore link with gentle upward fade on every hovered card */
+  .room-showcase:not([data-editing=true]) .room-panel-position:hover .room-panel-details {
+    grid-template-rows:1fr;
+    opacity:1;
+  }
+  .room-showcase:not([data-editing=true]) .room-panel-position:hover .room-panel-details-inner {
+    transform:translateY(0);
+  }
+  .room-showcase:not([data-editing=true]) .room-panel-position:hover .room-panel-caption {
+    transform:translateY(-2px);
+  }
+  .room-showcase:not([data-editing=true]) .room-panel-link:hover .room-panel-cta-wrap {
+    border-color:#fff6eb;
+  }
+  .room-showcase:not([data-editing=true]) .room-panel-link:hover .room-panel-cta-arrow {
+    transform:translate(2px,-2px);
+  }
 }
 
 @media(max-width:960px) {
@@ -307,7 +370,7 @@
 .room-showcase[data-editing=true] .room-panel-image { animation:none!important; }
 
 @media(prefers-reduced-motion:reduce) {
-  .room-panel-position,.room-panel,.room-panel-details,.room-panel-image,.room-panel-caption,.room-panel-cta-wrap,.room-panel-cta-arrow,.room-showcase-controls button,.room-showcase-controls button svg {
+  .room-panel-position,.room-panel,.room-panel-details,.room-panel-details-inner,.room-panel-image,.room-panel-link::before,.room-panel-link::after,.room-panel-caption,.room-panel-cta-wrap,.room-panel-cta-arrow,.room-showcase-controls button,.room-showcase-controls button svg {
     transition:none!important;
   }
   .room-panel,.room-panel-image { animation:none!important; }
