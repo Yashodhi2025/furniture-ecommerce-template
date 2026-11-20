@@ -12,8 +12,8 @@ import CardCartAction from './CardCartAction';
 import './FurnitureProductCard.css';
 
 /** One card for home, collections, related pieces and saved products. */
-export default function FurnitureProductCard({ product, index, compact = false, collectionId, onWishlistToggle }: {
-  product: ProductItem; index: number; compact?: boolean; collectionId?: CollectionId; onWishlistToggle?: (saved: boolean) => void;
+export default function FurnitureProductCard({ product, index, compact = false, collectionId, saleBadge, onWishlistToggle }: {
+  product: ProductItem; index: number; compact?: boolean; collectionId?: CollectionId; saleBadge?: string; onWishlistToggle?: (saved: boolean) => void;
 }) {
   const editing = useFivoraEditMode();
   const field = (key: string) => index >= 0 ? 'products[' + index + '].' + key : undefined;
@@ -24,10 +24,14 @@ export default function FurnitureProductCard({ product, index, compact = false, 
   const price = Number.isFinite(numericPrice) ? new Intl.NumberFormat('en-LK', { maximumFractionDigits: 0 }).format(numericPrice) : String(product.price ?? '');
   const original = saleOriginalPrice(product);
   const touch = (event: PointerEvent<HTMLElement>) => { if (event.pointerType === 'touch') event.currentTarget.focus({ preventScroll: true }); };
+  const overlayActions = <>
+    {saleBadge && <span className="sale-discount-badge" data-preview-static="sale-discount-badge">{saleBadge}</span>}
+    <ProductWishlistButton product={product} onToggle={onWishlistToggle} />
+  </>;
   const content = <>
     <>{index >= 0 ? <ProductPhotoGallery catalogue minimalControls product={product} index={index} href={contextualUrl}
-      imageAction={<ProductWishlistButton product={product} onToggle={onWishlistToggle} />} /> : <div className="lr-gallery">
-        <div className="lr-gallery-stage"><a href={withBasePath(contextualUrl)} className="lr-photo-link"><img className="product-card-snapshot" src={withBasePath(String(product.imageUrl || '/placeholder.svg'))} alt={String(product.name || 'Saved product')} /></a><ProductWishlistButton product={product} onToggle={onWishlistToggle} /></div>
+      imageAction={overlayActions} /> : <div className="lr-gallery">
+        <div className="lr-gallery-stage"><a href={withBasePath(contextualUrl)} className="lr-photo-link"><img className="product-card-snapshot" src={withBasePath(String(product.imageUrl || '/placeholder.svg'))} alt={String(product.name || 'Saved product')} /></a>{overlayActions}</div>
         <div className="lr-card-thumbnail-row" />
       </div>}</>
     <div className="product-card-information">

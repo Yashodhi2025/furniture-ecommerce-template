@@ -1,13 +1,13 @@
 'use client';
 
 import { useEffect, useMemo, useRef, useState, type KeyboardEvent } from 'react';
-import { EditableText } from '@deneb-ui/ui';
-import { contentObject, contentText, useProducts, useSiteData } from '@/lib/siteDataContext';
-import { formatPrice, isLivingProduct, productHref } from '@/lib/living-room';
+import { useProducts, useSiteData, contentObject } from '@/lib/siteDataContext';
+import { formatPrice, isLivingProduct } from '@/lib/living-room';
 import { withBasePath } from '@/lib/utils';
 import FurnitureProductCard from './FurnitureProductCard';
 import CollectionHero from './CollectionHero';
-import { collections, matchesCollectionFilter, saleOriginalPrice, type CollectionId } from '@/lib/collections';
+import { collections, matchesCollectionFilter, saleDiscountPercent, saleOriginalPrice, type CollectionId } from '@/lib/collections';
+import './SaleCollection.css';
 
 const sortOptions = <><option value="featured">Featured</option><option value="price-low">Price: low to high</option><option value="price-high">Price: high to low</option><option value="name">Name: A–Z</option></>;
 export default function LivingRoomProducts({ collectionId = 'living-room' }: { collectionId?: CollectionId }) {
@@ -29,9 +29,35 @@ export default function LivingRoomProducts({ collectionId = 'living-room' }: { c
   const drawerAnimation = useRef<Animation | null>(null);
   const dialog = useRef<HTMLDialogElement>(null);
   const trigger = useRef<HTMLButtonElement>(null);
+  const gridRef = useRef<HTMLDivElement>(null);
+  const isSale = collectionId === 'sale';
+  const maxDiscount = useMemo(() => {
+    if (!isSale) return undefined;
+    const values = catalog.map(({ product }) => saleDiscountPercent(product) ?? 0);
+    const highest = Math.max(0, ...values);
+    return highest > 0 ? highest : undefined;
+  }, [catalog, isSale]);
   const priceLimit = maxPrice ?? ceiling;
   const filtered = catalog.filter(({ product }) => matchesCollectionFilter(product.category, category, collectionId) && Number(product.price) <= priceLimit).sort((a, b) => sort === 'price-low' ? Number(a.product.price) - Number(b.product.price) : sort === 'price-high' ? Number(b.product.price) - Number(a.product.price) : sort === 'name' ? String(a.product.name).localeCompare(String(b.product.name)) : a.index - b.index);
   const draftCount = catalog.filter(({ product }) => matchesCollectionFilter(product.category, draftCategory, collectionId) && Number(product.price) <= (draftPrice ?? ceiling)).length;
+  useEffect(() => {
+    if (!isSale || !gridRef.current) return;
+    const cards = Array.from(gridRef.current.querySelectorAll<HTMLElement>('.product-card'));
+    if (!cards.length) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window)) {
+      cards.forEach(card => { card.dataset.saleVisible = 'true'; });
+      return;
+    }
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        (entry.target as HTMLElement).dataset.saleVisible = 'true';
+        observer.unobserve(entry.target);
+      });
+    }, { threshold: 0.12 });
+    cards.forEach(card => observer.observe(card));
+    return () => observer.disconnect();
+  }, [isSale, filtered.length, sort, category, maxPrice]);
   const closeFilters = () => {
     if (closing) return;
     const element = dialog.current;
@@ -74,7 +100,7 @@ export default function LivingRoomProducts({ collectionId = 'living-room' }: { c
     else if (!event.shiftKey && document.activeElement === buttons.at(-1)) { event.preventDefault(); buttons[0]?.focus(); }
   };
   const clear = () => { setCategory(''); setMaxPrice(null); setDraftCategory(''); setDraftPrice(null); };
-  return <div className="lr-collection" data-preview-page-key={collection.pageId}>
+  return <div className={`lr-collection${isSale ? ' lr-collection-sale' : ''}`} data-preview-page-key={collection.pageId}>
     <header className="lr-heading">
       <nav className="lr-breadcrumbs" aria-labelledby={`${collectionId}-breadcrumbs-label`}>
         <span id={`${collectionId}-breadcrumbs-label`} className="sr-only" data-preview-static="breadcrumb-accessible-label">Breadcrumb</span>
@@ -82,12 +108,23 @@ export default function LivingRoomProducts({ collectionId = 'living-room' }: { c
         <a href={withBasePath('/#categories')} data-preview-static="collection-index-link">Collections</a><span>/</span>
         <span aria-current="page" data-preview-static="collection-route-label">{collection.label}</span>
       </nav>
-      <CollectionHero key={collectionId} collectionId={collectionId} heading={heading} headingPath={headingPath} />
+      <CollectionHero key={collectionId} collectionId={collectionId} heading={heading} headingPath={headingPath} maxDiscount={maxDiscount} />
     </header>
     <section id={`${collectionId}-products`} aria-labelledby={`${collectionId}-title`}>
-      <div className="lr-collection-toolbar"><button type="button" className="lr-filter-button" ref={trigger} aria-haspopup="dialog" data-preview-static="collection-open-filters" onClick={() => { setDraftCategory(category); setDraftPrice(maxPrice); setOpen(true); }}><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18M8 3v6M16 9v6M10 15v6" /></svg>Show filters{(category || maxPrice !== null) && <span className="lr-filter-indicator" />}</button><span className="lr-product-count" role="status" aria-live="polite" data-preview-static="collection-result-count">{filtered.length} {filtered.length === 1 ? 'product' : 'products'}</span><label className="lr-sort"><span data-preview-static="collection-sort-label">Sort by:</span><select aria-label="Sort products" data-preview-static="collection-sort-options" value={sort} onChange={event => setSort(event.target.value)}>{sortOptions}</select></label></div>
+      <div className="lr-collection-toolbar">
+        <button type="button" className="lr-filter-button" ref={trigger} aria-haspopup="dialog" data-preview-static="collection-open-filters" onClick={() => { setDraftCategory(category); setDraftPrice(maxPrice); setOpen(true); }}><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18M8 3v6M16 9v6M10 15v6" /></svg>Show filters{(category || maxPrice !== null) && <span className="lr-filter-indicator" />}</button>
+        <span className="lr-product-count" role="status" aria-live="polite" data-preview-static="collection-result-count">{filtered.length} {filtered.length === 1 ? 'product' : 'products'}</span>
+        {isSale && <span className="sale-toolbar-pill" data-preview-static="sale-only-indicator">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.59 13.41 13.42 20.58a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82ZM7 7a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3Z" /></svg>
+          Sale Only
+        </span>}
+        <label className="lr-sort"><span data-preview-static="collection-sort-label">Sort by:</span><select aria-label="Sort products" data-preview-static="collection-sort-options" value={sort} onChange={event => setSort(event.target.value)}>{sortOptions}</select></label>
+      </div>
       {(category || maxPrice !== null) && <div className="lr-active-filters">{category && <button type="button" onClick={() => setCategory('')}>{category} ×</button>}{maxPrice !== null && <button type="button" onClick={() => setMaxPrice(null)}>Up to {formatPrice(maxPrice)} ×</button>}<button type="button" onClick={clear}>Clear filters</button></div>}
-      <div className="lr-product-grid" data-preview-list-path="products">{filtered.map(({ product, index }) => <FurnitureProductCard key={String(product.id)} product={product} index={index} collectionId={collectionId} />)}</div>
+      <div ref={gridRef} className="lr-product-grid" data-preview-list-path="products">{filtered.map(({ product, index }) => {
+        const discount = isSale ? saleDiscountPercent(product) : undefined;
+        return <FurnitureProductCard key={String(product.id)} product={product} index={index} collectionId={collectionId} saleBadge={discount ? `SALE · ${discount}% OFF` : undefined} />;
+      })}</div>
       {!filtered.length && <div className="lr-empty"><h2 data-preview-static="collection-empty-heading">A little more room to explore.</h2><p data-preview-static="collection-empty-message">No products match these filters.</p><button type="button" className="lr-filter-button" data-preview-static="collection-reset-action" onClick={clear}>View all products</button></div>}
       <p className="lr-sample-note" data-preview-static="sample-collection-disclosure">A sample collection for LUMI LIVING. Additional product views are AI-generated illustrations.</p>
     </section>

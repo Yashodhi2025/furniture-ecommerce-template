@@ -34,6 +34,14 @@ export function saleOriginalPrice(product: { price?: unknown; compareAtPrice?: u
   return Number.isFinite(price) && price > 0 && Number.isFinite(original) && original > price ? original : undefined;
 }
 
+export function saleDiscountPercent(product: { price?: unknown; compareAtPrice?: unknown; originalPrice?: unknown }) {
+  const original = saleOriginalPrice(product);
+  if (original === undefined) return undefined;
+  const price = Number(product.price);
+  const percent = Math.round(((original - price) / original) * 100);
+  return percent > 0 ? percent : undefined;
+}
+
 export function isCollectionId(value: string | null | undefined): value is CollectionId {
   return Boolean(value && Object.hasOwn(collections, value));
 }

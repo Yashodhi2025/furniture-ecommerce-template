@@ -1,0 +1,524 @@
+/* Sale collection page presentation & animations. Strictly scoped to .lr-collection-sale and .collection-hero-sale. */
+.lr-collection-sale {
+  --sale-terracotta: #B84335;
+  --sale-terracotta-deep: #943226;
+  --sale-terracotta-soft: #C65344;
+  --sale-blush: #FBF2EE;
+}
+
+/* ==================== SALE HERO ==================== */
+.lumi-site .collection-hero.collection-hero-sale {
+  height: 316px;
+  border-color: rgba(185, 138, 88, 0.45);
+  background:
+    radial-gradient(ellipse 56% 84% at 32% 10%, rgba(204, 148, 92, 0.28), transparent 62%),
+    linear-gradient(112deg, #4a2a19 0%, #633820 48%, #8b5431 100%);
+  box-shadow: 0 16px 36px rgba(61, 37, 25, 0.16);
+}
+
+.collection-hero-sale .sale-hero-decor {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.collection-hero-sale .sale-hero-watermark {
+  position: absolute;
+  left: 34%;
+  top: 50%;
+  transform: translateY(-54%);
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: clamp(132px, 14vw, 186px);
+  font-weight: 400;
+  line-height: 1;
+  color: rgba(255, 232, 206, 0.09);
+  user-select: none;
+}
+
+.collection-hero-sale .sale-hero-flourish {
+  position: absolute;
+  left: 16%;
+  bottom: 0;
+  width: 34%;
+  height: 56%;
+  opacity: 0.45;
+}
+
+.collection-hero-sale .collection-hero-copy {
+  width: 50%;
+  padding: 28px 24px 28px 42px;
+}
+
+.collection-hero-sale .sale-hero-eyebrow-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin: 0 0 12px;
+  padding: 5px 13px;
+  border: 1px solid rgba(246, 217, 182, 0.24);
+  border-radius: 999px;
+  background: rgba(245, 214, 178, 0.14);
+  color: #f7e4cd !important;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.13em;
+  line-height: 1.4;
+}
+
+.collection-hero-sale .sale-hero-title-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+}
+
+.collection-hero-sale .sale-hero-badge {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px 14px;
+  border: 1px solid rgba(255, 226, 214, 0.28);
+  border-radius: 999px;
+  background: linear-gradient(135deg, var(--sale-terracotta-soft), var(--sale-terracotta));
+  color: #fff8f3;
+  font-family: var(--body-font, Inter, sans-serif);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  line-height: 1.2;
+  box-shadow: 0 6px 16px rgba(128, 36, 25, 0.36);
+}
+
+.collection-hero-sale .sale-hero-sparks {
+  position: absolute;
+  top: -11px;
+  right: -13px;
+  width: 18px;
+  height: 18px;
+  color: #fce8d4;
+  pointer-events: none;
+}
+
+.collection-hero-sale .sale-hero-offer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin: 12px 0 0;
+  color: #fff0df;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.collection-hero-sale .sale-hero-offer-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 10px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, var(--sale-terracotta-soft), var(--sale-terracotta));
+  color: #fff8f3;
+  font-size: 12.5px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  box-shadow: 0 4px 10px rgba(128, 36, 25, 0.28);
+}
+
+.lumi-site .collection-hero-sale .collection-hero-description {
+  margin: 6px 0 18px;
+  color: rgba(255, 240, 223, 0.84) !important;
+  font-size: var(--deneb-font-size, 13px) !important;
+  line-height: 1.5 !important;
+}
+
+/* Sale hero CTA with animated highlight sweep */
+.collection-hero-sale .collection-hero-cta {
+  position: relative;
+  overflow: hidden;
+  padding: 11px 22px;
+  border: 1px solid rgba(255, 248, 240, 0.72);
+  background: #FAF0E4;
+  color: #3D2B20 !important;
+  box-shadow: 0 8px 20px rgba(42, 22, 12, 0.22);
+  transition: transform 320ms cubic-bezier(.22, 1, .36, 1), background-color 280ms ease, box-shadow 320ms ease;
+}
+
+.collection-hero-sale .collection-hero-cta::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(105deg, transparent 28%, rgba(255, 255, 255, 0.65) 50%, transparent 72%);
+  transform: translateX(-130%);
+  transition: transform 540ms cubic-bezier(.22, 1, .36, 1);
+  pointer-events: none;
+}
+
+.collection-hero-sale .collection-hero-cta > span {
+  display: inline-block;
+  transition: transform 300ms cubic-bezier(.22, 1, .36, 1);
+}
+
+.collection-hero-sale .collection-hero-cta:hover {
+  background: #FFF8F0;
+  box-shadow: 0 12px 26px rgba(42, 22, 12, 0.28);
+  transform: translateY(-2px);
+}
+
+.collection-hero-sale .collection-hero-cta:hover::after {
+  transform: translateX(130%);
+}
+
+.collection-hero-sale .collection-hero-cta:hover > span {
+  transform: translateX(3px);
+}
+
+/* Curved hero image panel with smooth gradient blend into brown canvas */
+.collection-hero-sale .collection-hero-media {
+  left: 44%;
+  border-top-left-radius: 30% 100%;
+}
+
+.collection-hero-sale .collection-hero-media::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: linear-gradient(90deg, rgba(74, 42, 25, 0.34) 0%, rgba(74, 42, 25, 0.08) 26%, transparent 52%);
+  pointer-events: none;
+}
+
+.collection-hero-sale .collection-hero-strip {
+  animation-duration: 600ms;
+  animation-delay: calc(var(--strip-index) * 38ms);
+}
+
+/* Decorative top-right terracotta sale ribbon */
+.collection-hero-sale .sale-hero-ribbon {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 4;
+  width: 158px;
+  height: 158px;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.collection-hero-sale .sale-hero-ribbon-inner {
+  position: absolute;
+  top: -12px;
+  right: -12px;
+  width: 152px;
+  height: 146px;
+  padding: 24px 20px 0 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: flex-start;
+  text-align: center;
+  border-bottom-left-radius: 92% 86%;
+  background: linear-gradient(145deg, #c65041 0%, var(--sale-terracotta) 52%, var(--sale-terracotta-deep) 100%);
+  color: #fff8f2;
+  box-shadow: -8px 10px 24px rgba(61, 24, 16, 0.32), inset 0 1px rgba(255, 228, 214, 0.25);
+}
+
+.collection-hero-sale .sale-hero-ribbon-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+  min-width: 78px;
+}
+
+.collection-hero-sale .sale-hero-ribbon-kicker {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  opacity: 0.92;
+}
+
+.collection-hero-sale .sale-hero-ribbon-value {
+  font-size: 27px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
+
+.collection-hero-sale .sale-hero-ribbon-sub {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  opacity: 0.92;
+}
+
+/* ==================== SALE TOOLBAR PILL ==================== */
+.lr-collection-sale .sale-toolbar-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 36px;
+  padding: 6px 14px;
+  border: 1px solid rgba(184, 67, 53, 0.32);
+  border-radius: 999px;
+  background: var(--sale-blush);
+  color: #5a2b24;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.lr-collection-sale .sale-toolbar-pill svg {
+  color: var(--sale-terracotta);
+  flex-shrink: 0;
+}
+
+/* ==================== SALE PRODUCT CARD OVERRIDES (SALE PAGE ONLY) ==================== */
+.lumi-site .lr-collection-sale .product-card {
+  transition: transform 360ms cubic-bezier(.22, 1, .36, 1), box-shadow 360ms ease, border-color 320ms ease;
+}
+
+/* Top-left muted terracotta percentage discount badge */
+.lr-collection-sale .sale-discount-badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 4;
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 11px;
+  border: 1px solid rgba(255, 232, 224, 0.24);
+  border-radius: 999px;
+  background: linear-gradient(135deg, var(--sale-terracotta-soft), var(--sale-terracotta));
+  color: #fff9f5;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  line-height: 1.2;
+  white-space: nowrap;
+  pointer-events: none;
+  box-shadow: 0 4px 12px rgba(124, 38, 28, 0.26);
+}
+
+/* Terracotta red discounted price & crossed-out original price */
+.lumi-site .lr-collection-sale .product-card .product-card-price,
+.lumi-site .lr-collection-sale .product-card .product-card-price span {
+  color: var(--sale-terracotta) !important;
+}
+
+.lumi-site .lr-collection-sale .product-card .product-card-price .product-card-currency {
+  color: var(--sale-terracotta) !important;
+  font-weight: 600 !important;
+}
+
+.lumi-site .lr-collection-sale .product-card .product-card-original {
+  color: #8c6e58 !important;
+  font-size: 10.5px !important;
+  text-decoration: line-through;
+  text-decoration-color: rgba(140, 110, 88, 0.72);
+}
+
+.lumi-site .lr-collection-sale .product-card .product-card-original::before {
+  content: 'LKR ';
+  font-size: 0.9em;
+}
+
+/* Smooth Add to Cart slide-up + subtle animated highlight on hover */
+.lumi-site .lr-collection-sale .product-card .product-card-action {
+  transition:
+    opacity 320ms cubic-bezier(.22, 1, .36, 1),
+    transform 340ms cubic-bezier(.22, 1, .36, 1),
+    visibility 0s linear 320ms;
+}
+
+.lumi-site .lr-collection-sale .product-card .product-card-cart {
+  position: relative;
+  overflow: hidden;
+  transition: background-color 280ms ease, box-shadow 280ms ease, transform 240ms cubic-bezier(.22, 1, .36, 1);
+}
+
+.lumi-site .lr-collection-sale .product-card .product-card-cart::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(105deg, transparent 26%, rgba(255, 240, 224, 0.28) 50%, transparent 74%);
+  transform: translateX(-130%);
+  transition: transform 520ms cubic-bezier(.22, 1, .36, 1);
+  pointer-events: none;
+}
+
+.lumi-site .lr-collection-sale .product-card .product-card-cart:hover:not(:disabled)::after {
+  transform: translateX(130%);
+}
+
+/* ==================== HOVER EFFECTS (SALE PAGE ONLY) ==================== */
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .lumi-site:not([data-card-editing=true]) .lr-collection-sale .product-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(184, 67, 53, 0.45) !important;
+    box-shadow: 0 14px 30px rgba(84, 41, 28, 0.14) !important;
+  }
+
+  .lumi-site:not([data-card-editing=true]) .lr-collection-sale .product-card .lr-gallery-stage .lr-image-layer img {
+    transition: transform 420ms cubic-bezier(.22, 1, .36, 1);
+  }
+
+  .lumi-site:not([data-card-editing=true]) .lr-collection-sale .product-card:hover .lr-gallery-stage .lr-image-layer img {
+    transform: scale(1.04);
+  }
+}
+
+/* ==================== SALE ENTRY & BADGE ANIMATIONS (300-700ms) ==================== */
+@media (prefers-reduced-motion: no-preference) {
+  .lumi-site:not([data-card-editing=true]) .collection-hero-sale .sale-hero-anim-1 {
+    animation: sale-hero-up 520ms cubic-bezier(.22, 1, .36, 1) 40ms both;
+  }
+  .lumi-site:not([data-card-editing=true]) .collection-hero-sale .sale-hero-anim-2 {
+    animation: sale-hero-up 560ms cubic-bezier(.22, 1, .36, 1) 120ms both;
+  }
+  .lumi-site:not([data-card-editing=true]) .collection-hero-sale .sale-hero-anim-3 {
+    animation: sale-hero-up 560ms cubic-bezier(.22, 1, .36, 1) 200ms both;
+  }
+  .lumi-site:not([data-card-editing=true]) .collection-hero-sale .sale-hero-anim-4 {
+    animation: sale-hero-up 540ms cubic-bezier(.22, 1, .36, 1) 280ms both;
+  }
+  .lumi-site:not([data-card-editing=true]) .collection-hero-sale .sale-hero-badge {
+    animation: sale-badge-pop 480ms cubic-bezier(.22, 1, .36, 1) 260ms both;
+  }
+  .lumi-site:not([data-card-editing=true]) .collection-hero-sale .sale-hero-ribbon-inner {
+    animation: sale-ribbon-pop 540ms cubic-bezier(.22, 1, .36, 1) 340ms both;
+    transform-origin: top right;
+  }
+  .lumi-site:not([data-card-editing=true]) .lr-collection-sale .product-card[data-sale-visible=true] .sale-discount-badge {
+    animation: sale-badge-pop 460ms cubic-bezier(.22, 1, .36, 1) 140ms both;
+  }
+
+  @keyframes sale-hero-up {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes sale-badge-pop {
+    0% { opacity: 0; transform: scale(0.84); }
+    68% { opacity: 1; transform: scale(1.05); }
+    100% { opacity: 1; transform: scale(1); }
+  }
+
+  @keyframes sale-ribbon-pop {
+    0% { opacity: 0; transform: scale(0.88) translate(10px, -10px); }
+    72% { opacity: 1; transform: scale(1.03) translate(0, 0); }
+    100% { opacity: 1; transform: scale(1) translate(0, 0); }
+  }
+}
+
+/* ==================== RESPONSIVE SALE LAYOUT ==================== */
+@media (max-width: 1024px) and (min-width: 751px) {
+  .collection-hero-sale .collection-hero-copy {
+    width: 56%;
+    padding-left: 28px;
+  }
+  .collection-hero-sale .sale-hero-watermark {
+    left: 38%;
+    font-size: 124px;
+  }
+  .collection-hero-sale .sale-hero-ribbon {
+    width: 136px;
+    height: 136px;
+  }
+  .collection-hero-sale .sale-hero-ribbon-inner {
+    width: 130px;
+    height: 126px;
+    padding: 20px 16px 0 0;
+  }
+  .collection-hero-sale .sale-hero-ribbon-value {
+    font-size: 23px;
+  }
+}
+
+@media (max-width: 750px) {
+  .lumi-site .collection-hero.collection-hero-sale {
+    height: auto;
+    min-height: 310px;
+  }
+  .collection-hero-sale .collection-hero-copy {
+    width: 82%;
+    padding: 22px 20px 24px;
+  }
+  .collection-hero-sale .sale-hero-watermark {
+    left: auto;
+    right: 12%;
+    top: 68%;
+    font-size: 112px;
+  }
+  .collection-hero-sale .sale-hero-flourish {
+    display: none;
+  }
+  .collection-hero-sale .sale-hero-offer {
+    font-size: 13px;
+    gap: 6px;
+  }
+  .collection-hero-sale .sale-hero-ribbon {
+    width: 112px;
+    height: 112px;
+  }
+  .collection-hero-sale .sale-hero-ribbon-inner {
+    width: 108px;
+    height: 104px;
+    padding: 16px 12px 0 0;
+  }
+  .collection-hero-sale .sale-hero-ribbon-content {
+    min-width: 60px;
+  }
+  .collection-hero-sale .sale-hero-ribbon-kicker {
+    font-size: 8.5px;
+  }
+  .collection-hero-sale .sale-hero-ribbon-value {
+    font-size: 19px;
+  }
+  .collection-hero-sale .sale-hero-ribbon-sub {
+    font-size: 9px;
+  }
+  .lr-collection-sale .sale-discount-badge {
+    top: 7px;
+    left: 7px;
+    padding: 4px 8px;
+    font-size: 9px;
+  }
+  .lr-collection-sale .sale-toolbar-pill {
+    min-height: 32px;
+    padding: 4px 11px;
+    font-size: 11px;
+  }
+}
+
+@media (max-width: 420px) {
+  .collection-hero-sale .collection-hero-copy {
+    width: 88%;
+    padding: 20px 16px 22px;
+  }
+  .collection-hero-sale .sale-hero-badge {
+    padding: 4px 10px;
+    font-size: 10.5px;
+  }
+  .lr-collection-sale .sale-discount-badge {
+    padding: 3.5px 7px;
+    font-size: 8.5px;
+    letter-spacing: 0.03em;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .collection-hero-sale *,
+  .lr-collection-sale .product-card,
+  .lr-collection-sale .sale-discount-badge,
+  .lr-collection-sale .product-card-cart::after,
+  .collection-hero-sale .collection-hero-cta::after {
+    animation: none !important;
+    transition: none !important;
+  }
+  .lumi-site .lr-collection-sale .product-card:hover,
+  .collection-hero-sale .collection-hero-cta:hover {
+    transform: none !important;
+  }
+}
